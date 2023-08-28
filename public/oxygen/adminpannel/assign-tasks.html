@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Pannel</title>
+  <link rel="stylesheet" href="../resources/css/style.css" />
+  <script src="https://kit.fontawesome.com/c8371491b6.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../resources/css/dashboard.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Font Awesome Cdn Link -->
+
+</head>
+
+
+<body>
+  <!--Modal Align Tasks-->
+  <div id="aligntask-modal" class="aligntask-modal">
+    <div class="aligntask-modal-content">
+      <span class="aligntask-close">&times;</span>
+      <h2>Asign Your Task</h2>
+
+      <div class="aligntask-containers">
+        <div class="table-profile" style="padding: 0px; margin-top: 10px;">
+          <table id="tables">
+            <tbody>
+              <tr class="table-heading-dashboard ">
+                <th>Request Date</th>
+                <th>Align To</th>
+                <th>Product Description</th>
+                <th>Address</th>
+
+                <th>Assign Task</th>
+              </tr>
+              <tr>
+                <td>2024 - 01 - 04</td>
+                <td>Maria Anders</td>
+                <td class="prod-desc">+Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga perferendis odio
+                  debitis, minus illo dignissimos veniam, </td>
+                <td>Naybazar 09 Pokhara</td>
+                <td>
+                  <input type="checkbox" class="hidden-checkbox" name="checkboxGroup" id="checkbox1">
+                </td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+        <h2>Asign Your Task</h2>
+        <div class="assign-search">
+          <input type="text" placeholder="Search By Name or Number..">
+
+          <button class="profile-button">Search</button>
+        </div>
+
+        <div class="table-profile" style="padding: 0px; margin-top: 10px;">
+          <table id="tables">
+            <tbody>
+              <tr class="table-heading-dashboard ">
+                <th>Request Date</th>
+                <th>Align To</th>
+                <th>Product Description</th>
+                <th>Address</th>
+
+                <th>Assign Task</th>
+              </tr>
+              <tr>
+                <td>2024 - 01 - 04</td>
+                <td>Maria Anders</td>
+                <td class="prod-desc">+Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga perferendis odio
+                  debitis, minus illo dignissimos veniam, </td>
+                <td>Naybazar 09 Pokhara</td>
+                <td>
+                  <input type="checkbox" class="hidden-checkbox" name="checkboxGroup" id="checkbox1">
+                </td>
+              </tr>
+              <tr>
+                <td>2024 - 01 - 04</td>
+                <td>Maria Anders</td>
+                <td class="prod-desc">+Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga perferendis odio
+                  debitis, minus illo dignissimos veniam, </td>
+                <td>Naybazar 09 Pokhara</td>
+                <td>
+                  <input type="checkbox" class="hidden-checkbox" name="checkboxGroup" id="checkbox2">
+                </td>
+              </tr>
+
+
+            </tbody>
+          </table>
+          <button class="edit-user" style="margin-top: 20px;">Align Task</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Modal Align Tasks-->
+
+  <div class="admin-container">
+    <nav class="admin-dashboard-nav">
+      <ul>
+        <li class="logo">
+          <img src="../resources/images/oxygen.png" alt="">
+
+        </li>
+
+        <li style="margin-top: 20px;" class="parent">
+          <a>
+            <i class="fa-solid fa-cart-plus"></i>
+            <span class="nav-item">Add Item </span>
+          </a>
+          <i class="fa-solid fa-chevron-down"></i>
+          <ul class="drop-down-items">
+            <li><a>Drop 1</a></li>
+            <li><a>Drop 2</a></li>
+            <li><a>Drop 3</a></li>
+          </ul>
+        </li>
+        <li class="parent">
+          <a>
+            <i class="fas fa-wallet"></i>
+            <span class="nav-item">Add Or Delete Users</span>
+          </a>
+          <i class="fa-solid fa-chevron-down"></i>
+          <ul class="drop-down-items">
+            <li><a>Drop 1</a></li>
+            <li><a>Drop 2</a></li>
+            <li><a>Drop 3</a></li>
+          </ul>
+        </li>
+
+        <li class="parent active-nav">
+          <a href="">
+            <i class="fas fa-tasks"></i>
+            <span class="nav-item">Assign Tasks</span>
+          </a>
+        </li>
+        <li class="parent">
+          <a href="">
+            <i class="fas fa-cog"></i>
+            <span class="nav-item">Settings</span>
+          </a>
+        </li>
+        <li class="parent">
+          <a href="">
+            <i class="fas fa-question-circle"></i>
+            <span class="nav-item">Help</span>
+          </a>
+        </li>
+        <li>
+          <a href="" class="logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-item">Log out</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="main">
+      <div class="main-top">
+        <h1>Assign Tasks <i class="fas fa-tasks" style="margin-left: 5px;"></i></h1>
+
+      </div>
+      <div class="dashboard-container">
+        <div class="table-profile" style="padding: 0px; margin-top: 10px;">
+          <table id="tables">
+            <tbody>
+              <tr class="table-heading-dashboard ">
+                <th>Request Date</th>
+                <th>Requested By</th>
+                <th>Address</th>
+                <th>Contact No</th>
+                <th>Register As</th>
+                <th>Assign This Task</th>
+              </tr>
+              <tr>
+                <td>2024 - 01 - 04</td>
+                <td>Maria Anders</td>
+                <td>Naybazar 09 Pokhara</td>
+                <td>+977 9824194343</td>
+                <td>Patient </td>
+                <td>
+                  <button class="edit-user" id="aligntaskModalBtn" style="width: 100%;">Align Task</button>
+                </td>
+              </tr>
+              <tr>
+                <td>2024 - 01 - 04</td>
+                <td>Christina Berglund</td>
+                <td>Newroad 08 Pokhara</td>
+                <td>+977 9824194343</td>
+                <td>Inpatient</td>
+                <td> <button class="edit-user" style="width: 100%;">Align Task</button></td>
+              </tr>
+              <tr>
+                <td>2024 - 01 - 04</td>
+                <td>Francisco Chang</td>
+                <td>Newroad 08 Pokhara</td>
+                <td>+977 9824194343</td>
+                <td>Oxygen Plact / Reseller</td>
+                <td> <button class="edit-user" style="width: 100%;">Align Task</button></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</body>
+<script>
+  $(document).ready(function () {
+    $('.admin-dashboard-nav ul').on('click', 'li.parent', function (event) {
+      event.stopPropagation();
+      // $(this).find('.fa-chevron-down').toggleClass('rotate-180');
+      $(this).find('.drop-down-items').toggleClass('show');
+    });
+
+    $(document).click(function () {
+      $('.admin-dashboard-nav ul li.parent .fa-chevron-down').removeClass('rotate-180');
+      $('.admin-dashboard-nav ul li.parent .drop-down-items').removeClass('show');
+    });
+  });
+
+  let currentValue = 0;
+  const minValue = 0;
+
+  function updateInputField() {
+    const inputField = document.getElementById("numberInput");
+    inputField.value = currentValue;
+  }
+
+  function incrementValue() {
+    currentValue++;
+    updateInputField();
+  }
+
+  function decrementValue() {
+    if (currentValue > minValue) {
+      currentValue--;
+      updateInputField();
+    }
+  }
+</script>
+
+<script>
+  /*Align Tasks Modal Script*/
+  const aligntaskModalBtn = document.getElementById('aligntaskModalBtn');
+  const aligntaskModal = document.getElementById('aligntask-modal');
+  const aligntaskCloseModal = document.querySelector('.aligntask-close');
+
+  aligntaskModalBtn.addEventListener('click', () => {
+    aligntaskModal.style.display = 'block';
+  });
+
+  aligntaskCloseModal.addEventListener('click', () => {
+    aligntaskModal.style.display = 'none';
+  });
+
+</script>
+<script>
+
+  const checkboxes = document.querySelectorAll('.hidden-checkbox');
+
+  checkboxes.forEach(function (checkbox) {
+    checkbox.addEventListener('click', function () {
+      checkboxes.forEach(function (otherCheckbox) {
+        if (otherCheckbox !== checkbox) {
+          otherCheckbox.checked = false;
+        }
+      });
+    });
+  });
+</script>
+
+</html>

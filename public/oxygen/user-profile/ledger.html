@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../resources/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <!----Logo Navbar Starts Here-->
+    <div class="user-profile-border">
+        <div class="container">
+            <div class="logo-navabar">
+                <div class="logo">
+                    <img src="../resources/images/oxygen.png" alt="">
+                </div>
+                <div class="login-register">
+                    <div class="join-us" id="registerBtn">
+                        <p>JOIN US</p>
+
+                    </div>
+
+                    <div class="login-button" id="loginBtn">
+                        <button class="log-button">Login</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!---Logo Navbar Ends Here-->
+    <!---Path-->
+    <div class="container path">
+        <p><a href="">Home</a> > User Profile</p>
+    </div>
+    <!---Path-->
+    <!---User Container-->
+    <div class="container profile-inline">
+        <div class="nav-info">
+            <div class="profie-pic-info-1" style="border-bottom: 1px solid var(--color5);">
+                <div class="profile-pic">
+                    <img src="../resources/images/user-profile.png" alt="">
+                </div>
+                <div class="information">
+                    <p>Pawan Sigdel</p>
+                    <p>+977 9824194343</p>
+                </div>
+            </div>
+
+            <div class="nav-links">
+                <ul>
+                    <a href="" class="active-a">
+                        <li class="active-nav">Dashboard</li>
+                    </a>
+                    <a href="">
+                        <li>User Porfile</li>
+                    </a>
+                    <a href="">
+                        <li>Update Porfile</li>
+                    </a>
+                    <a href="">
+                        <li>Purchase History</li>
+                    </a>
+                    <a href="">
+                        <li>My Reviews</li>
+                    </a>
+                    <a href="">
+                        <li>ledger</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+        <div class="profile-containers">
+            <div class="title-profile">
+                <h2>Ledger</h2>
+            </div>
+            <div class="profile-information">
+                <div class="profile-container">
+                    <div class="profile-label">
+                        <label for="">Your Purchase Product:</label>
+                    </div>
+                    <input type="text" placeholder="Purchase Product">
+                </div>
+                <div class="profile-container">
+                    <div class="profile-label">
+                        <label for="">Purchase Date:</label>
+                    </div>
+                    <div class="date">
+                        <input type="date">
+                        <p style="padding-top: 15px;">To</p>
+                        <input type="date">
+                    </div>
+                </div>
+
+                <!-- <div class="profile-container">
+                    <div class="profile-label">
+                        <label for="">Show :</label>
+                    </div>
+                    <select class="show-record">
+                        <option value="0">Show Records Of :</option>
+                        <option value="1">10 Records</option>
+                        <option value="2">20 Records</option>
+                        <option value="3">40 Records</option>
+                        <option value="4">All Records</option>
+                    </select>
+                </div> -->
+
+                <div class="button-update">
+                    <button class="profile-button">Search</button>
+                </div>
+
+                <div class="records-table-show" style="width: 100%;">
+                    <div class="export-buttons" style="margin-bottom: 10px;">
+                        <button class="profile-button" style="width: auto;"><i class="fa-solid fa-file-export"></i>
+                            Export As Pdf</button>
+                        <button class="profile-button" style="width: auto;"><i class="fa-solid fa-print"></i>
+                            Print</button>
+                        <button class="profile-button" style="width: auto;"><i class="fa-solid fa-file-export"></i>
+                            Export As Excell</button>
+                    </div>
+
+                    <div class="overflow-tables" style="width: 100%!important; overflow-x:auto!important;">
+                        <table id="tables" style="width: 1600px;">
+                            <tbody>
+                                <tr>
+                                    <th>s no.</th> 
+                                    <th>Items Purchased</th>
+                                    <th>Quantity</th>
+                                    <th> Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <table class="inside-td-data" style="border-collapse: collapse;">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        Chicken Momo
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        BBQ Chicken
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="inside-td-data" style="border-collapse: collapse;">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        2
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="inside-td-data" style="border-collapse: collapse;">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        Rs. 1,000
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Rs. 2,000
+                                                    </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td><button class="edit">Edit</button><button class="delete">Delete</button></td>
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <a href="#">«</a>
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">»</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="fot-cont">
+                    <h2>Sitemap</h2>
+                    <ul>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Home Page</a></li>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Help And Support</a> </li>
+                    </ul>
+                </div>
+                <div class="fot-cont">
+                    <h2>Quick Links</h2>
+                    <ul>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Login</a></li>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Register</a></li>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Private Policy</a></li>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Serurity Policy</a> </li>
+                    </ul>
+                </div>
+                <div class="fot-cont">
+                    <h2>Social Links</h2>
+                    <ul class="social-links">
+                        <li><a href=""><i class="fa-brands fa-square-facebook"></i></a></li>
+                        <li><a href=""><i class="fa-brands fa-twitter"></i></a></li>
+                        <li><a href=""><i class="fa-brands fa-instagram"></i></a></li>
+                        <li><a href=""><i class="fa-brands fa-youtube"></i></a></li>
+                    </ul>
+                </div>
+                <div class="fot-cont">
+                    <h2>About Us</h2>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente voluptatibus quae repudiandae
+                        earum itaque quia ex, et quo doloribus? Iste maiores aperiam nulla vero magni amet dolores quo
+                        id voluptas?</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer-bottom">
+            <div class="container bottom-footer-container">
+                <div class="mobile-app-pictures">
+                    <img src="./resources/images/play-store.png" alt="">
+                    <img src="./resources/images/apple-store.png" alt="">
+                </div>
+                <div class="design-develop-by">
+                    <p>© 2023 Oxygen. All rights reserved | Designed & Developed by <a href="">Tuki Soft</a></p>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <script>
+        function animateCount(elementId, targetCount, duration) {
+            const span = document.getElementById(elementId).querySelector('span');
+            const startCount = 0;
+            const increment = Math.ceil(targetCount / (duration / 10));
+            let currentCount = 0;
+
+            const timer = setInterval(() => {
+                if (currentCount >= targetCount) {
+                    clearInterval(timer);
+                    span.textContent = targetCount;
+                } else {
+                    currentCount += increment;
+                    span.textContent = currentCount;
+                }
+            }, 10);
+        }
+
+        animateCount("productsCount", 40, 2000);
+        animateCount("amountCount", 4000, 300);
+        animateCount("returnedid", 20, 2000);
+    </script>
+
+    <!---USer COntainer Ends Here-->
+</body>
+
+</html>

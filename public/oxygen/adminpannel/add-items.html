@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Pannel</title>
+  <link rel="stylesheet" href="../resources/css/style.css" />
+  <script src="https://kit.fontawesome.com/c8371491b6.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../resources/css/dashboard.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Font Awesome Cdn Link -->
+  
+</head>
+<body>
+  <div class="admin-container">
+    <nav class="admin-dashboard-nav">
+      <ul>
+        <li class="logo">
+          <img src="../resources/images/oxygen.png" alt="">
+         
+        </li>
+    
+      <li style="margin-top: 20px;" class="parent active-nav">
+          <a>
+            <i class="fa-solid fa-cart-plus"></i>
+          <span class="nav-item">Add Item </span>
+        </a>
+          <i class="fa-solid fa-chevron-down"></i>
+          <ul class="drop-down-items">
+          <li><a>Drop 1</a></li>
+          <li><a>Drop 2</a></li>
+          <li><a>Drop 3</a></li>
+          </ul>
+      </li>
+        <li class="parent">
+          <a >
+          <i class="fas fa-wallet"></i>
+          <span class="nav-item">Add Or Delete Users</span>
+        </a>
+        <i class="fa-solid fa-chevron-down"></i>
+        <ul class="drop-down-items">
+        <li><a>Drop 1</a></li>
+        <li><a>Drop 2</a></li>
+        <li><a>Drop 3</a></li>
+        </ul>
+      </li>
+        <li class="parent">
+          <a href="">
+          <i class="fas fa-chart-bar"></i>
+          <span class="nav-item">Analytics</span>
+        </a>
+      </li>
+      <li class="parent">
+          <a href="">
+          <i class="fas fa-tasks"></i>
+          <span class="nav-item">Tasks</span>
+        </a>
+      </li>
+      <li class="parent">
+          <a href="">
+          <i class="fas fa-cog"></i>
+          <span class="nav-item">Settings</span>
+        </a>
+      </li>
+      <li class="parent">
+          <a href="">
+          <i class="fas fa-question-circle"></i>
+          <span class="nav-item">Help</span>
+        </a>
+      </li>
+      <li>
+          <a href="" class="logout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="nav-item">Log out</span>
+        </a>
+      </li>
+      </ul>
+    </nav>
+
+    <section class="main">
+      <div class="main-top">
+        <h1>Add Item   <i class="fa-solid fa-cart-plus"></i></h1>
+       
+      </div>
+      <div class="dashboard-container">
+        <div class="admin-input-container">
+            <div class="whole-input-container">
+                <div class="add-input-container">
+                    <div class="profile-label">
+                        <label for="">Register As:</label>
+                    </div>
+                    <!-- <input type="text"  placeholder="Register Service As"> -->
+                    <select>
+                      <option value="0">Register As:</option>
+                      <option value="1">Register 1</option>
+                      <option value="2">Register 2</option>
+                    </select>
+                </div>
+                <div class="add-input-container">
+                    <div class="profile-label">
+                        <label for="">Product Quantity:</label>
+                    </div>
+                    <input type="number" id="numberInput" placeholder="Enter Product Quantity" min="1" readonly style="width: 70%;">
+                    <button onclick="incrementValue()" class="increment_dec">+</button>
+                    <button onclick="decrementValue()" class="increment_dec">-</button>
+                </div>
+                <div class="add-input-container">
+                    <div class="profile-label">
+                        <label for="">Service Name:</label>
+                    </div>
+                    <input type="text"  placeholder="Enter Service Name">
+                </div>
+                <div class="add-input-container">
+                    <div class="profile-label">
+                        <label for="">Price:</label>
+                    </div>
+                    <input type="text"  placeholder="Enter Price">
+                </div>
+                <div class="add-input-container">
+                    <div class="profile-label">
+                        <label for="">Change Profile Picture:</label>
+                    </div>
+                    <input type="file" style="border: none; width: auto;">
+                </div>
+                <div class="product-desc">
+                    <div class="profile-label">
+                        <label for="">Product Description:</label>
+                    </div>
+                    <textarea placeholder="Describe The Product"></textarea>
+                </div>
+            </div>
+            <button class="add-items">
+                Add Product
+            </button>
+           
+        </div>
+      
+      </div>
+    </section>
+  </div>
+</body>
+<script>
+$(document).ready(function() {
+    $('.admin-dashboard-nav ul').on('click', 'li.parent', function(event) {
+        event.stopPropagation(); 
+        // $(this).find('.fa-chevron-down').toggleClass('rotate-180');
+        $(this).find('.drop-down-items').toggleClass('show');
+    });
+    
+    $(document).click(function() {
+        $('.admin-dashboard-nav ul li.parent .fa-chevron-down').removeClass('rotate-180');
+        $('.admin-dashboard-nav ul li.parent .drop-down-items').removeClass('show');
+    });
+});
+
+let currentValue = 0;
+const minValue = 0;
+
+function updateInputField() {
+    const inputField = document.getElementById("numberInput");
+    inputField.value = currentValue;
+}
+
+function incrementValue() {
+    currentValue++;
+    updateInputField();
+}
+
+function decrementValue() {
+    if (currentValue > minValue) {
+        currentValue--;
+        updateInputField();
+    }
+}
+</script>
+
+</html>

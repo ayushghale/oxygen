@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../resources/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+
+    <!--Payment-Modal---->
+    <div id="payment-modal" class="payment-modal">
+        <div class="payment-modal-content">
+            <span class="payment-close">&times;</span>
+            <h2>Pay Through Different Means</h2>
+            <div class="payment-containers">
+                <div class="pay-container">
+                    <input type="radio" id="cash" name="pay" checked="checked">
+                    <label for="cash">Pay By Cash</label>
+                </div>
+                <div class="pay-container">
+                    <input type="radio" id="esewa" name="pay">
+                    <label for="esewa"><img src="../resources/images/payment/esewa-paywith.png" alt=""></label>
+                </div>
+                <div class="pay-container">
+                    <input type="radio" id="khalti" name="pay">
+                    <label for="khalti"><img src="../resources/images/payment/khalti-paywith.png" alt=""></label>
+                </div>
+                <div class="buton-sub-pay">
+                    <button class="online-pay-btn pay-with-cash">Pay 1,200/-</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---Payment-Modal CLose-->
+
+
+    <!----Logo Navbar Starts Here-->
+    <div class="user-profile-border">
+        <div class="container">
+            <div class="logo-navabar">
+                <div class="logo">
+                    <img src="../resources/images/oxygen.png" alt="">
+                </div>
+                <div class="login-register">
+                    <div class="join-us" id="registerBtn">
+                        <p>JOIN US</p>
+
+                    </div>
+
+                    <div class="login-button" id="loginBtn">
+                        <button class="log-button">Login</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!---Logo Navbar Ends Here-->
+    <!---Path-->
+    <div class="container path">
+        <p><a href="">Home</a> > Cart</p>
+    </div>
+    <!---Path-->
+    <!---User Container-->
+    <div class="container ">
+        <h2>Cart <i class="fa-solid fa-cart-shopping"></i></h2>
+        <div class="cart-containers">
+            <table id="tables">
+                <tr>
+                    <th>S.N</th>
+                    <th>Product Information</th>
+                    <th>Quantity</th>
+                    <th>Amount Per Rate</th>
+                    <th>Total Amount</th>
+                    <th>Remove This</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <div class="infromation-inline">
+                            <img src="../resources/images/ser-image.png" alt="">
+                            <p>1 liter Oxygen Barnd View</p>
+
+                        </div>
+                    </td>
+                    <td>2</td>
+                    <td>Rs 200 per each</td>
+                    <td>Rs. 400</td>
+                    <td><button class="remove">Remove This <i class="fa-solid fa-xmark"></i></button></td>
+
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <div class="infromation-inline">
+                            <img src="../resources/images/ser-image.png" alt="">
+                            <p>1 liter Oxygen Barnd View</p>
+
+                        </div>
+                    </td>
+                    <td>2</td>
+                    <td>Rs 200 per each</td>
+                    <td>Rs. 400</td>
+                    <td><button class="remove">Remove This <i class="fa-solid fa-xmark"></i></button></td>
+
+                </tr>
+
+                <tr>
+                    <td colspan="5" class="all-amount"><b>Total Amount :</b>Rs. 400</td>
+
+                    <td><button class="remove">Remove All <i class="fa-solid fa-xmark"></i></button></td>
+                </tr>
+            </table>
+            <div class="pay-button1">
+                <button id="paymentModalBtn">Pay Now</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="fot-cont">
+                    <h2>Sitemap</h2>
+                    <ul>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Home Page</a></li>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Help And Support</a> </li>
+                    </ul>
+                </div>
+                <div class="fot-cont">
+                    <h2>Quick Links</h2>
+                    <ul>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Login</a></li>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Register</a></li>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Private Policy</a></li>
+                        <li><a href=""><i class="fa-solid fa-arrow-right"></i> Serurity Policy</a> </li>
+                    </ul>
+                </div>
+                <div class="fot-cont">
+                    <h2>Social Links</h2>
+                    <ul class="social-links">
+                        <li><a href=""><i class="fa-brands fa-square-facebook"></i></a></li>
+                        <li><a href=""><i class="fa-brands fa-twitter"></i></a></li>
+                        <li><a href=""><i class="fa-brands fa-instagram"></i></a></li>
+                        <li><a href=""><i class="fa-brands fa-youtube"></i></a></li>
+                    </ul>
+                </div>
+                <div class="fot-cont">
+                    <h2>About Us</h2>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente voluptatibus quae repudiandae
+                        earum itaque quia ex, et quo doloribus? Iste maiores aperiam nulla vero magni amet dolores quo
+                        id voluptas?</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer-bottom">
+            <div class="container bottom-footer-container">
+                <div class="mobile-app-pictures">
+                    <img src="./resources/images/play-store.png" alt="">
+                    <img src="./resources/images/apple-store.png" alt="">
+                </div>
+                <div class="design-develop-by">
+                    <p>© 2023 Oxygen. All rights reserved | Designed & Developed by <a href="">Tuki Soft</a></p>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <script>
+        function animateCount(elementId, targetCount, duration) {
+            const span = document.getElementById(elementId).querySelector('span');
+            const startCount = 0;
+            const increment = Math.ceil(targetCount / (duration / 10));
+            let currentCount = 0;
+
+            const timer = setInterval(() => {
+                if (currentCount >= targetCount) {
+                    clearInterval(timer);
+                    span.textContent = targetCount;
+                } else {
+                    currentCount += increment;
+                    span.textContent = currentCount;
+                }
+            }, 10);
+        }
+
+        animateCount("productsCount", 40, 2000);
+        animateCount("amountCount", 4000, 300);
+        animateCount("returnedid", 20, 2000);
+    </script>
+
+    <script>
+        const paymentModalBtn = document.getElementById('paymentModalBtn');
+        const paymentModal = document.getElementById('payment-modal');
+        const paymentCloseModal = document.querySelector('.payment-close');
+
+        paymentModalBtn.addEventListener('click', () => {
+            paymentModal.style.display = 'block';
+        });
+
+        paymentCloseModal.addEventListener('click', () => {
+            paymentModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === paymentModal) {
+                paymentModal.style.display = 'none';
+            }
+        });
+    </script>
+
+<script>
+
+    const paymentButton = document.querySelector('.online-pay-btn');
+    const cashRadio = document.getElementById('cash');
+    const esewaRadio = document.getElementById('esewa');
+    const khaltiRadio = document.getElementById('khalti');
+
+  
+    function updateButtonClass() {
+        if (cashRadio.checked) {
+            paymentButton.classList.remove('pay-with-esewa', 'pay-with-khalti');
+            paymentButton.classList.add('pay-with-cash');
+        } else if (esewaRadio.checked) {
+            paymentButton.classList.remove('pay-with-cash', 'pay-with-khalti');
+            paymentButton.classList.add('pay-with-esewa');
+        } else if (khaltiRadio.checked) {
+            paymentButton.classList.remove('pay-with-cash', 'pay-with-esewa');
+            paymentButton.classList.add('pay-with-khalti');
+        }
+    }
+
+  
+    cashRadio.addEventListener('click', updateButtonClass);
+    esewaRadio.addEventListener('click', updateButtonClass);
+    khaltiRadio.addEventListener('click', updateButtonClass);
+
+    
+    updateButtonClass();
+</script>
+
+
+
+    <!---USer COntainer Ends Here-->
+</body>
+
+</html>

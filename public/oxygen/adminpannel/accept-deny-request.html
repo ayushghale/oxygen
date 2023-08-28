@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Pannel</title>
+  <link rel="stylesheet" href="../resources/css/style.css" />
+  <script src="https://kit.fontawesome.com/c8371491b6.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../resources/css/dashboard.css" />
+  <!-- Font Awesome Cdn Link -->
+
+</head>
+
+<body>
+  <div class="admin-container">
+    <nav class="admin-dashboard-nav">
+      <ul>
+        <li class="logo">
+          <img src="../resources/images/oxygen.png" alt="">
+
+        </li>
+
+        <li style="margin-top: 20px;"><a href="">
+            <i class="fa-solid fa-cart-plus"></i>
+            <span class="nav-item">Add Item</span>
+          </a></li>
+        <li class="das-active"><a href="">
+            <i class="fa-solid fa-user-plus"></i>
+            <span class="nav-item">Add Or Delete Users</span>
+          </a></li>
+        <li><a href="">
+            <i class="fas fa-chart-bar"></i>
+            <span class="nav-item">Analytics</span>
+          </a></li>
+        <li><a href="">
+            <i class="fas fa-tasks"></i>
+            <span class="nav-item">Tasks</span>
+          </a></li>
+        <li><a href="">
+            <i class="fas fa-cog"></i>
+            <span class="nav-item">Settings</span>
+          </a></li>
+        <li><a href="">
+            <i class="fas fa-question-circle"></i>
+            <span class="nav-item">Help</span>
+          </a></li>
+        <li><a href="" class="logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-item">Log out</span>
+          </a></li>
+      </ul>
+    </nav>
+
+    <section class="main">
+      <div class="main-top">
+        <h1>Accept Or Deny Users <i class="fa-solid fa-user-plus"></i></h1>
+
+      </div>
+      <div class="dashboard-container">
+        <div class="search-inputs">
+          <div class="profile-container search-container">
+            <div class="profile-label">
+              <label for="">Search:</label>
+            </div>
+            <input type="text" placeholder="Search Through Name...">
+          </div>
+          <div class="profile-container date-container">
+            <div class="profile-label">
+              <label for="">Purchase Date:</label>
+            </div>
+            <div class="date">
+              <input type="date">
+              <p style="padding-top: 15px;">To</p>
+              <input type="date">
+            </div>
+          </div>
+        </div>
+        <div class="search-button" style="border-bottom: 1px solid var(--color5); padding-bottom: 10px;">
+          <button class="profile-button">Search</button>
+        </div>
+        <div class="table-profile" style="padding: 0px; margin-top: 10px;">
+          <table id="tables">
+            <tbody>
+              <tr class="table-heading-dashboard ">
+                <th>Request Date</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Contact No</th>
+                <th>Register As</th>
+                <th>Accept Or Deny</th>
+              </tr>
+              <tr>
+                <td>2024 - 01 - 04</td>
+                <td>Maria Anders</td>
+                <td>Naybazar 09 Pokhara</td>
+                <td>+977 9824194343</td>
+                <td>Patient </td>
+                <td><button class="accept-user">Accept</button> <button class="deny-user">Deny</button><br>
+                  <button class="accepted-user" style="width: 100%;">Accepted</button>
+                  <button class="denied-user" style="width: 100%;">Denied</button>
+                  <button class="edit-user" style="width: 100%;">Edit</button>
+                </td>
+              </tr>
+              <tr>
+                <td>2024 - 01 - 04</td>
+                <td>Christina Berglund</td>
+                <td>Newroad 08 Pokhara</td>
+                <td>+977 9824194343</td>
+                <td>Inpatient</td>
+                <td><button class="accept-user">Accept</button> <button class="deny-user">Deny</button></td>
+              </tr>
+              <tr>
+                <td>2024 - 01 - 04</td>
+                <td>Francisco Chang</td>
+                <td>Newroad 08 Pokhara</td>
+                <td>+977 9824194343</td>
+                <td>Oxygen Plact / Reseller</td>
+                <td><button class="accept-user">Accept</button> <button class="deny-user">Deny</button></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>

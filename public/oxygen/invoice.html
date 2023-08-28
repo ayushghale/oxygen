@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/c8371491b6.js" crossorigin="anonymous"></script>
+    <title>Day Khata Invoice</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;400;900&display=swap');
+
+        :root {
+            --invoice-1color: white;
+            --invoice-2color: #5e5d5d;
+            --invoice-3color: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="bodycolor" id="invoice-body"
+        style="padding: 50px; color: var(--invoice-2color);font-size: 14px; font-family: 'Lato', sans-serif; margin: auto; width: 100%;display: flex; justify-content: center;">
+        <div class="invoice_wrapper" style=" border: 3px solid var(--invoice-1color);width: 750px;">
+            <div class="header">
+                <div class="logo_invoice_wrap" style=" display: flex; justify-content: space-between; padding: 0px;">
+                    <div class="logo_sec" style="display: flex; align-items: center;">
+                        <img src="./resources/images/oxygen.png" alt="code logo" style=" height: 60px;">
+
+                    </div>
+                    <div class="heading" style="margin-top: 30px;text-align: center;">
+                        <p style="font-size: 15px; margin-bottom: 5px;"><strong>INVOICE</strong></p>
+                        <p style="font-size: 21px;">Pawan Cooperation Pvt. Lmt</p>
+                        <p style="font-size: 15px; margin-top: 10px;margin-bottom: 10px;">Nayabazar 9, Pokhara</p>
+                        <p style="font-size: 15px;">+977 9824194343</p>
+                    </div>
+                    <div class="invoice_sec" style="text-align: right;">
+                        <p class="invoice bold" style=" font-weight: 900;  font-size: 28px;
+                                    color: var(--invoice-1color);">INVOICE</p>
+                        <p class="invoice_no" style="   display: flex;
+                                    width: 100%;">
+                            <span class="bold" style="font-weight: 900; width: 70px; text-align: left;">Invoice :</span>
+                            <span style=" width: calc(100% - 70px);">#3488</span>
+                        </p>
+                        <p class="date" style="margin-top: 5px;">
+                            <span class="bold" style=" font-weight: 900;width: 70px;text-align: left;">Date : </span>
+                            <span style=" width: calc(100% - 70px);">02/Feb/2023</span>
+                        </p>
+                        <p class="date" style="margin-top: 5px;">
+                            <span class="bold" style=" font-weight: 900;width: 70px;text-align: left;">मिति : </span>
+                            <span style=" width: calc(100% - 70px);">0१/बैशाख/२०८०</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="bill_total_wrap"
+                    style="display: flex; justify-content: space-between;padding-top: 30px;padding-bottom: 30px;">
+                    <div class="bill_sec">
+                        <p>Bill To</p>
+                        <p class="bold name"
+                            style=" font-weight: 900;color: var(--invoice-2color);font-size: 18px;margin-top: 5px;margin-bottom: 5px;">
+                            Pawan Sigdel</p>
+                        <span style="line-height: 25px;">
+                            <strong style="margin-right: 10px;"> Address :</strong> Nayabazar 09 Pokhara<br />
+                            <strong style="margin-right: 10px;">Customer Pan No. :</strong> 0615462
+                        </span>
+                    </div>
+
+                </div>
+                <div class="body">
+                    <div class="main_table">
+                        <div class="table_header" style="background: var(--invoice-1color);">
+                            <div class="row"
+                                style="color: var(--invoice-2color); font-size: 18px; padding-bottom: 4px; display: flex;border-bottom: 1px solid var(--invoice-2color);border-top:1px solid var(--invoice-2color) ; ">
+                                <div class="col col_no" style=" padding: 10px; width: 5%;">SN.</div>
+                                <div class="col col_des" style=" padding: 10px;width: 45%; margin-left: 10px;">
+                                    Particulars</div>
+                                <div class="col col_price" style=" padding: 10px;width: 20%;
+                                        text-align: center;">QTY</div>
+                                <div class="col col_qty" style=" padding: 10px;width: 10%;
+                                        text-align: center;">Rate</div>
+                                <div class="col col_total" style=" padding: 10px;  width: 20%; text-align: right;">
+                                    Amount</div>
+                            </div>
+                        </div>
+                        <div class="table_body">
+                            <div class="row" style="display: flex;
+                                    border-bottom: 1px solid var(--invoice-2color);">
+                                <div class="col col_no" style="width: 5%; padding: 10px;">
+                                    <p>01</p>
+                                </div>
+                                <div class="col col_des" style="width: 45%;
+                                        margin-left: 10px; padding: 10px;">
+                                    <p class="bold" style=" font-weight: 900;">E-Book</p>
+                                    <p>(Flutter Tutorial)</p>
+                                </div>
+                                <div class="col col_price" style="width: 20%; text-align: center; padding: 10px;">
+                                    <p>1</p>
+                                </div>
+                                <div class="col col_qty" style="width: 10%;
+                                        text-align: center; padding: 10px;">
+                                    <p>Rs. 200</p>
+                                </div>
+                                <div class="col col_total" style="width: 20%; text-align: right; padding: 10px;">
+                                    <p>Rs. 200</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="paymethod_grandtotal_wrap"
+                        style="display: flex; justify-content: space-between; padding: 5px 0 30px; align-items: flex-end;">
+                        <div class="paymethod_sec" style="padding-left: 30px;">
+                            <p class="bold" style=" font-weight: 900; font-size: 16px;">Amount In Words :</p>
+                            <p style="margin-top: 10px; font-size: 15px;">One Lakh Fourty Five Thousand five hundred and
+                                fiftey only.</p>
+                        </div>
+                        <div class="grandtotal_sec" style=" width: 30%;">
+                            <p class="bold" style=" font-weight: 900;display: flex; width: 100%; padding-bottom: 5px;">
+                                <span style="padding: 0 10px; width: 60%;">Gross Amount</span>
+                                <span style="padding: 0 10px;  width: 40%;
+                                        text-align: right;">Rs. 850</span>
+                            </p>
+                            <p style="display: flex; width: 100%; padding-bottom: 5px;">
+                                <span style="padding: 0 10px; width: 60%;">Discount :</span>
+                                <span style="padding: 0 10px;  width: 40%;
+                                        text-align: right;">(Rs. 153)</span>
+                            </p>
+                            <p style="display: flex; width: 100%; padding-bottom: 5px;">
+                                <span style="padding: 0 10px; width: 60%;">Taxable :</span>
+                                <span style="padding: 0 10px;  width: 40%;
+                                        text-align: right;"> Rs. 85</span>
+                            </p>
+                            <p style="display: flex; width: 100%; padding-bottom: 5px;">
+                                <span style="padding: 0 10px; width: 60%;">Non Taxable :</span>
+                                <span style="padding: 0 10px;  width: 40%;
+                                        text-align: right;"> Rs. 85</span>
+                            </p>
+                            <p style="display: flex; width: 100%; padding-bottom: 5px;">
+                                <span style="padding: 0 10px; width: 60%;">Grand Amount :</span>
+                                <span style="padding: 0 10px;  width: 40%;
+                                        text-align: right;"> Rs. 850</span>
+                            </p>
+                            <p class="bold"
+                                style="display: flex; width: 100%; padding-bottom: 5px; border-top: 1px solid var(--invoice-2color); margin-top: 10px;">
+                                <span
+                                    style="padding: 0 10px; width: 60%; padding: 10px; color: var(--invoice-2color);"><strong>
+                                        Total Qty : </strong></span>
+                                <span
+                                    style="padding: 0 10px;width: 40%; text-align: right; padding: 10px;color: var(--invoice-2color);">
+                                    2</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer" style="padding: 30px; ">
+                    <p
+                        style="color: var(--invoice-2color); font-weight: bold; letter-spacing: 1px; font-size: 18px; margin-bottom: 20px; text-align: center;">
+                        Thank you and Best Wishes</p>
+
+                </div>
+            </div>
+
+        </div>
+</body>
+
+
+</html>
