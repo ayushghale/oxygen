@@ -64,7 +64,8 @@
         <div class="title-profile">
             <h2>Inpatient Profile</h2>
         </div>
-        <form action="" method="POST">
+        <form action="{{ route('staff.updateProfile',($admins->id)) }}" method="POST" enctype="multipart/form-data">
+            @csrf
             <div class="profile-information">
 
                 {{-- name --}}
@@ -72,15 +73,15 @@
                     <div class="profile-label">
                         <label for="">Service Provider Name:</label>
                     </div>
-                    <input type="text" value="{{ $admins->name }}" placeholder="Enter Name">
+                    <input type="text" value="{{ $admins->name }}" placeholder="Enter Name" name="name">
                 </div>
 
-                {{-- email --}}
+                {{-- email --}} 
                 <div class="profile-container">
                     <div class="profile-label">
                         <label for="">Email Address:</label>
                     </div>
-                    <input type="email" placeholder="Your Email Address" value="{{ $admins->email }}">
+                    <input type="email" placeholder="Your Email Address" value="{{ $admins->email }}" name="email">
                 </div>
 
                 {{-- contact no --}}
@@ -88,7 +89,7 @@
                     <div class="profile-label">
                         <label for="">Phone No:</label>
                     </div>
-                    <input type="text" placeholder="Your Email Address" value="{{ $admins->contact_number }}">
+                    <input type="text" placeholder="Your Email Address" value="{{ $admins->contact_number }}" name="contact_number">
                 </div>
 
                 {{-- location --}}
@@ -96,7 +97,7 @@
                     <div class="profile-label">
                         <label for="">location : </label>
                     </div>
-                    <input type="location" placeholder="Your location   " value="{{ $admins->address }}">
+                    <input type="location" placeholder="Your location   " value="{{ $admins->address }}" name="address">
                 </div>
 
                 {{-- photo --}}

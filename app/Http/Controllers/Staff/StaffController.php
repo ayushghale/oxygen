@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class StaffController extends Controller
 {
-    /**
+    /** 
      * Display staff dashboard.
      */
     public function dashboard()
     {
-        return view('Staff.dashboard');
+        return view('staff.dashboard');
     }
 
     /**
@@ -26,7 +26,7 @@ class StaffController extends Controller
     {
         $admins = Admin::find(session('staffLogedIn'));
 
-        return view('Staff.profile', compact('admins'));
+        return view('staff.updateProfile', compact('admins'));
     }
 
     /**
@@ -34,6 +34,7 @@ class StaffController extends Controller
      */
     public function updateProfile(Request $request, $id)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required',
             'contact_number' => 'required',
@@ -46,9 +47,9 @@ class StaffController extends Controller
             $profilePicture = $request->file('profile_picture');
 
             $staff = Admin::find($id);
-            $staff->name = $request->name;
+            $staff->name = ucfirst($request->name);
             $staff->contact_number = $request->contact_number;
-            $staff->email = $request->email;
+            $staff->email = strtolower($request->email);
             $staff->address = $request->address;
 
 
@@ -60,6 +61,7 @@ class StaffController extends Controller
                 $staff->profile_picture = $save_url;
             }
 
+            // dd($staff);
             $staff->save();
             return redirect()->back()->with('success', 'Profile Updated');
         } catch (\Exception $e) {
@@ -72,7 +74,7 @@ class StaffController extends Controller
      */
     public function credentials()
     {
-        return view('Staff.credentials');
+        return view('staff.credentials');
     }
 
     /**
@@ -96,7 +98,7 @@ class StaffController extends Controller
      */
     public function ledger()
     {
-        return view('Staff.ledger');
+        return view('staff.ledger');
     }
 
     /**
@@ -104,23 +106,30 @@ class StaffController extends Controller
      */
     public function review()
     {
-        return view('Staff.review');
+        return view('staff.review');
     }
 
     /**
      * Display staff order incomplete / new order.
      */
-    public function orderAsigned()
+    public function orderAsigned(Request $request)
     {
+        // dd($request->all());
+
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+
         $staff = Admin::find(session('staffLogedIn'));
 
         $assignedOrderDetails = [];
 
 
-        $asignedOrder = DB::table('assign_orders')
+        $assignedOrderQuery = DB::table('assign_orders')
             ->join('admins', 'admins.id', '=', 'assign_orders.staff_id')
             ->join('payments', 'payments.t_code', '=', 'assign_orders.t_code')
             ->join('users', 'users.id', '=', 'payments.user_id')
+            ->where('assign_orders.staff_id', $staff->id)
+            ->where('assign_orders.status', 2)
             ->select(
                 'assign_orders.id as assign_order_id',
                 'users.name',
@@ -133,15 +142,18 @@ class StaffController extends Controller
                 'payments.created_at',
                 'payments.updated_at',
                 'admins.contact_number',
-                DB::raw('DATE(assign_orders.created_at) as date'),
-            )
-            ->where('assign_orders.staff_id', $staff->id)
-            ->where('assign_orders.status', 2)
-            ->get();
+                DB::raw('DATE(assign_orders.created_at) as date')
+            );
 
-        // dd($asignedOrder);
+        if ($startDate != null && $endDate != null) {
+            $assignedOrderQuery->whereBetween('assign_orders.created_at', [$startDate, $endDate]);
+        }
 
-        foreach ($asignedOrder as $order) {
+        $assignedOrders = $assignedOrderQuery->get();
+
+        // dd($assignedOrders);
+
+        foreach ($assignedOrders as $order) {
             $orderDetails = DB::table('orders')
                 ->join('services', 'services.id', '=', 'orders.service_id')
                 ->where('orders.t_code', $order->t_code)
@@ -158,42 +170,53 @@ class StaffController extends Controller
             foreach ($orderDetails as $aItem) {
                 array_push($a, $aItem);
             }
-            $data = [
-                'id' => $order->assign_order_id,
-                'user' => $order->name,
-                'contact_number' => $order->contact_number,
-                'address' => $order->address,
-                'payment_status' => $order->payment_status,
-                'payment_method' => $order->payment_type,
-                'total' => $order->total_amount,
-                't_code' => $order->t_code,
-                'created_at' => $order->date,
-                'updated_at' => $order->updated_at,
-                'staff_contact_number' => $order->contact_number,
-                'orderDetails' => $a,
-            ];
-            array_push($assignedOrderDetails, $data);
+            if (!empty($order)) {
+                $data = [
+                    'id' => $order->assign_order_id,
+                    'user' => $order->name,
+                    'contact_number' => $order->contact_number,
+                    'address' => $order->address,
+                    'payment_status' => $order->payment_status,
+                    'payment_method' => $order->payment_type,
+                    'total' => $order->total_amount,
+                    't_code' => $order->t_code,
+                    'created_at' => $order->date,
+                    'updated_at' => $order->updated_at,
+                    'staff_contact_number' => $order->contact_number,
+                    'orderDetails' => $a,
+                ];
+                array_push($assignedOrderDetails, $data);
+            }
+            // dd($assignedOrderDetails);
         }
 
         // dd($assignedOrderDetails); 
 
-        return view('Staff.orderAsigned', compact('assignedOrderDetails'));
+        return view('staff.orderAsigned', compact('assignedOrderDetails'));
     }
+
 
     /**
      * Display staff order done.
      */
-    public function orderCompleted()
+    public function orderCompleted(Request $request)
     {
+        // dd($request->all());
+
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+
         $staff = Admin::find(session('staffLogedIn'));
 
         $assignedOrderDetails = [];
 
 
-        $asignedOrder = DB::table('assign_orders')
+        $assignedOrderQuery = DB::table('assign_orders')
             ->join('admins', 'admins.id', '=', 'assign_orders.staff_id')
             ->join('payments', 'payments.t_code', '=', 'assign_orders.t_code')
             ->join('users', 'users.id', '=', 'payments.user_id')
+            ->where('assign_orders.staff_id', $staff->id)
+            ->where('assign_orders.status', 1)
             ->select(
                 'assign_orders.id as assign_order_id',
                 'users.name',
@@ -206,15 +229,18 @@ class StaffController extends Controller
                 'payments.created_at',
                 'payments.updated_at',
                 'admins.contact_number',
-                DB::raw('DATE(assign_orders.created_at) as date'),
-            )
-            ->where('assign_orders.staff_id', $staff->id)
-            ->where('assign_orders.status', 1)
-            ->get();
+                DB::raw('DATE(assign_orders.created_at) as date')
+            );
 
-        // dd($asignedOrder);
+        if ($startDate != null && $endDate != null) {
+            $assignedOrderQuery->whereBetween('assign_orders.created_at', [$startDate, $endDate]);
+        }
 
-        foreach ($asignedOrder as $order) {
+        $assignedOrders = $assignedOrderQuery->get();
+
+        // dd($assignedOrders);
+
+        foreach ($assignedOrders as $order) {
             $orderDetails = DB::table('orders')
                 ->join('services', 'services.id', '=', 'orders.service_id')
                 ->where('orders.t_code', $order->t_code)
@@ -231,26 +257,29 @@ class StaffController extends Controller
             foreach ($orderDetails as $aItem) {
                 array_push($a, $aItem);
             }
-            $data = [
-                'id' => $order->assign_order_id,
-                'user' => $order->name,
-                'contact_number' => $order->contact_number,
-                'address' => $order->address,
-                'payment_status' => $order->payment_status,
-                'payment_method' => $order->payment_type,
-                'total' => $order->total_amount,
-                't_code' => $order->t_code,
-                'created_at' => $order->date,
-                'updated_at' => $order->updated_at,
-                'staff_contact_number' => $order->contact_number,
-                'orderDetails' => $a,
-            ];
-            array_push($assignedOrderDetails, $data);
+            if (!empty($order)) {
+                $data = [
+                    'id' => $order->assign_order_id,
+                    'user' => $order->name,
+                    'contact_number' => $order->contact_number,
+                    'address' => $order->address,
+                    'payment_status' => $order->payment_status,
+                    'payment_method' => $order->payment_type,
+                    'total' => $order->total_amount,
+                    't_code' => $order->t_code,
+                    'created_at' => $order->date,
+                    'updated_at' => $order->updated_at,
+                    'staff_contact_number' => $order->contact_number,
+                    'orderDetails' => $a,
+                ];
+                array_push($assignedOrderDetails, $data);
+            }
+            // dd($assignedOrderDetails);
         }
 
         // dd($assignedOrderDetails); 
 
-        return view('Staff.orderCompleted', compact('assignedOrderDetails'));
+        return view('staff.orderCompleted', compact('assignedOrderDetails'));
     }
     /**
      * Display staff order.
@@ -281,14 +310,29 @@ class StaffController extends Controller
                 ->get();
 
             foreach ($orderDatas as $orderData) {
-                    $orderStatus = 1; 
-                    Order::where('t_code', $tCode)->update(['status' => $orderStatus]);
+                $orderStatus = 1;
+                Order::where('t_code', $tCode)->update(['status' => $orderStatus]);
             }
         }
 
-        
+
 
         return redirect()->back()->with('success', 'Order Done');
+    }
+
+    /**
+     * order cancel.
+     */
+    public function orderCancel($id){
+        try{
+        $orderCancel = DB::table('assign_orders')
+            ->where('id', $id)
+            ->update(['status' => 0]);
+
+        return redirect()->back()->with('success', 'Order Cancel');
+        }catch(\Exception $e){
+            return redirect()->back()->withErrors([$e->getMessage()]);
+        }
     }
     /**
      * Display staff logout.

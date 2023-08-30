@@ -83,16 +83,29 @@
 
     <div class="profile-containers">
         <div class="title-profile">
-            <h2>Purchase History</h2>
+            <h2>Order Complete History</h2>
         </div>
 
         <div class="table-profile">
-            <div class="date">
-                <input type="date">
-                <p>To</p>
-                <input type="date">
-                <button class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            {{-- search bar --}}
+            <div style="display: flex">
+                <form action="{{ route('staff.orderCompleted') }}" method="GET">
+                    @csrf
+                    <div class="date">
+                        <input type="date" name="startDate">
+                        <p>To</p>
+                        <input type="date" name="endDate">
+                        <button class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+
+                <div class="date">
+                    <button class="search"><a href="{{ route('staff.orderCompleted') }}"><i class="fa-solid fa-broom"></i></a></button>
+                </div>
+
             </div>
+            {{-- end search bar --}}
+
             <div class="overflow-tables" style="width: 100%!important; overflow-x:auto!important;">
                 <table id="tables">
                     <tbody>
@@ -173,9 +186,9 @@
                                 <td>
                                     <button class="edit-user" id="aligntaskModalBtn"
                                         onclick="shoModel('aligntask-modal','{{ $assignedOrderDetail['t_code'] }}')"
-                                        style="width: 100%;">Assigned Task </button>
+                                        style="width: 100%;">Details </button>
                                 </td>
-                                
+
                             </tr>
                         @endforeach
 

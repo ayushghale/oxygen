@@ -13,6 +13,12 @@
 
 </head>
 
+@php
+    $id = session()->get('staffLogedIn');
+    $user = DB::table('admins')
+        ->where('id', $id)
+        ->first();
+@endphp
 <body>
     <!----Logo Navbar Starts Here-->
     <div class="user-profile-border">
@@ -32,12 +38,12 @@
                    </div> -->
                     <div class="login-dropdown">
                         <i class="fa-solid fa-circle-user"></i>
-                        <p>My Account <i class="fa-sharp fa-solid fa-caret-down down-account-arrow"></i></p>
+                        <p>{{ $user->name }}<i class="fa-sharp fa-solid fa-caret-down down-account-arrow"></i></p>
                         <ul class="dropdown-menu-contents">
                             <div class="caret-up">
                                 <i class="fa-solid fa-caret-up"></i>
                             </div>
-                            <li><a href="{{ route('staff.dashboard') }}">User Profile</a></li>
+                            <li><a href="{{ route('staff.dashboard') }}">Profile</a></li>
                             <li><a href="{{ route('staff.logout') }}">Log Out <i
                                         class="fa-solid fa-right-from-bracket"></i></a>
                             </li>

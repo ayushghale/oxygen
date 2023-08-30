@@ -127,14 +127,16 @@ class UserController extends Controller
             'address' => 'required | max:100',
             'profile_picture' => 'mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-        $username = $request->name;
-        $email = $request->email;
+
+
+        $username = ucfirst($request->name);
+        $email = strtolower($request->email);
         $contact_number = $request->contact_number;
         $address = $request->address;
         $profilePicture = $request->profile_picture;
         $latitude = $request->latitude;
         $longitude = $request->longitude;
-        $description = $request->description;
+        $description = ucfirst($request->description);
 
 
         try {
@@ -224,8 +226,6 @@ class UserController extends Controller
 
             $currentPassword = $request->current_Password;
             $newPassword = $request->new_password;
-            $profilePicture = $request->profile_picture;
-
             $id = session()->get('userLogedIn');
 
 
@@ -461,7 +461,8 @@ class UserController extends Controller
 
         try {
             $id = session()->get('userLogedIn');
-            $reviewText = $request->review;
+            
+            $reviewText = ucfirst($request->review);
             $t_code = $request->t_code;
             $rating = $request->rating;
             $serviceId = $request->service_id;

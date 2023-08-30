@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 
-/*
+/* 
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -104,7 +104,7 @@ Route::prefix('staff')->middleware('staffAuth')->group(function () {
     Route::get('/profile', [StaffController::class, 'profile'])->name('staff.profile');
 
     // staff profile update
-    Route::post('/profile', [StaffController::class, 'updateProfile'])->name('staff.updateProfile');
+    Route::post('/profile/{id}', [StaffController::class, 'updateProfile'])->name('staff.updateProfile');
 
     // staff credentials
     Route::get('/credentials', [StaffController::class, 'credentials'])->name('staff.credentials');
@@ -121,8 +121,14 @@ Route::prefix('staff')->middleware('staffAuth')->group(function () {
     // staff order new / incomplete
     Route::get('/orderAsigned', [StaffController::class, 'orderAsigned'])->name('staff.orderAsigned');
 
+    // search order by data
+    Route::post('/searchOrder', [StaffController::class, 'searchOrderByDate'])->name('staff.searchOrder');
+
     // staff order complete
     Route::get('/orderComplete', [StaffController::class, 'orderCompleted'])->name('staff.orderCompleted');
+
+    // staff order cancel
+    Route::get('/orderCancel/{id}', [StaffController::class, 'orderCancel'])->name('staff.orderCancel');
 
     // staff logout 
     Route::get('/logout', [AdminAuthController::class, 'staffLogout'])->name('staff.logout');
@@ -225,6 +231,9 @@ Route::prefix('admin')->middleware('adminAuth')->group(function () {
     Route::get('/assignedOrders', [AdminController::class, 'assignedOrderDetails'])->name('admin.assignedOrders');
     // completed orders
     Route::get('/completedOrders', [AdminController::class, 'completedOrderDetails'])->name('admin.completedOrders');
+
+    // order status cancel
+    Route::get('/cancelOrder', [AdminController::class, 'cancelOrder'])->name('admin.asignedOrderCancel');
     
 
     // =====================================================================================================================

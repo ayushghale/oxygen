@@ -87,11 +87,20 @@
         </div>
 
         <div class="table-profile">
-            <div class="date">
-                <input type="date">
-                <p>To</p>
-                <input type="date">
-                <button class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div style="display: flex">
+                <form action="{{ route('staff.orderAsigned') }}" method="GET">
+                    @csrf
+                    <div class="date">
+                        <input type="date" name="startDate">
+                        <p>To</p>
+                        <input type="date" name="endDate">
+                        <button class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+                <div class="date">
+                    <button class="search"><a href="{{ route('staff.orderAsigned') }}"><i
+                                class="fa-solid fa-broom"></i></a></button>
+                </div>
             </div>
             <div class="overflow-tables" style="width: 100%!important; overflow-x:auto!important;">
                 <table id="tables">
@@ -179,13 +188,13 @@
                                 <td>
                                     <a href="{{ route('staff.orderDone', ['tCode' => $assignedOrderDetail['t_code'], 'id' => $assignedOrderDetail['id']]) }}"
                                         class="edit">Mark as Done</a>
-
+                                    <a href="{{ route('staff.orderCancel', ['id' => $assignedOrderDetail['id']]) }}"
+                                        class="edit"><button class="delete">Cancel</button></a>
 
                                     {{-- <a href="{{ route('staff.orderDone', ['id' => $assignedOrderDetail['id']]) }}"
                                         class="edit">Mark as Done</a> --}}
 
-                                    <a href="#"
-                                        class="delete"><button class="delete">Cancel</button></a>
+
 
                                 </td>
                             </tr>

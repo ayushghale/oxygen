@@ -68,9 +68,9 @@ class AdminAuthController extends Controller
         // dd('validation passed');
         try {
             $admin = new Admin();
-            $admin->name = $request->full_name;
+            $admin->name = ucfirst($request->full_name);
             $admin->contact_number = $request->contact_number;
-            $admin->email = $request->email;
+            $admin->email = strtolower($request->email);
             $admin->password = Hash::make($request->password);
             $admin->save();
              return redirect()->to('admin/login');

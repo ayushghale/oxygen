@@ -89,9 +89,9 @@ class AdminController extends Controller
 
             $user = new User();
             $user->user_type_id = $request->user_type_id;
-            $user->name = $request->name;
+            $user->name = ucfirst($request->name);
             $user->address = $request->address;
-            $user->email = $user_email;
+            $user->email = strtolower($user_email);
             $user->contact_number = $user_contact_number;
             $user->password = $user_password;
             if ($latitude != null) {
@@ -178,13 +178,13 @@ class AdminController extends Controller
             $user_password = $request->password;
             $latitude = $request->latitude;
             $longitude = $request->longitude;
-            $description = $request->description;
+            $description = ucfirst($request->description);
 
             $user = User::find($id);
             $user->user_type_id = $request->user_type_id;
-            $user->name = $request->name;
+            $user->name = ucfirst($request->name);
             $user->address = $request->address;
-            $user->email = $request->email;
+            $user->email = strtolower($request->email);
             $user->contact_number = $request->contact_number;
             if ($user_password != null) {
                 $user->password = $user_password;
@@ -228,7 +228,7 @@ class AdminController extends Controller
 
         try {
             $userType = new UserType();
-            $userType->user_type_name = $request->name;
+            $userType->user_type_name = ucfirst($request->name);
             $userType->save();
             return redirect()->back()->with('success', 'User Type Added Sucessfully');
         } catch (\Exception $e) {
@@ -263,7 +263,7 @@ class AdminController extends Controller
 
         try {
             $userType = UserType::find($id);
-            $userType->user_type_name = $request->name;
+            $userType->user_type_name = ucfirst($request->name);
             $userType->save();
             return redirect()->to(route('admin.userTypeList'))->with('success', 'User Type Updated Sucessfully');
         } catch (\Exception $e) {
@@ -332,10 +332,10 @@ class AdminController extends Controller
             $save_url = '/site/uploads/service/' . $new_image;
 
             $service = new Service();
-            $service->service_name = $request->name;
+            $service->service_name = ucfirst($request->name);
             $service->user_type_id = $request->user_type_id;
             $service->service_price = $request->price;
-            $service->service_description = $request->description;
+            $service->service_description = ucfirst($request->description);
             $service->service_image = $save_url;
             $service->save();
             return redirect()->back()->with('success', 'Service Added Sucessfully');
@@ -385,10 +385,10 @@ class AdminController extends Controller
         ]);
         try {
             $service = Service::find($id);
-            $service->service_name = $request->name;
+            $service->service_name = ucfirst($request->name);
             $service->user_type_id = $request->user_type_id;
             $service->service_price = $request->price;
-            $service->service_description = $request->description;
+            $service->service_description = ucfirst($request->description);
             if ($request->file('image') != null) {
                 $profilePicture = $request->file('image');
 
@@ -595,6 +595,7 @@ class AdminController extends Controller
                 ->join('admins', 'assign_orders.staff_id', '=', 'admins.id')
                 ->select('assign_orders.*', 'admins.*')
                 ->where('assign_orders.t_code', '=', $item->t_code)
+                ->where('assign_orders.status', '=', 2)
                 ->get();
 
             $serviceData = DB::table('orders')
@@ -725,6 +726,78 @@ class AdminController extends Controller
         return view('admin.order.orderCompeted', compact('assignedOrderDetails'));
     }
 
+    /**
+     * Display Order Cancel by Staff
+     */
+    public function cancelOrder()
+    {
+        $orderQuery = DB::table('payments')
+            ->join('users', 'payments.user_id', '=', 'users.id')
+            ->join('user_types', 'users.user_type_id', '=', 'user_types.id')
+            ->select(
+                'users.id as user_id',
+                'users.name as user_name',
+                'users.email as user_email',
+                'users.contact_number as user_phone',
+                'users.address as user_address',
+                'payments.payment_type',
+                'payments.total_amount as payment_amount',
+                'payments.payment_status as payment_status',
+                DB::raw('DATE(payments.created_at) as payment_date'),
+                'user_types.user_type_name',
+                'payments.t_code',
+            )->get();
+
+
+        $assignedOrderDetails = [];
+
+        foreach ($orderQuery as $item) {
+            $assignData = DB::table('assign_orders')
+                ->join('admins', 'assign_orders.staff_id', '=', 'admins.id')
+                ->select('assign_orders.*', 'admins.*')
+                ->where('assign_orders.t_code', '=', $item->t_code)
+                ->where('assign_orders.status', '=', 0)
+                ->get();
+
+            $serviceData = DB::table('orders')
+                ->join('services', 'orders.service_id', '=', 'services.id')
+                ->select('orders.*', 'services.*')
+                ->where('orders.t_code', '=', $item->t_code)
+                ->get();
+
+            $a = [];
+            $c = [];
+            foreach ($assignData as $aItem) {
+                $a[] = $aItem;
+            }
+            foreach ($serviceData as $sItem) {
+                $c[] = $sItem;
+            }
+            if (!empty($a)) {
+                $assignedOrderDetails[] = [
+                    'user_id' => $item->user_id,
+                    'user_name' => $item->user_name,
+                    'user_email' => $item->user_email,
+                    'user_phone' => $item->user_phone,
+                    'user_address' => $item->user_address,
+                    'payment_type' => $item->payment_type,
+                    'payment_amount' => $item->payment_amount,
+                    'payment_status' => $item->payment_status,
+                    'payment_date' => $item->payment_date,
+                    'user_type_name' => $item->user_type_name,
+                    't_code' => $item->t_code,
+                    'assignData' => $a,
+                    'serviceData' => $c,
+                ];
+            }
+        }
+
+        // $assignedOrderDetails = array_values($assignedOrderDetails);
+        // dd($assignedOrderDetails);
+        return view('admin.order.cancellAsignedOrder', compact('assignedOrderDetails'));
+    }
+
+
     // staff
     // ===========================================================================================
 
@@ -762,7 +835,7 @@ class AdminController extends Controller
         ]);
         try {
             $staff = new Admin();
-            $staff->name = $request->name;
+            $staff->name = ucfirst($request->name);
             $staff->email = $request->email;
             $staff->contact_number = $request->contact_number;
             $staff->password = $request->password;

@@ -60,9 +60,9 @@ class UserAuthController extends Controller
 
             $user = new User();
             $user->user_type_id = $request->user_type_id;
-            $user->name = $request->name;
+            $user->name = ucfirst($request->name);
             $user->address = $request->address;
-            $user->email = $user_email;
+            $user->email = strtolower($user_email);
             $user->contact_number = $user_contact_number;
             $user->password = Hash::make($user_password);
             $user->save();
@@ -163,7 +163,7 @@ class UserAuthController extends Controller
             'email' => 'required|email',
         ]);
         
-        $email = $request->input('email');
+        $email = strtolower($request->input('email'));
         $user = User::where('email', $email)->first();
 
         if (!$user) {

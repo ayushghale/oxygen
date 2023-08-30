@@ -32,7 +32,7 @@ $currentDiv = 'service';
                                 <td>{{ $service->user_type_name }}</td>
                                 <td>{{ $service->service_name }}</td>
                                 <td>{{ $service->service_price }}</td>
-                                <td><img src="{{ asset('$service->image') }}" alt=""></td>
+                                <td><img src="{{ asset($service->service_image) }}" style="width: 200px" alt=""></td>
                                 <td>{{ $service->service_description }}</td>
                                 <td>
                                     @if ($service->service_status == 1)

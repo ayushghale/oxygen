@@ -26,6 +26,7 @@
                 <tbody>
                     <tr>
                         <th>SN</th>
+                        <th>Image</th>
                         <th>Product Name</th>
                         <th>Product Quantity</th>
                         <th>Product Price</th>
@@ -37,6 +38,7 @@
                     @foreach ($services as $service)
                         <tr>
                             <td>{{ $i }}</td>
+                            <td><img src="{{ asset($service->service_image) }}" style="width: 150px" alt=""></td>
                             <td>{{ $service->service_name }}</td>
                             <td><input type="number" class="quantity-input" placeholder="Quantity" min="1"></td>
                             <td>{{ $service->service_price }}</td>

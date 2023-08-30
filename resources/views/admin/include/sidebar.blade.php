@@ -38,6 +38,12 @@
                         <span class="nav-item">Complete Order</span>
                     </a>
                 </li>
+                <li class="{{ $currentPage === 'asignedOrderCancel' ? 'active-nav' : '' }}">
+                    <a href="{{ route('admin.asignedOrderCancel') }}" class="{{ $currentPage === 'asignedOrderCancel' ? 'active-a' : '' }}">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        <span class="nav-item">Order Cancel by staff</span>
+                    </a>
+                </li>
             </ul>
         </li>
         

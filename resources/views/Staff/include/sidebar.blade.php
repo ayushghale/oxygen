@@ -7,8 +7,13 @@
 <div class="nav-info">
     <div class="profie-pic-info-1" style="border-bottom: 1px solid var(--color5);">
         <div class="profile-pic">
-            <img src="{{ asset('oxygen/resources/images/user-profile.png') }}" alt="">
+            @if (@$user->profile_picture != null)
+                <img src="{{ asset($user->profile_picture) }}" alt="">
+            @else
+                <img src="{{ asset('oxygen/resources/images/user-profile.png') }}" alt="">
+            @endif
         </div>
+
         <div class="information">
             <p>{{ $user->name }}</p>
             <p>{{ $user->contact_number }}</p>
@@ -26,7 +31,8 @@
                 <li class="{{ $currentPage === 'profile' ? 'active-nav' : '' }}">Update Profile</li>
             </a>
             {{-- update password --}}
-            <a href="{{ route('staff.credentials') }}" class="{{ $currentPage === 'updateProfile' ? 'active-a' : '' }}">
+            <a href="{{ route('staff.credentials') }}"
+                class="{{ $currentPage === 'updateProfile' ? 'active-a' : '' }}">
                 <li class="{{ $currentPage === 'updateProfile' ? 'active-nav' : '' }}">Update Password</li>
             </a>
             {{-- purchase service --}}
@@ -36,13 +42,15 @@
             {{-- cart --}}
             <a href="{{ route('staff.ledger') }}" class="{{ $currentPage === 'ledger' ? 'active-a' : '' }}">
                 <li class="{{ $currentPage === 'ledger' ? 'active-nav' : '' }}">ledger</li>
-            </a>    
+            </a>
             {{-- order asigned --}}
-            <a href="{{ route('staff.orderAsigned') }}" class="{{ $currentPage === 'orderAsigned' ? 'active-a' : '' }}">
+            <a href="{{ route('staff.orderAsigned') }}"
+                class="{{ $currentPage === 'orderAsigned' ? 'active-a' : '' }}">
                 <li class="{{ $currentPage === 'orderAsigned' ? 'active-nav' : '' }}">Order Asigned</li>
             </a>
             {{-- order completed --}}
-            <a href="{{ route('staff.orderCompleted') }}" class="{{ $currentPage === 'orderCompleted' ? 'active-a' : '' }}">
+            <a href="{{ route('staff.orderCompleted') }}"
+                class="{{ $currentPage === 'orderCompleted' ? 'active-a' : '' }}">
                 <li class="{{ $currentPage === 'orderCompleted' ? 'active-nav' : '' }}">Order Completed</li>
             </a>
         </ul>

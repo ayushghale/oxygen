@@ -1,5 +1,5 @@
 <?php
-$currentPage = 'asignedOrder';
+$currentPage = 'asignedOrderCancel';
 $currentNav = 'orderList';
 ?>
 @include('admin.include.header')
@@ -58,7 +58,7 @@ $currentNav = 'orderList';
 
     <section class="main">
         <div class="main-top">
-            <h1>Asigned Order</h1>
+            <h1>Asigned Order Cancel</h1>
         </div>
         <div class="dashboard-container">
             <div class="table-profile">
