@@ -12,43 +12,14 @@
 @include('customer.include.header')
 <!---Logo Navbar Ends Here-->
 
-<style>
-    .sweetErrormessage {
-        position: fixed;
-        height: 70px;
-        top: 30px;
-        right: 10px;
-        background-color: #ff0000 !important;
-        color: white;
-        padding: 25px;
-        border: 1px solid #c3e6cb;
-        animation: fadeOut 4s linear forwards;
-        display: block;
-    }
-
-    .sweetSuccessMessage {
-        position: fixed;
-        height: 70px;
-        top: 50px;
-        right: 10px;
-        background-color: #6600FF !important;
-        color: white;
-        padding: 25px;
-        border: 1px solid #c3e6cb;
-        animation: fadeOut 4s linear forwards;
-        display: block;
-    }
-</style>
-
 {{-- start sweet Message --}}
 @if (session()->has('success'))
-    <div class="sweetSuccessMessage">
+    <div class="snackbar">
         {{ session()->get('success') }}
     </div>
 @elseif(session()->has('error'))
-    <div class="sweetErrormessage">
+    <div class="snackbar">
         {{ session()->get('error') }}
-
     </div>
 @endif
 {{-- end sweet Message --}}
@@ -151,7 +122,7 @@
                         <div class="profile-label">
                             <label for="">Patient Description:</label>
                         </div>
-                        <textarea style="width: 100%; height:200px; padding: 5px" placeholder="Describe The Patient" name="description" >{{ @$user->description }}
+                        <textarea style="width: 100%; height:200px; padding: 5px" placeholder="Describe The Patient" name="description">{{ @$user->description }}
                         </textarea>
                     </div>
                 </div>

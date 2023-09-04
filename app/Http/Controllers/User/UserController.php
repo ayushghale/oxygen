@@ -145,7 +145,6 @@ class UserController extends Controller
             $data = DB::table('users')
                 ->where('id', $id)
                 ->first();
-
             if ($data->email != $email) {
                 $request->validate([
                     'email' => 'unique:users',
@@ -197,6 +196,7 @@ class UserController extends Controller
 
             return redirect()->back()->with('success', 'Profile Updated');
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -379,6 +379,7 @@ class UserController extends Controller
      */
     public function removeAllFromCart()
     {
+        // dd('removeAllFromCart');
         try {
             $id = session()->get('userLogedIn');
             $cartItems = Basket::where('user_id', $id)->get();
@@ -391,11 +392,57 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Failed to remove all items from cart.');
         }
     }
+
+    /**
+     *  orer to recive
+     */
+    public function orderToRecive(Request $request)
+    {
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+        
+        $id = session()->get('userLogedIn');
+        try {
+            $purchaseDetails = DB::table('users')
+                ->join('payments', 'users.id', '=', 'payments.user_id')
+                ->join('orders', 'payments.t_code', '=', 'orders.t_code')
+                ->join('services', 'orders.service_id', '=', 'services.id')
+                ->select(
+                    DB::raw('DATE(orders.created_at) as order_date'),
+                    'users.name as user_name',
+                    'services.id as service_id',
+                    'services.service_name',
+                    'orders.order_quantity',
+                    'orders.order_amount',
+                    'payments.payment_type',
+                    'payments.t_code',
+                )
+                ->where('users.id', $id)
+                ->where('orders.status', 2);
+            if ($startDate != null && $endDate != null) {
+                $purchaseDetails->whereBetween('orders.created_at', [$startDate, $endDate]);
+            }
+
+            $purchaseDetails = $purchaseDetails->get();
+            // dd($purchaseDetails);
+
+
+            return view('customer.orderToRecive', compact('purchaseDetails'));
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors([$e->getMessage()]);
+        }
+    }
+
+
     /**
      * Display purchase history.
      */
-    public function purchaseHistory()
+    public function purchaseHistory(Request $request)
     {
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+
         $id = session()->get('userLogedIn');
         try {
             $purchaseDetails = DB::table('users')
@@ -418,8 +465,12 @@ class UserController extends Controller
                         ->on('reviews.service_id', '=', 'orders.service_id');
                 })
                 ->where('users.id', $id)
-                ->get();
-            // dd($purchaseDetails);
+                ->where('orders.status', 1);
+            if ($startDate != null && $endDate != null) {
+                $purchaseDetails->whereBetween('orders.created_at', [$startDate, $endDate]);
+            }
+
+            $purchaseDetails = $purchaseDetails->get();
 
 
             return view('customer.purchase', compact('purchaseDetails'));
@@ -446,7 +497,7 @@ class UserController extends Controller
             )
             ->where('reviews.user_id', $id)
             ->get();
-            // dd($reviewedDatas);
+        // dd($reviewedDatas);
         return view('customer.reviews', compact('reviewedDatas'));
     }
 
@@ -461,7 +512,7 @@ class UserController extends Controller
 
         try {
             $id = session()->get('userLogedIn');
-            
+
             $reviewText = ucfirst($request->review);
             $t_code = $request->t_code;
             $rating = $request->rating;

@@ -9,6 +9,20 @@
     <p><a href="">Home</a> > User Profile</p>
 </div>
 <!---Path-->
+
+{{-- start sweet Message --}}
+@if (session()->has('success'))
+    <div class="snackbar">
+        {{ session()->get('success') }}
+    </div>
+@elseif(session()->has('error'))
+    <div class="snackbar">
+        {{ session()->get('error') }}
+
+    </div>
+@endif
+{{-- end sweet Message --}}
+
 <!---User Container-->
 <div class="container profile-inline">
     {{-- sidebar --}}

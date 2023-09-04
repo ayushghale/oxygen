@@ -29,8 +29,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 
 
-Route::get("/", [HomeController::class, 'index'])->name('index');
-
 // user auth
 Route::prefix('user')->middleware('userAuth')->group(function () {
     // user dashboard
@@ -48,11 +46,13 @@ Route::prefix('user')->middleware('userAuth')->group(function () {
     // cart
     Route::get('/cart', [UserController::class, 'cart'])->name('user.cart');
     // add to cart
-    Route::post('/addToCart', [UserController::class, 'addToCart'])->name('user.addToCart');
+    Route::post('/addToCart', [UserController::class, 'addToCart'])->name('user.addToCart'); 
     // remove from cart
     Route::get('/removeFromCart/{basket_id}', [UserController::class, 'removeFromCart'])->name('removeFromCart');
     // checkout
     Route::post('/requestOrder', [OrderController::class, 'orderedService'])->name('user.orderedService');
+    // order to Recive
+    Route::get('/orderToRecive', [UserController::class, 'orderToRecive'])->name('user.orderToRecive');
     // user purchase
     Route::get('/purchaseHistory', [UserController::class, 'purchaseHistory'])->name('user.purchaseHistory');
     // user review
@@ -258,6 +258,11 @@ Route::prefix('admin')->middleware('adminAuth')->group(function () {
     // =====================================================================================================================
     // asigned order details
     Route::get('/assignedOrderStaffDetails', [AdminController::class, 'assignedOrderStaffDetailsByTcode'])->name('admin.assignedOrderStaffDetails');
+
+
+    // =====================================================================================================================
+    // Report
+    Route::get('/purchaseReport', [AdminController::class, 'purchaseReport'])->name('admin.purchaseReport');
 
 
     // =====================================================================================================================

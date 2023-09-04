@@ -73,6 +73,20 @@
         color: #fe7;
         text-shadow: 0 0 20px #952;
     }
+
+    button.assign-task {
+        padding: 8px;
+        font-size: 15px;
+        border: none;
+        text-transform: uppercase;
+        font-weight: 500;
+        background-color: var(--color1);
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.5s;
+        width: 100%;
+    }
 </style>
 
 <!--Modal Align Tasks-->
@@ -80,8 +94,8 @@
     <div class="aligntask-modal-content">
         <span class="aligntask-close" onclick="closeModel('aligntask-modal');">&times;</span>
         <h2>Order Details</h2>
-        <input type="hidden" id="id" value="">
-        <input type="text" id="t_code" value="">
+        <input type="hidden" id="service_id" value="">
+        <input type="hidden" id="t_code" value="">
         <div class="aligntask-containers">
             <div class="table-profile" style="padding: 0px; margin-top: 10px;">
                 <table id="tables">
@@ -144,15 +158,24 @@
 
     <div class="profile-containers">
         <div class="title-profile">
-            <h2>Purchase History</h2>
+            <h2>Order History</h2>
         </div>
 
         <div class="table-profile">
-            <div class="date">
-                <input type="date">
-                <p>To</p>
-                <input type="date">
-                <button class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div style="display: flex">
+                <form action="{{ route('user.purchaseHistory') }}" method="GET">
+                    @csrf
+                    <div class="date">
+                        <input type="date" name="startDate">
+                        <p>To</p>
+                        <input type="date" name="endDate">
+                        <button class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+                <div class="date">
+                    <button class="search"><a href="{{ route('user.purchaseHistory') }}"><i
+                                class="fa-solid fa-broom"></i></a></button>
+                </div>
             </div>
             <table id="tables">
                 <tr>
@@ -172,15 +195,14 @@
                         <td>{{ $purchaseDetail->payment_type }}</td>
                         <td>
                             @if ($purchaseDetail->review_status === 1)
-                                <button class="edit-user" style="background-color: green" id="aligntaskModalBtn"
-                                    style="width: 100%;">Reviewed </button>
-                                
+                                <button class="edit-user" style="background-color: green" style="width: 100%;">Reviewed
+                                </button>
                             @else
-                            <button class="edit-user" id="aligntaskModalBtn"
-                                onclick="shoModel('aligntask-modal','{{ $purchaseDetail->service_id }}', '{{ $purchaseDetail->t_code }}')"
-                                style="width: 100%;">Review </button>
+                                <button class="edit-user" id="aligntaskModalBtn"
+                                    onclick="shoModel('aligntask-modal','{{ $purchaseDetail->service_id }}', '{{ $purchaseDetail->t_code }}')"
+                                    style="width: 100%;">Review </button>
                             @endif
-                            
+
                         </td>
                     </tr>
                 @endforeach
@@ -202,72 +224,135 @@
 
     </div>
 </div>
+{{-- order detials --}}
+<script>
+    $(document).ready(function() {
+        $('#aligntaskModalBtn').click(function() {
+            var orderTCode = $("#t_code").val();
+            var orderServiceId = $("#id").val();
+
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            var formData = {
+                t_code: orderTCode,
+            };
+
+            console.log(formData);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            // extract data of order details
+            $.ajax({
+                url: "{{ route('admin.orderDetails') }}",
+                type: "GET",
+                data: formData,
+                success: function(response) {
+                    console.log(response); // Check the response data in the console    
+
+                    if (response.success) {
+                        var tbody = $('#orderDetailsTableBody');
+                        tbody.empty(); // Clear existing content
+
+                        $.each(response.data, function(index, order) {
+                            var row = $('<tr>');
+                            row.append('<td>' + order.order_date + '</td>');
+                            row.append('<td>' + order.service_name + '</td>');
+                            row.append('<td>' + order.service_name + '</td>');
+                            row.append('<td>' + order.user_address + '</td>');
+                            row.append('<td>' + order.order_quantity + '</td>');
+                            row.append('<td>' + order.service_price + '</td>');
+                            row.append('<td>' + order.order_amount + '</td>');
+
+                            // ... add more columns ...
+
+                            tbody.append(row);
+                        });
+
+                        // alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                    alert('Something went wrong');
+                }
+            });
+
+        });
+    });
+</script>
+{{-- add review --}}
 <script>
     document.getElementById('addReview').addEventListener('click', function(event) {
-    event.preventDefault();
+        event.preventDefault();
 
-    const form = document.getElementById('reviewForm');
-    const ratingInput = form.querySelector('input[name="rate"]:checked');
-    const reviewInput = form.querySelector('textarea[name="review"]');
+        const form = document.getElementById('reviewForm');
+        const ratingInput = form.querySelector('input[name="rate"]:checked');
+        const reviewInput = form.querySelector('textarea[name="review"]');
 
-    if (ratingInput && reviewInput.value.trim() !== '') {
-        const ratingValue = ratingInput.value;
-        const reviewText = reviewInput.value;
+        if (ratingInput && reviewInput.value.trim() !== '') {
+            const ratingValue = ratingInput.value;
+            const reviewText = reviewInput.value;
 
-        console.log('Rating:', ratingValue);
-        console.log('Review:', reviewText);
+            console.log('Rating:', ratingValue);
+            console.log('Review:', reviewText);
 
-        // Get the service ID and other values
-        const serviceId = document.getElementById('id').value;
-        const tCode = document.getElementById('t_code').value;
+            // Get the service ID and other values
+            const serviceId = document.getElementById('id').value;
+            const tCode = document.getElementById('t_code').value;
 
-        // Prepare form data
-        const formData = {
-            'service_id': serviceId,
-            't_code': tCode,
-            'rating': ratingValue,
-            'review': reviewText,
-        };
+            // Prepare form data
+            const formData = {
+                'service_id': serviceId,
+                't_code': tCode,
+                'rating': ratingValue,
+                'review': reviewText,
+            };
 
-        console.log(formData);
+            console.log(formData);
 
-        // Set CSRF token header for the AJAX request
-        const csrfToken = $('meta[name="csrf-token"]').attr('content');
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            }
-        });
-
-        // Make the AJAX request
-        $.ajax({
-            url: "{{ route('user.reviewData') }}",
-            type: "POST",
-            data: formData,
-            success: function(response) {
-                if (response.success) {
-                    alert(response.message);
-                    alert('Review added successfully')
-                    closeModel('aligntask-modal');
-                    window.location.reload();
-                } else {
-                    closeModel('aligntask-modal');
-                    alert(response.message);
+            // Set CSRF token header for the AJAX request
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
                 }
-            },
-            error: function(response) {
-                console.log(response);
-                alert('Something went wrong');
-            }
-        });
-    } else {
-        alert('Please select a rating and provide a review.');
-    }
-});
+            });
+
+            // Make the AJAX request
+            $.ajax({
+                url: "{{ route('user.reviewData') }}",
+                type: "POST",
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                        alert('Review added successfully')
+                        closeModel('aligntask-modal');
+                        window.location.reload();
+                    } else {
+                        closeModel('aligntask-modal');
+                        alert(response.message);
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                    alert('Something went wrong');
+                }
+            });
+        } else {
+            alert('Please select a rating and provide a review.');
+        }
+    });
 </script>
+{{-- add review end --}}
 <script>
     function shoModel(tagNameId, id, t_code) {
-        document.getElementById("id").value = id;
+        document.getElementById("service_id").value = id;
         document.getElementById("t_code").value = t_code;
         document.getElementById(tagNameId).style.display = 'block';
     }

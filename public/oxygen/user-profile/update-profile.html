@@ -100,7 +100,7 @@
                     <img src="../resources/images/profile.jpeg" alt="">
                 </div>
                 <div class="button-update">
-                    <button class="profile-button">Update</button>
+                    <button class="profile-button" onclick="myFunction()">Update</button>
                 </div>
                 
             </div>
@@ -156,7 +156,7 @@
         </div>
      
     </footer>
-
+    <div id="snackbar">Some text some message..</div>
     <script>
         function animateCount(elementId, targetCount, duration) {
             const span = document.getElementById(elementId).querySelector('span');
@@ -180,6 +180,14 @@
         animateCount("returnedid", 20, 2000);
     </script>
     
+    <script>
+        function myFunction() {
+          var x = document.getElementById("snackbar");
+          x.className = "show";
+          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+        </script>
+
     <!---USer COntainer Ends Here-->
 </body>
 </html>

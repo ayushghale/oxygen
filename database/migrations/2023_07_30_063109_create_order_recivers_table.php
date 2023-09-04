@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('contact_number');
             $table->string('t_code');
-            $table->string('status')->default('pending');
+            $table->integer('status')->default(2); // 0: cancel , 1: done, 2: in process
             $table->timestamps();
         });
     }

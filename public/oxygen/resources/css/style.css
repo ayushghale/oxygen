@@ -13,16 +13,18 @@
     --color3: rgb(58, 58, 58);
     --color4: rgb(82, 81, 81);
     --color5: rgb(214, 214, 214);
-    --color6: green;
-    --color7: purple;
+    --color6:green;
+    --color7:purple;
     --font-family1: 'Alegreya', serif;
 }
+
 
 body {
     font-family: 'DM Sans', sans-serif;
     font-weight: 500;
-    overflow-x: hidden;
+    overflow-x:  hidden;
 }
+
 
 .container {
     width: 1150px;
@@ -564,7 +566,7 @@ li.active-nav {
     color: white;
 }
 
-li.active-nav a {
+li.active-nav a{
     color: white;
 }
 
@@ -673,13 +675,14 @@ p.numberic {
     border: 1px solid #ddd;
     padding: 20px;
     color: var(--color4);
+    font-size: 14px;
 }
 
 #tables th {
     padding-top: 20px;
     padding-bottom: 20px;
     text-align: left;
-    color: rgb(0, 0, 0);
+    color: var(--color4);
 }
 
 .profile-information {
@@ -722,7 +725,7 @@ button.profile-button {
 .profile-img {
     width: 200px;
     height: 200px;
-
+   
 }
 
 .profile-img img {
@@ -859,12 +862,6 @@ button.search:hover {
     padding: 10px !important;
 }
 
-.table-heading-dashboard {
-    color: white;
-    background-color: var(--color1);
-
-}
-
 button.edit {
     background-color: green;
     border: none;
@@ -872,7 +869,7 @@ button.edit {
     margin-right: 5px;
     padding: 10px;
     font-size: 15px;
-    width: 100%;
+    width: 45%;
     cursor: pointer;
     transition: 0.5s;
 }
@@ -888,7 +885,7 @@ button.delete {
     margin-right: 5px;
     padding: 10px;
     font-size: 15px;
-    width: 100%;
+    width: 45%;
     cursor: pointer;
     transition: 0.5s;
 }
@@ -1109,7 +1106,7 @@ ul.dropdown-menu-contents li:last-child {
     justify-content: right;
 }
 
-button.pay-button {
+button.pay-button  {
     cursor: pointer;
     padding: 8px;
     font-size: 13px;
@@ -1122,28 +1119,27 @@ button.pay-button {
     transition: 0.5s;
 }
 
-button.pay-button:hover {
+button.pay-button:hover{
     background-color: var(--color2);
 }
 
-.services-purchase table td input {
+.services-purchase table td input{
     padding: 10px;
     cursor: pointer;
 }
-
-.service-add {
+.service-add{
     padding: 20px;
     display: inline-flex;
     width: 100%;
 }
 
-.service-add input {
+.service-add input{
     padding: 10px;
     width: 40%;
     font-size: 15px;
 }
 
-.service-add button {
+.service-add button{
     cursor: pointer;
     padding: 8px;
     font-size: 13px;
@@ -1157,11 +1153,11 @@ button.pay-button:hover {
     margin-left: 10px;
 }
 
-.service-add button:hover {
+.service-add button:hover{
     background-color: var(--color2);
 }
 
-.cart-containers {
+.cart-containers{
     border: 1px solid var(--color5);
     padding: 20px;
     margin-top: 20px;
@@ -1169,21 +1165,20 @@ button.pay-button:hover {
     border-radius: 2px;
 }
 
-.infromation-inline {
+.infromation-inline{
     display: flex;
 }
-
-td .infromation-inline img {
+td .infromation-inline img{
     height: 80px;
 }
 
-td .infromation-inline p {
+td .infromation-inline p{
     font-weight: bold;
     margin-left: 20px;
     margin-top: 30px;
 }
 
-button.remove {
+button.remove{
     cursor: pointer;
     padding: 8px;
     font-size: 13px;
@@ -1194,19 +1189,19 @@ button.remove {
     color: white;
     border-radius: 5px;
     transition: 0.5s;
-    margin-left: 10px;
+    margin-left: 10px; 
 }
 
-td.all-amount {
+td.all-amount{
     text-align: right;
 }
 
-.pay-button1 {
+.pay-button1{
     margin-top: 20px;
-
+    
 }
 
-.pay-button1 button {
+.pay-button1 button{
     cursor: pointer;
     padding: 8px;
     font-size: 13px;
@@ -1217,7 +1212,7 @@ td.all-amount {
     color: white;
     border-radius: 5px;
     transition: 0.5s;
-
+ 
 }
 
 /*payment modal*/
@@ -1231,102 +1226,100 @@ td.all-amount {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
-}
-
-.payment-modal-content {
+  }
+  
+  .payment-modal-content {
     background-color: #fff;
     border-radius: 5px;
     width: 470px;
     padding: 20px;
     position: absolute;
-    top: -300px;
+    top: -300px; 
     left: 50%;
     transform: translateX(-50%);
     animation: slideIn 0.3s forwards;
-}
-
-.payment-close {
+  }
+  
+  .payment-close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
-}
-
-.payment-close:hover,
-.payment-close:focus {
+  }
+  
+  .payment-close:hover,
+  .payment-close:focus {
     color: #000;
-}
-
-@keyframes slideIn {
+  }
+  
+  @keyframes slideIn {
     to {
-        top: 25%;
+      top: 25%;
     }
-}
+  }
 
-.payment-containers {
+.payment-containers{
     margin-top: 15px;
 }
 
-.pay-container {
+  .pay-container{
     display: inline-flex;
     width: 100%;
     margin-top: 10px;
-}
+  }
 
-.pay-container input {
+  .pay-container input{
     margin-right: 15px;
     cursor: pointer;
-}
+  }
 
-.pay-container label {
+  .pay-container label{
     cursor: pointer;
-}
-
-.pay-container label img {
+  }
+  .pay-container label img{
     height: 40px;
-}
+  }
 
-.buton-sub-pay {
+.buton-sub-pay{
     display: flex;
     justify-content: right;
 }
-
-.buton-sub-pay button {
+.buton-sub-pay button{
     cursor: pointer;
     padding: 8px;
     font-size: 13px;
     border: none;
     text-transform: uppercase;
     font-weight: 500;
-
+   
     color: white;
     border-radius: 5px;
     transition: 0.5s;
 }
 
-.pay-with-cash {
+.pay-with-cash{
     background-color: var(--color2);
 }
 
-.pay-with-esewa {
+.pay-with-esewa{
     background-color: var(--color6);
 }
 
 
-.pay-with-khalti {
+.pay-with-khalti{
     background-color: var(--color7);
 }
 
-.display-block {
-    display: block !important;
+.display-block{
+    display: block!important;
 }
 
-.mobile-nav-toggle-button {
+.mobile-nav-toggle-button{
     position: relative;
 }
 
-.nav-info .fa-xmark {
+.nav-info .fa-xmark{
     display: none;
     right: 10px;
     top: 10px;
@@ -1340,10 +1333,9 @@ td.all-amount {
     border-radius: 5px;
     z-index: 999999;
     cursor: pointer;
-
+   
 }
-
-.mobile-nav-toggle-button .fa-bars {
+.mobile-nav-toggle-button .fa-bars{
     background-color: var(--color1);
     width: 35px;
     height: 35px;
@@ -1357,7 +1349,7 @@ td.all-amount {
 }
 
 
-.shadow-mark {
+.shadow-mark{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -1366,26 +1358,26 @@ td.all-amount {
     display: none;
 }
 
-button.increment_dec {
+button.increment_dec{
     padding: 10px;
-    background-color: var(--color1);
-    color: white;
-    cursor: pointer;
-    transition: 0.5s;
-    border: 1px solid var(--color1);
-    width: 40px;
+background-color: var(--color1);
+color: white;
+cursor: pointer;
+transition: 0.5s;
+border: 1px solid var(--color1);
+width: 40px;
 }
 
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 
 input[type=number] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 /*align-task-modal*/
@@ -1399,12 +1391,13 @@ input[type=number] {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 1;
+    overflow: auto;
 }
 
 .aligntask-modal-content {
     background-color: #fff;
     border-radius: 5px;
-    width: 75%;
+    width: 90%;
     padding: 20px;
     position: absolute;
     top: -300px;
@@ -1432,19 +1425,19 @@ input[type=number] {
     }
 }
 
-input[type='checkbox'] {
+input[type='checkbox']{
     cursor: pointer;
 }
 
-td.prod-desc {
+td.prod-desc{
     width: 400px;
 }
 
-td.serv-prod-desc {
+td.serv-prod-desc{
     width: 350px;
 }
 
-button.taskbutton {
+button.taskbutton{
     width: 100%;
     margin-top: 10px;
     padding: 9px;
@@ -1455,17 +1448,18 @@ button.taskbutton {
     font-weight: bold;
 }
 
-button.taskbutton:first-child {
+button.taskbutton:first-child{
     margin-top: 0px;
 }
 
-button.accept {
+button.accept{
     background-color: green;
 }
 
-button.deny {
+button.deny{
     background-color: red;
 }
+
 
 @media screen and (min-width:1600px) {
     .container {
@@ -1514,72 +1508,61 @@ button.deny {
 }
 
 @media screen and (max-width:1180px) {
-    .container {
-        width: 96%;
-        margin: auto;
-    }
-
-    .forget-password {
-        width: 51% !important;
-    }
+.container{
+    width: 96%;
+    margin: auto;
+}
+.forget-password{
+    width: 51%!important;
+}
 }
 
 @media screen and (max-width:1041px) {
-    .serv-container {
+    .serv-container{
         width: 31.5%;
     }
-
-    .dasboard-section {
+    .dasboard-section{
         gap: 9px;
     }
-
-    .profile-inline {
+    .profile-inline{
         gap: 9px;
     }
-
-    .path {
+    .path{
         padding-top: 20px;
         padding-bottom: 20px;
     }
 }
-
 @media screen and (max-width:970px) {
-    .bottom-footer-container {
+    .bottom-footer-container{
         display: block;
     }
-
-    .design-develop-by p {
+    .design-develop-by p{
         width: 100%;
         text-align: center;
     }
-
-    .design-develop-by {
+    .design-develop-by{
         width: 100%;
     }
-
-    .forget-password {
-        width: 65% !important;
+    .forget-password{
+        width: 65%!important;
     }
 }
 
 @media screen and (max-width:911px) {
-    .banner-image img {
+    .banner-image img{
         height: 350px;
     }
-
-    .background {
+    .background{
         height: 60vh;
     }
-
-    .background1 {
+    .background1{
         height: 43vh;
     }
-
-    .left-none {
-        left: 0px !important
+    .left-none{
+        left:0px!important
     }
 
-    .nav-info {
+    .nav-info{
         position: absolute;
         width: 50%;
         height: 100%;
@@ -1589,12 +1572,10 @@ button.deny {
         border-radius: 0px;
         transition: 0.5s;
     }
-
-    .profile-containers {
+    .profile-containers{
         width: 100%;
     }
-
-    body {
+    body{
         position: relative;
     }
 
@@ -1605,235 +1586,198 @@ button.deny {
 }
 
 @media screen and (max-width:893px) {
-    .steps-containers {
+    .steps-containers{
         display: flex;
         flex-wrap: wrap;
     }
-
-    .stp-container {
+    .stp-container{
         width: 48.5%;
     }
 
-    .serv-container {
+    .serv-container{
         width: 48%;
     }
-
-    .m-10 {
+    .m-10{
+        margin-top: 0px;
+    }
+    .m-20{
         margin-top: 0px;
     }
 
-    .m-20 {
+    .m-30{
         margin-top: 0px;
     }
 
-    .m-30 {
-        margin-top: 0px;
-    }
-
-    .banner-description h1 {
+    .banner-description h1{
         font-size: 25px;
     }
-
-    .banner-description p {
+    .banner-description p{
         font-size: 14px;
     }
-
-    .background {
+    .background{
         height: 48vh;
     }
 
-    .banner-description {
-        margin-top: 0px !important;
+    .banner-description{
+        margin-top: 0px!important;
     }
-
     .banner-image img {
         height: 312px;
-    }
-
-    .join-us p {
+      }
+      .join-us p{
         font-size: 14px;
-    }
-
-    .log-button {
+      }
+      .log-button{
         font-size: 14px;
-    }
-
-    .logo img {
+      }
+      .logo img {
         height: 54px;
-    }
+      }
 }
 
-@media screen and (max-width:740px) {
-    .forget-password {
-        width: 85% !important;
+@media screen and (max-width:740px){
+    .forget-password{
+        width: 85%!important;
     }
 }
 
 @media screen and (max-width:700px) {
-    .banner-description {
+    .banner-description{
         padding-top: 40px;
         width: 75%;
     }
-
     .banner-image img {
         height: 267px;
-    }
-
-    .background {
+      }
+      .background {
         height: 44vh;
-    }
-
-    .background1 {
+      }
+      .background1{
         height: 31vh;
-    }
-
-    footer {
+      }
+      footer{
         border-top: 1px solid rgb(219, 217, 217);
-    }
-
-    .banner-description {
+      }
+      .banner-description{
         padding-top: 10px;
-    }
-
-    .small-whole-table-overflow {
+      }
+      .small-whole-table-overflow{
         width: 93%;
         overflow-x: scroll;
-    }
-
-    .table-small-overflow {
-        width: 1200px !important;
-    }
-
-    .stp-container {
+      }
+      .table-small-overflow{
+        width: 1200px!important;
+      }
+      .stp-container{
         width: 48%;
-    }
+      }
 }
 
 
-@media screen and (max-width:680px) {
+@media screen and (max-width:680px){
     .banner-image {
         display: none;
     }
-
-    .banner-description {
-        width: 100% !important;
+    .banner-description{
+        width: 100%!important;
     }
-
     .background {
         height: 34vh;
-    }
-
-    .background1 {
+      }
+      .background1 {
         height: 28vh;
-    }
-
-    .stp-container {
+      }
+      .stp-container{
         width: 100%;
         padding: 36px;
-    }
-
-    .footer-top {
+      }
+      .footer-top{
         display: flex;
         flex-wrap: wrap;
-    }
-
-    .fot-cont {
+      }
+      .fot-cont{
         width: 50%;
         margin-top: 40px;
-    }
-
-    footer {
+      }
+      footer{
         padding-top: 0px;
-    }
-
-    .design-develop-by p {
+      }
+      .design-develop-by p{
         font-size: 15px;
         margin-top: 20px;
-    }
-
-    .steps-containers {
+      }
+      .steps-containers{
         margin-top: 20px;
-    }
-
-    .dasboard-section {
+      }
+      .dasboard-section{
         flex-wrap: wrap;
-    }
-
-    .das-sec {
+      }
+      .das-sec{
         width: 49%;
-    }
+      }
 }
 
 
-@media screen and (max-width:560px) {
-    .forget-password {
-        width: 100% !important;
+@media screen and (max-width:560px){
+    .forget-password{
+        width: 100%!important;
     }
 }
 
-@media screen and (max-width:550px) {
-    .serv-container {
+@media screen and (max-width:550px){
+    .serv-container{
         width: 100%;
     }
-
     .das-sec {
         width: 48.5%;
-    }
-
-    .nav-info {
+      }
+      .nav-info{
         width: 70%;
-    }
+      }
 }
 
-@media screen and (max-width:490px) {
-    .fot-cont {
+@media screen and (max-width:490px){
+    .fot-cont{
         width: 100%;
     }
-
-    .footer-top {
+    .footer-top{
         flex-direction: column-reverse;
     }
-
-    .banner-description p {
+    .banner-description p{
         font-size: 14px;
     }
-
-    .banner-description h1 {
+    .banner-description h1{
         font-size: 22px;
     }
-
-    .background {
+    .background{
         height: auto;
         padding-bottom: 15px;
     }
-
-    .background1 {
+    .background1{
         height: auto;
         padding-bottom: 15px;
     }
-
     .das-sec {
         width: 100%;
-    }
-
-    .otp-container input {
+      }
+      .otp-container input{
         width: 21.5%;
     }
 
-    .modal-content {
+    .modal-content{
         width: 90%;
     }
 }
 
 
-@media screen and (max-width:425px) {
-    .forget-password {
+@media screen and (max-width:425px){
+    .forget-password{
         padding: 25px;
     }
 }
 
-@media screen and (max-width:395px) {
-    .otp-container input {
+@media screen and (max-width:395px){
+    .otp-container input{
         width: 21%;
     }
 }

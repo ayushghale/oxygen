@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('payment_date');
             $table->string('payment_time');
             $table->string('t_code');
-            $table->string('payment_status')->default('pending'); // pending, paid
+            $table->integer('payment_status')->default(2); // 0: cancel , 1: done, 2: in process
             $table->string('online_Transaction_code');
             $table->timestamps();
         });

@@ -93,7 +93,7 @@ class OrderController extends Controller
             $paymentData->t_code = $transactionCode;
 
             if ($online_T_code == null) {
-                $paymentData->payment_status = 'pending';
+                $paymentData->payment_status = 2;
                 $paymentData->online_Transaction_code = 'pending';
             } else {
                 $paymentData->payment_status = 'paid';
@@ -121,6 +121,7 @@ class OrderController extends Controller
 
             ], 200);
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Order not Added',
@@ -129,4 +130,6 @@ class OrderController extends Controller
             // return redirect()->back()->with('fail','Order not Added');
         }
     }
+
+    
 }

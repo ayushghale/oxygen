@@ -1,6 +1,6 @@
 <?php
 $currentPage = 'userTypeDetails';
-$currentDiv = 'customer';
+$currentNav = 'customer';
 ?>
 
 @include('admin.include.header')

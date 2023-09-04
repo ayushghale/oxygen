@@ -1,0 +1,39 @@
+:root {
+    --color1: #75b4f7;
+}
+
+
+.snackbar {
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: var(--color1);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    font-size: 17px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    top: 85px;
+    right: 10px;
+    background-color: var(--color1) !important;
+    color: white;
+    padding: 15px;
+    animation: fadeOut 2s linear forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}

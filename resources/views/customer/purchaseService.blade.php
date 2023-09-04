@@ -41,10 +41,11 @@
                             <td><img src="{{ asset($service->service_image) }}" style="width: 150px" alt=""></td>
                             <td>{{ $service->service_name }}</td>
                             <td><input type="number" class="quantity-input" placeholder="Quantity" min="1"></td>
-                            <td>{{ $service->service_price }}</td>
+                            <td class="service-price">{{ $service->service_price }}</td>
                             <td class="total-price">Rs. 0</td>
                             <td>
-                                <button class="pay-button" data-service-id="{{ $service->service_id }}">Add to cart</button>
+                                <button class="pay-button" data-service-id="{{ $service->service_id }}">Add to
+                                    cart</button>
                             </td>
                         </tr>
                         <?php $i++; ?>
@@ -64,14 +65,21 @@
 
 <script>
     $(document).ready(function() {
-        $('.quantity-input').on('change', function() {
+        $('.quantity-input').on('input', function() {
             var quantity = $(this).val();
-            var servicePrice = $(this).closest('tr').find('td:nth-child(4)').text();
+            var servicePriceCell = $(this).closest('tr').find('.service-price');
             var totalPriceCell = $(this).closest('tr').find('.total-price');
 
-            // Calculate the total price and update the cell
-            var totalPrice = parseFloat(servicePrice.replace(/[^0-9.]/g, '')) * quantity;
-            totalPriceCell.text('Rs. ' + totalPrice.toFixed(2));
+            // Ensure that quantity is a valid number
+            if (!isNaN(quantity) && quantity >= 1) {
+                var servicePrice = parseFloat(servicePriceCell.text().replace(/[^0-9.]/g, ''));
+                var totalPrice = servicePrice * quantity;
+
+                totalPriceCell.text('Rs. ' + totalPrice.toFixed(2));
+            } else {
+                // Handle the case where the input is not a valid number or less than 1
+                totalPriceCell.text('Invalid quantity');
+            }
         });
     });
 </script>

@@ -41,6 +41,11 @@
             {{-- cart --}}
             <a href="{{ route('user.cart') }}" class="{{ $currentPage === 'cart' ? 'active-a' : '' }}">
                 <li class="{{ $currentPage === 'cart' ? 'active-nav' : '' }}">Cart</li>
+            </a>
+            {{-- order to recive --}}
+            <a href="{{ route('user.orderToRecive') }}" class="{{ $currentPage === 'orderToRecive' ? 'active-a' : '' }}">
+                <li class="{{ $currentPage === 'orderToRecive' ? 'active-nav' : '' }}">Order To Receive</li>
+            </a>
             {{-- purchase history --}}
             <a href="{{ route('user.purchaseHistory') }}" class="{{ $currentPage === 'purchase' ? 'active-a' : '' }}">
                 <li class="{{ $currentPage === 'purchase' ? 'active-nav' : '' }}">Order History</li>

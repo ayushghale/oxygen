@@ -48,7 +48,7 @@
         </li>
         
         {{-- user --}}
-        <li class="parent  {{@$currentDiv === 'customer' ? 'active-nav' : '' }}">
+        <li class="parent  {{@$currentNav === 'customer' ? 'active-nav' : '' }}">
             <a>
                 <i class="fa-solid fa-users"></i>
                 <span class="nav-item">customer </span>
@@ -95,7 +95,7 @@
         </li>
 
         {{-- service --}}
-        <li class="parent  {{ @$currentDiv === 'service' ? 'active-nav' : '' }}">
+        <li class="parent  {{ @$currentNav === 'service' ? 'active-nav' : '' }}">
             <a>
                 <i class="fa-solid fa-cart-plus"></i>
                 <span class="nav-item">Service </span>
@@ -122,7 +122,7 @@
         </li>
         
         {{-- staff --}}
-        <li class="parent  {{ @$currentDiv === 'staff' ? 'active-nav' : '' }}">
+        <li class="parent  {{ @$currentNav === 'staff' ? 'active-nav' : '' }}">
             <a>
                 <i class="fa-solid fa-users"></i>
                 <span class="nav-item">Staff </span>
@@ -149,7 +149,54 @@
             </ul>
         </li>
 
-
+        {{-- report --}}
+        <li class="parent  {{ @$currentNav === 'report' ? 'active-nav' : '' }}">
+            <a>
+                <i class="fa-solid fa-users"></i>
+                <span class="nav-item">Report </span>
+            </a>
+            <i class="fa-solid fa-chevron-down"></i>
+            <ul class="drop-down-items">
+                {{-- add staff --}}
+                <li class="{{ $currentPage === 'purchaseReport' ? 'active-nav' : '' }}">
+                    <a href="{{ route('admin.purchaseReport') }}"
+                        class="{{ $currentPage === 'purchaseReport' ? 'active-a' : '' }}">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-item">Purchase Report</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="drop-down-items">
+                {{-- add staff --}}
+                <li class="{{ $currentPage === 'purchaseReport' ? 'active-nav' : '' }}">
+                    <a href="{{ route('admin.purchaseReport') }}"
+                        class="{{ $currentPage === 'purchaseReport' ? 'active-a' : '' }}">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-item">Return Report</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="drop-down-items">
+                {{-- add staff --}}
+                <li class="{{ $currentPage === 'purchaseReport' ? 'active-nav' : '' }}">
+                    <a href="{{ route('admin.purchaseReport') }}"
+                        class="{{ $currentPage === 'purchaseReport' ? 'active-a' : '' }}">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-item">Service Report</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="drop-down-items">
+                {{-- add staff --}}
+                <li class="{{ $currentPage === 'purchaseReport' ? 'active-nav' : '' }}">
+                    <a href="{{ route('admin.purchaseReport') }}"
+                        class="{{ $currentPage === 'purchaseReport' ? 'active-a' : '' }}">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-item">Purchase Report</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li>
             <a href="">
                 <i class="fas fa-cog"></i>

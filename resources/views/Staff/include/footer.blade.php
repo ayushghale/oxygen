@@ -49,28 +49,14 @@
 
 </footer>
 
+
 <script>
-    function animateCount(elementId, targetCount, duration) {
-        const span = document.getElementById(elementId).querySelector('span');
-        const startCount = 0;
-        const increment = Math.ceil(targetCount / (duration / 10));
-        let currentCount = 0;
-
-        const timer = setInterval(() => {
-            if (currentCount >= targetCount) {
-                clearInterval(timer);
-                span.textContent = targetCount;
-            } else {
-                currentCount += increment;
-                span.textContent = currentCount;
-            }
-        }, 10);
+    function myFunction() {
+      var x = document.getElementById("snackbar");
+      x.className = "show";
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
-
-    animateCount("productsCount", 40, 2000);
-    animateCount("amountCount", 4000, 300);
-    animateCount("returnedid", 20, 2000);
-</script>
+    </script>
 
 <!---USer COntainer Ends Here-->
 </body>

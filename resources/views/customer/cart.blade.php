@@ -5,43 +5,19 @@
 
 @include('customer.include.header')
 
-<style>
-    .sweetErrormessage {
-        position: fixed;
-        height: 70px;
-        top: 30px;
-        right: 10px;
-        background-color: #ff0000 !important;
-        color: white;
-        padding: 25px;
-        border: 1px solid #c3e6cb;
-        animation: fadeOut 4s linear forwards;
-    }
-
-    .sweetSuccessMessage {
-        position: fixed;
-        height: 70px;
-        top: 30px;
-        right: 10px;
-        background-color: #6600FF !important;
-        color: white;
-        padding: 25px;
-        border: 1px solid #c3e6cb;
-        animation: fadeOut 4s linear forwards;
-    }
-</style>
 
 
+{{-- start sweet Message --}}
 @if (session()->has('success'))
-    <div class="sweetSuccessMessage">
+    <div class="snackbar">
         {{ session()->get('success') }}
     </div>
 @elseif(session()->has('error'))
-    <div class="sweetErrormessage">
+    <div class="snackbar">
         {{ session()->get('error') }}
-
     </div>
 @endif
+{{-- end sweet Message --}}
 
 
 <!--Payment-Modal---->
@@ -65,7 +41,7 @@
                         alt=""></label>
             </div>
             <div class="buton-sub-pay">
-                <button class="online-pay-btn pay-with-cash" id="payNow">Pay 1,200/-</button>
+                <button class="online-pay-btn pay-with-cash" id="payNow"><span id="paymentAmount">10</span></button>
             </div>
         </div>
     </div>
@@ -112,6 +88,7 @@
                         <input type="hidden" class="quantity-input" value="{{ $cartData->quantity }}" min="1">
                         <td>Rs {{ $cartData->service_price }}</td>
                         <td class="total-amount">Rs. {{ $cartData->totalAmount }}</td>
+                        {{-- remove single basket --}}
                         <td>
                             <a href="{{ url('user/removeFromCart/' . $cartData->basket_id) }}">
                                 <button class="remove">Remove <i class="fa-solid fa-xmark"></i></button>
@@ -119,13 +96,13 @@
                         </td>
                         <!-- Move the input inside the <td> tag -->
                         <input type="hidden" class="serviceId" value="{{ $cartData->service_id }}">
-                        <input type="hidden" class="basket_id" value="{{ $cartData->basket_id }}">
+                        <input type="hidden" class="basket_id remove_id " value="{{ $cartData->basket_id }}">
                     </tr>
                 @endforeach
                 <input type="hidden" id="user_id" value="{{ $id }}">
                 <tr>
                     <td colspan="5" class="all-amount"><b>Total Amount :</b>Rs. <span id="totalAmount">10</span></td>
-                    <td><button class="remove">Remove All <i class="fa-solid fa-xmark"></i></button></td>
+                    <td><a href="{{ route('user.removeAllFromCart') }}"><button class="remove remove-all">Remove All <i class="fa-solid fa-xmark"></i></button></a></td>
                 </tr>
             </table>
             <div class="pay-button1">
@@ -135,7 +112,57 @@
     </div>
 </div>
 
+{{-- js to remove all basket data --}}
+{{-- <script>
+    $(document).ready(function() {
+        const basketIds = [];
 
+        $('.remove-all').on('click', function() {
+            const basket_id = $(this).next('.remove_id').val(); // Find the next sibling with class .basket_id
+            // alert(basket_id);
+
+            if (basket_id) {
+                basketIds.push({
+                    basket_id,
+                });
+            }
+
+            if (basketIds.length === 0) {
+                alert('Your cart is empty.');
+                return;
+            }
+
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            const Data = {
+                basketIds
+            };
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('user.removeAllFromCart') }}",
+                data: Data,
+                success: function(data) {
+                    console.log(data);
+                    if (data.status == 200) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                    window.location.reload();
+                }
+            });
+
+
+        });
+    });
+</script> --}}
 
 {{-- display total amount --}}
 <script>
@@ -143,7 +170,10 @@
         // Function to calculate the total amount
         function calculateTotalAmount() {
             let totalAmount = 0;
+            let paymentAmount = 0;
+
             const totalAmountCells = document.querySelectorAll('.total-amount');
+            const paymentAmountCells = document.querySelectorAll('.payment-amount');
 
             totalAmountCells.forEach(cell => {
                 const amountText = cell.innerText.replace('Rs. ', ''); // Remove the 'Rs. ' prefix
@@ -151,10 +181,12 @@
 
                 if (!isNaN(amountValue)) {
                     totalAmount += amountValue;
+                    paymentAmount += amountValue;
+
                 }
             });
 
-            return totalAmount;
+            return totalAmount, paymentAmount;
         }
 
         // Function to update the total amount display
@@ -162,6 +194,11 @@
             const totalAmount = calculateTotalAmount();
             const totalAmountSpan = document.getElementById('totalAmount');
             totalAmountSpan.innerText = totalAmount.toFixed(2);
+
+            const paymentAmount = calculateTotalAmount();
+            const paymentAmountSpan = document.getElementById('paymentAmount');
+            paymentAmountSpan.innerText = paymentAmount.toFixed(2);
+
         }
 
         // Call the update function initially
@@ -177,151 +214,7 @@
     });
 </script>
 
-{{-- pay now --}}
-{{-- <script>
-    $(document).ready(function() {
-        // Function to calculate the total amount
-        function calculateTotalAmount() {
-            let totalAmount = 0;
-            const totalAmountCells = document.querySelectorAll('.total-amount');
-
-            totalAmountCells.forEach(cell => {
-                const amountText = cell.innerText.replace('Rs. ', ''); // Remove the 'Rs. ' prefix
-                const amountValue = parseFloat(amountText); // Convert to a numeric value
-
-                if (!isNaN(amountValue)) {
-                    totalAmount += amountValue;
-                }
-            });
-
-            return totalAmount;
-        }
-
-        // Function to send the cart data via AJAX
-        function sendCartData() {
-            const cartData = [];
-            const basketIds = [];
-
-            const cash = document.getElementById('cash').value;
-            const esewa = document.getElementById('esewa').value;
-            const khalti = document.getElementById('khalti').value;
-
-            $('.cart-item').each(function() {
-                const service_id = $(this).find('.serviceId').val();
-                const quantity = $(this).find('.quantity-input').val();
-                const basket_id = $(this).find('.basket_id').val();
-
-
-                if (service_id && quantity) {
-                    cartData.push({
-                        service_id,
-                        quantity,
-                    });
-                }
-                if (basket_id) {
-                    basketIds.push({
-                        basket_id,
-                    });
-                }
-            });
-
-
-            if (cartData.length === 0) {
-                alert('Your cart is empty.');
-                return;
-            }
-
-
-            let payment_type; // Declare the payment_type variable in a higher scope
-
-            $('#payNow').on('click', function() {
-                const cash = document.getElementById('cash').checked;
-                const esewa = document.getElementById('esewa').checked;
-                const khalti = document.getElementById('khalti').checked;
-
-                if (cash) {
-                    payment_type = 'cash';
-                } else if (esewa) {
-                    payment_type = 'esewa';
-                } else if (khalti) {
-                    payment_type = 'khalti';
-                } else {
-                    alert('Please select a payment method');
-                    return;
-                }
-
-                // Rest of your payment logic here
-                // ...
-
-                // Log the payment_type inside the event handler
-                console.log(payment_type);
-            });
-
-            alert(payment_type);
-            return;
-            const online_Transaction_code =
-                ''; // Replace this with the actual online transaction code if applicable
-            // const  = {{ session()->get('user_id') ?? 'null' }};
-
-            var user_id = document.getElementById("user_id").value;
-
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            var Data = {
-                cartData,
-                payment_type,
-                online_Transaction_code,
-                user_id,
-                basketIds
-            };
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('user.orderedService') }}",
-                data: Data,
-                success: function(data) {
-                    console.log(data);
-                    if (data.status == 200) {
-                        alert(data.message);
-                    } else {
-                        alert(data.message);
-                    }
-                    window.location.reload();
-                }
-            });
-
-        }
-
-        // Attach the event listener to the "Pay Now" button
-        $('#payNow').on('click', function() {
-            const cash = document.getElementById('cash').checked;
-            const esewa = document.getElementById('esewa').checked;
-            const khalti = document.getElementById('khalti').checked;
-
-            let payment_type;
-
-            if (cash) {
-                payment_type = 'cash';
-            } else if (esewa) {
-                payment_type = 'esewa';
-            } else if (khalti) {
-                payment_type = 'khalti';
-            } else {
-                alert('Please select a payment method');
-                return;
-            }
-
-            // Call the sendCartData function and pass the payment_type
-            sendCartData(payment_type);
-        });
-    });
-</script> --}}
-
+{{-- js to send data  --}}
 <script>
     $(document).ready(function() {
         // Function to calculate the total amount
@@ -369,7 +262,7 @@
             }
 
             const online_Transaction_code =
-            ''; // Replace this with the actual online transaction code if applicable
+                ''; // Replace this with the actual online transaction code if applicable
             const user_id = document.getElementById("user_id").value;
 
             const csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -395,9 +288,9 @@
                 success: function(data) {
                     console.log(data);
                     if (data.status == 200) {
-                        alert(data.message);
+                        session()->flash('success', 'Your order has been placed successfully');
                     } else {
-                        alert(data.message);
+                        session()->flash('success', 'Your order has been placed successfully');
                     }
                     window.location.reload();
                 }
@@ -475,8 +368,8 @@
     esewaRadio.addEventListener('click', updateButtonClass);
     khaltiRadio.addEventListener('click', updateButtonClass);
 
-
     updateButtonClass();
 </script>
+{{-- mode of payment js --}}
 
 @include('customer.include.footer')

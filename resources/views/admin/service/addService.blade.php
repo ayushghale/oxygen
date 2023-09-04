@@ -1,6 +1,6 @@
 <?php
 $currentPage = 'serviceFormPage';
-$currentDiv = 'service';
+$currentNav = 'service';
 ?>
 
 @include('admin.include.header')
@@ -118,8 +118,7 @@ $currentDiv = 'service';
                                 <div class="profile-label">
                                     <label for="">Current Image:</label>
                                 </div>
-                                <img src="{{ asset('storage/service/' . $serviceDetail->image) }}" alt=""
-                                    style="width: 100px; height: 100px;">
+                                <img src="{{ asset($serviceDetail->service_image) }}" style="width: 200px" alt="">
                             </div>
                         @endif
                         <div class="product-desc">

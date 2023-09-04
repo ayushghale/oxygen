@@ -967,6 +967,76 @@ class AdminController extends Controller
     }
     // ===========================================================================================
 
+    // reports
+
+    /**
+     * Display report
+     */
+    public function purchaseReport(){
+        $orderQuery = DB::table('payments')
+            ->join('users', 'payments.user_id', '=', 'users.id')
+            ->join('user_types', 'users.user_type_id', '=', 'user_types.id')
+            ->select(
+                'users.id as user_id',
+                'users.name as user_name',
+                'users.email as user_email',
+                'users.contact_number as user_phone',
+                'users.address as user_address',
+                'payments.payment_type',
+                'payments.total_amount as payment_amount',
+                'payments.payment_status as payment_status',
+                DB::raw('DATE(payments.created_at) as payment_date'),
+                'user_types.user_type_name',
+                'payments.t_code')
+                ->where('payments.payment_status', '=', 2)
+            ->get();
+
+
+        $assignedOrderDetails = [];
+
+        foreach ($orderQuery as $item) {
+            $assignData = DB::table('assign_orders')
+                ->join('admins', 'assign_orders.staff_id', '=', 'admins.id')
+                ->select('assign_orders.*', 'admins.*')
+                ->where('assign_orders.t_code', '=', $item->t_code)
+                ->get();
+
+            $serviceData = DB::table('orders')
+                ->join('services', 'orders.service_id', '=', 'services.id')
+                ->select('orders.*', 'services.*')
+                ->where('orders.t_code', '=', $item->t_code)
+                ->get();
+
+            $a = [];
+            $c = [];
+            foreach ($assignData as $aItem) {
+                $a[] = $aItem;
+            }
+            foreach ($serviceData as $sItem) {
+                $c[] = $sItem;
+            }
+            if (!empty($a)) {
+                $assignedOrderDetails[] = [
+                    'user_id' => $item->user_id,
+                    'user_name' => $item->user_name,
+                    'user_email' => $item->user_email,
+                    'user_phone' => $item->user_phone,
+                    'user_address' => $item->user_address,
+                    'payment_type' => $item->payment_type,
+                    'payment_amount' => $item->payment_amount,
+                    'payment_status' => $item->payment_status,
+                    'payment_date' => $item->payment_date,
+                    'user_type_name' => $item->user_type_name,
+                    't_code' => $item->t_code,
+                    'assignData' => $a,
+                    'serviceData' => $c,
+                ];
+            }
+        }
+        // dd($assignedOrderDetails);
+        
+        return view('admin.report.purchaseReport',compact('assignedOrderDetails'));
+    }
 
 
 
