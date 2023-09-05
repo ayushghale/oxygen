@@ -186,7 +186,7 @@ button.add-items:hover {
     color: white !important;
 }
 
-button.accept-user {
+/* button.accept-user {
     padding: 8px;
     font-size: 15px;
     border: none;
@@ -198,7 +198,7 @@ button.accept-user {
     cursor: pointer;
     transition: 0.5s;
     width: 100%;
-}
+} */
 
 button.accepted-user {
     padding: 8px;
@@ -228,21 +228,6 @@ button.edit-user {
     width: 100%;
 }
 
-
-button.deny-user {
-    padding: 8px;
-    font-size: 15px;
-    border: none;
-    text-transform: uppercase;
-    font-weight: 500;
-    background-color: red;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.5s;
-    width: 100%;
-    margin-top: 10px;
-}
 
 button.denied-user {
     padding: 8px;

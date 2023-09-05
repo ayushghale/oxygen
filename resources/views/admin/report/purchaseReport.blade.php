@@ -4,6 +4,8 @@ $currentNav = 'report';
 ?>
 @include('admin.include.header')
 
+
+
 <div class="admin-container">
 
     @include('admin.include.sidebar')

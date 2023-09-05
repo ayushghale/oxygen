@@ -7,6 +7,7 @@ $currentNav = 'customer';
 <div class="admin-container">
     @include('admin.include.sidebar')
 
+
     <section class="main">
         <div class="main-top">
             <h1>Dashboard <i class="fa-solid fa-user-plus"></i></h1>
@@ -43,7 +44,7 @@ $currentNav = 'customer';
                                         Pending
                                     @endif
                                 </td>
-                                <td>
+                                <td style="display: flex; gap:3px">
                                     <button class="accept-user">
                                         <a href="{{ route('admin.activeUser', ['id' => $userDetail->id]) }}"
                                             style="color: white">Active</a>
@@ -52,7 +53,7 @@ $currentNav = 'customer';
                                         <a href="{{ route('admin.deactiveUser', ['id' => $userDetail->id]) }}"
                                             style="color: white">Deactive</a>
                                     </button>
-                                    <button class="accept-user">
+                                    <button class="edit-user">
                                         <a href="{{ route('admin.editUser', ['id' => $userDetail->id]) }}"
                                             style="color: white">
                                             Edit

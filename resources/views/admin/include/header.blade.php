@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="{{ asset('oxygen/resources/css/style.css')}}" />
   <script src="https://kit.fontawesome.com/c8371491b6.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{{ asset('oxygen/resources/css/dashboard.css')}}" />
+  <link rel="stylesheet" href="{{ asset('oxygen/resources/css/sewwetMesssage.css') }}">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
 
   <meta name="csrf-token" content="{{ csrf_token() }}">

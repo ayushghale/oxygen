@@ -4,50 +4,9 @@ $currentNav = 'customer';
 ?>
 
 @include('admin.include.header')
-<style>
-    .error {
-        color: red;
-    }
 
-    .sweetErrormessage {
-        position: fixed;
-        height: 70px;
-        top: 30px;
-        right: 10px;
-        background-color: #ff0000 !important;
-        color: white;
-        padding: 25px;
-        border: 1px solid #c3e6cb;
-        animation: fadeOut 4s linear forwards;
-        display: block;
-    }
 
-    .sweetSuccessMessage {
-        position: fixed;
-        height: 70px;
-        top: 50px;
-        right: 10px;
-        background-color: #6600FF !important;
-        color: white;
-        padding: 25px;
-        border: 1px solid #c3e6cb;
-        animation: fadeOut 4s linear forwards;
-        display: block;
-    }
-</style>
 
-{{-- start sweet Message --}}
-@if (session()->has('success'))
-    <div class="sweetSuccessMessage">
-        {{ session()->get('success') }}
-    </div>
-@elseif(session()->has('error'))
-    <div class="sweetErrormessage">
-        {{ session()->get('error') }}
-
-    </div>
-@endif
-{{-- end sweet Message --}}
 
 <div class="admin-container">
     @include('admin.include.sidebar')

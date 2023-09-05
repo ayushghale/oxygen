@@ -37,7 +37,7 @@ $currentNav = 'staff';
                                     Deactive
                                 @endif
                             </td>
-                            <td>
+                            <td  style="display:flex; gap:4px">
                                 <button class="accept-user">
                                     <a href="{{ route('admin.activeStaff', ['id' => $staffDetail->id]) }}"
                                         style="color: white">Active</a>

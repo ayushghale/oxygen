@@ -344,8 +344,6 @@ class UserController extends Controller
                 $basket->save();
             }
 
-
-
             return response()->json([
                 'success' => true,
                 'message' => 'Service added to cart',

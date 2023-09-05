@@ -4,21 +4,7 @@ $currentNav = 'orderList';
 ?>
 @include('admin.include.header')
 
-<style>
-    button.assign-task {
-        padding: 8px;
-        font-size: 15px;
-        border: none;
-        text-transform: uppercase;
-        font-weight: 500;
-        background-color: var(--color1);
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: 0.5s;
-        width: 100%;
-    }
-</style>
+
 
 <!--Modal Align Tasks-->
 <div id="aligntask-modal" class="aligntask-modal">

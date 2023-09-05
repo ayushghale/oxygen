@@ -24,13 +24,13 @@ $currentPage = 'dashboard';
                             <th>Accept Or Deny</th>
                         </tr>
                         @foreach ($userDetails as $userDetail)
-                            <tr>
+                            <tr >
                                 <td>{{ $userDetail->created_at }}</td>
                                 <td>{{ $userDetail->name }}</td>
                                 <td>{{ $userDetail->address }}</td>
                                 <td>{{ $userDetail->contact_number }}</td>
                                 <td>{{ $userDetail->user_type_name }} </td>
-                                <td>
+                                <td style="display: flex">
                                     <button class="accept-user">Active</button> 
                                     <button class="deny-user">Deactive</button>
                                 </td>

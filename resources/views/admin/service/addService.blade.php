@@ -36,18 +36,7 @@ $currentNav = 'service';
     }
 </style>
 
-{{-- start sweet Message --}}
-@if (session()->has('success'))
-    <div class="sweetSuccessMessage">
-        {{ session()->get('success') }}
-    </div>
-@elseif(session()->has('error'))
-    <div class="sweetErrormessage">
-        {{ session()->get('error') }}
 
-    </div>
-@endif
-{{-- end sweet Message --}}
 
 <div class="admin-container">
     @include('admin.include.sidebar')

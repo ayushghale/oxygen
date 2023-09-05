@@ -809,6 +809,7 @@ class AdminController extends Controller
         return view('admin.staff.addStaff');
     }
 
+
     /**
      * Display Staff List
      */
@@ -826,13 +827,15 @@ class AdminController extends Controller
      */
     public function addStaff(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required',
             'contact_number' => 'required | min:10 | unique:admins',
             'email' => 'required | email | unique:admins',
-            'password' => 'required',
+            'password' => 'required | same:conform_password',
             'conform_password' => 'required | same:password',
         ]);
+        
         try {
             $staff = new Admin();
             $staff->name = ucfirst($request->name);

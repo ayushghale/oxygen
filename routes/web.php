@@ -240,7 +240,7 @@ Route::prefix('admin')->middleware('adminAuth')->group(function () {
     // staff 
     Route::get('/staffRegister', [AdminController::class, 'staffRegisterPage'])->name('admin.staffRegisterPage');
     // staff register
-    Route::post('/staffRegister', [AdminController::class, 'staffRegister'])->name('admin.staffRegister');
+    Route::post('/staffRegister', [AdminController::class, 'addStaff'])->name('admin.staffRegister');
     // staff list
     Route::get('/staffDetail', [AdminController::class, 'staffDetail'])->name('admin.staffDetail');
     // staff edit

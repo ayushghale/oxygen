@@ -1,3 +1,15 @@
+{{-- start sweet Message --}}
+@if (session()->has('success'))
+    <div class="snackbar">
+        {{ session()->get('success') }}
+    </div>
+@elseif(session()->has('error'))
+    <div class="snackbar">
+        {{ session()->get('error') }}
+    </div>
+@endif
+{{-- end sweet Message --}}
+
 <nav class="admin-dashboard-nav">
     <ul>
         <li class="logo">

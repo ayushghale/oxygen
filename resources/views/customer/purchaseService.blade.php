@@ -5,6 +5,7 @@
 @include('customer.include.header')
 <!---Logo Navbar Ends Here-->
 
+
 <!---Path-->
 <div class="container path">
     <p><a href="">Home</a> > User Profile</p>
@@ -116,12 +117,10 @@
                 data: formData,
                 success: function(response) {
                     console.log(response);
-                    if (response.status == 'success') {
-                        alert(response.message);
-                        window.location.reload();
-                    } else {
-                        alert(response.message);
-                    }
+                    $('.quantity-input').val(0);
+                    $('.total-price').text('Rs. 0');
+
+                    window.location.href = "{{ route('user.cart') }}";
                 },
                 error: function(response) {
                     console.log(response);

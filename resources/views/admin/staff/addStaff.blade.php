@@ -4,50 +4,7 @@ $currentNav = 'staff';
 ?>
 
 @include('admin.include.header')
-<style>
-    .error {
-        color: red;
-    }
 
-    .sweetErrormessage {
-        position: fixed;
-        height: 70px;
-        top: 30px;
-        right: 10px;
-        background-color: #ff0000 !important;
-        color: white;
-        padding: 25px;
-        border: 1px solid #c3e6cb;
-        animation: fadeOut 4s linear forwards;
-        display: block;
-    }
-
-    .sweetSuccessMessage {
-        position: fixed;
-        height: 70px;
-        top: 50px;
-        right: 10px;
-        background-color: #6600FF !important;
-        color: white;
-        padding: 25px;
-        border: 1px solid #c3e6cb;
-        animation: fadeOut 4s linear forwards;
-        display: block;
-    }
-</style>
-
-{{-- start sweet Message --}}
-@if (session()->has('success'))
-    <div class="sweetSuccessMessage">
-        {{ session()->get('success') }}
-    </div>
-@elseif(session()->has('error'))
-    <div class="sweetErrormessage">
-        {{ session()->get('error') }}
-
-    </div>
-@endif
-{{-- end sweet Message --}}
 
 <div class="admin-container">
     @include('admin.include.sidebar')
@@ -77,33 +34,59 @@ $currentNav = 'staff';
                                 <label for="">Full Name :</label>
                             </div>
                             <input type="text" placeholder="Enter Your Full Name" name="name"
-                                value="@if (@$staffDetail) {{ $staffDetail->name }} @endif">
+                                value="@if(@$staffDetail){{ $staffDetail->name }}@else{{ old('name') }}@endif">
+
+                            @error('name')
+                                <div class="error" role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
                         <div class="add-input-container">
                             <div class="profile-label">
                                 <label for="">Phone Number :</label>
                             </div>
                             <input type="text" placeholder="Enter Phone Number" name="contact_number"
-                            value="@if (@$staffDetail) {{ $staffDetail->contact_number }} @endif">
+                                value="@if (@$staffDetail) {{ $staffDetail->contact_number }}@else{{ old('contact_number') }}@endif">
+                            @error('contact_number')
+                                <div class="error" role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
                         <div class="add-input-container">
                             <div class="profile-label">
                                 <label for="">Email :</label>
                             </div>
                             <input type="text" placeholder="Enter Email" name="email"
-                            value="@if (@$staffDetail) {{ $staffDetail->email }} @endif">
+                                value="@if (@$staffDetail) {{ $staffDetail->email }}@else{{ old('email') }}@endif">
+                            @error('email')
+                                <div class="error" role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
                         <div class="add-input-container">
                             <div class="profile-label">
                                 <label for="">Password :</label>
                             </div>
                             <input type="text" placeholder="Enter Password" name="password">
+                            @error('password')
+                                <div class="error" role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
                         <div class="add-input-container">
                             <div class="profile-label">
                                 <label for="">Confirm Password :</label>
                             </div>
-                            <input type="text" placeholder="Enter Confirm Password" name="confirm_Password">
+                            <input type="text" placeholder="Enter Confirm Password" name="conform_password">
+                            @error('conform_password')
+                                <div class="error" role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
 
                     </div>
