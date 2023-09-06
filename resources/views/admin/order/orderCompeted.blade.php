@@ -199,12 +199,12 @@ $currentNav = 'orderList';
 
                         // alert(response.message);
                     } else {
-                        alert(response.message);
+                        console.log(response.message);
                     }
                 },
                 error: function(response) {
                     console.log(response);
-                    alert('Something went wrong');
+                    console.log('Something went wrong');
                 }
             });
 
@@ -241,12 +241,12 @@ $currentNav = 'orderList';
 
                         // alert(response.message);
                     } else {
-                        alert(response.message);
+                        console.log(response.message);
                     }
                 },
                 error: function(response) {
                     console.log(response);
-                    alert('Something went wrong');
+                    console.log('Something went wrong');
                 }
             });
 

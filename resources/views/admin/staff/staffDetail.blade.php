@@ -52,7 +52,7 @@ $currentNav = 'staff';
                                         Edit
                                     </a>
                                 </button>
-                                <button class="deny-user">
+                                <button class="delete-user">
                                     <a href="{{ route('admin.deleteStaff', ['id' => $staffDetail->id]) }}"
                                         style="color: white">Delete</a>
                                 </button>

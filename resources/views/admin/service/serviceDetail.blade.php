@@ -41,22 +41,22 @@ $currentNav = 'service';
                                         Deactive
                                     @endif
                                 </td>
-                                <td  style="display: flex; flex:rap gap:5px;">
-                                    <button class="accept-user">
+                                <td  style="width: 150px">
+                                    <button class="accept-user" style="margin-top: 10px">
                                         <a href="{{ route('admin.activeService', ['id' => $service->service_id]) }}"
                                             style="color: white">Active</a>
                                     </button>
-                                    <button class="deny-user">
+                                    <button class="deny-user" style="margin-top: 10px">
                                         <a href="{{ route('admin.deactiveService', ['id' => $service->service_id]) }}"
                                             style="color: white">Deactive</a>
                                     </button>
-                                    <button class="edit-user">
+                                    <button class="edit-user" style="margin-top: 10px">
                                         <a href="{{ route('admin.editService', ['id' => $service->service_id]) }}"
                                             style="color: white">
                                             Edit
                                         </a>
                                     </button>
-                                    <button class="deny-user">
+                                    <button class="delete-user" style="margin-top: 10px">
                                         <a href="{{ route('admin.deleteService', ['id' => $service->service_id]) }}"
                                             style="color: white">Delete</a>
                                     </button>

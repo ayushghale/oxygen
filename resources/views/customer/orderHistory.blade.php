@@ -89,19 +89,19 @@
     }
 </style>
 
+
 <!--Modal Align Tasks-->
 <div id="aligntask-modal" class="aligntask-modal">
     <div class="aligntask-modal-content">
         <span class="aligntask-close" onclick="closeModel('aligntask-modal');">&times;</span>
         <h2>Order Details</h2>
-        <input type="hidden" id="service_id" value="">
-        <input type="hidden" id="t_code" value="">
+        <input type="text" id="service_id" value="">
+        <input type="text" id="t_code" value="">
         <div class="aligntask-containers">
             <div class="table-profile" style="padding: 0px; margin-top: 10px;">
                 <table id="tables">
                     <thead>
                         <tr class="table-heading-dashboard">
-                            <th>S no.</th>
                             <th>Request Date</th>
                             <th>Service Name</th>
                             <th>Address</th>
@@ -194,11 +194,11 @@
                         <td>{{ $purchaseDetail->order_quantity }} </td>
                         <td>{{ $purchaseDetail->payment_type }}</td>
                         <td>
-                            @if ($purchaseDetail->review_status === 1)
+                            @if ($purchaseDetail->review_status == 1)
                                 <button class="edit-user" style="background-color: green" style="width: 100%;">Reviewed
                                 </button>
                             @else
-                                <button class="edit-user" id="aligntaskModalBtn"
+                                <button class="edit-user aligntaskModalBtn"
                                     onclick="shoModel('aligntask-modal','{{ $purchaseDetail->service_id }}', '{{ $purchaseDetail->t_code }}')"
                                     style="width: 100%;">Review </button>
                             @endif
@@ -227,16 +227,17 @@
 {{-- order detials --}}
 <script>
     $(document).ready(function() {
-        $('#aligntaskModalBtn').click(function() {
+        $('.aligntaskModalBtn').click(function() {
             var orderTCode = $("#t_code").val();
-            var orderServiceId = $("#id").val();
+            var orderServiceId = $("#service_id").val();
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             var formData = {
                 t_code: orderTCode,
+                service_id: orderServiceId,
             };
 
-            console.log(formData);
+            alert('Order T Code: ' + orderTCode + ' Service ID: ' + orderServiceId);
 
             $.ajaxSetup({
                 headers: {
@@ -246,7 +247,7 @@
 
             // extract data of order details
             $.ajax({
-                url: "{{ route('admin.orderDetails') }}",
+                url: "{{ route('user.orderDetails') }}",
                 type: "GET",
                 data: formData,
                 success: function(response) {
@@ -259,7 +260,6 @@
                         $.each(response.data, function(index, order) {
                             var row = $('<tr>');
                             row.append('<td>' + order.order_date + '</td>');
-                            row.append('<td>' + order.service_name + '</td>');
                             row.append('<td>' + order.service_name + '</td>');
                             row.append('<td>' + order.user_address + '</td>');
                             row.append('<td>' + order.order_quantity + '</td>');
@@ -302,7 +302,7 @@
             console.log('Review:', reviewText);
 
             // Get the service ID and other values
-            const serviceId = document.getElementById('id').value;
+            const serviceId = document.getElementById('service_id').value;
             const tCode = document.getElementById('t_code').value;
 
             // Prepare form data
@@ -329,15 +329,22 @@
                 type: "POST",
                 data: formData,
                 success: function(response) {
-                    if (response.success) {
-                        alert(response.message);
-                        alert('Review added successfully')
-                        closeModel('aligntask-modal');
-                        window.location.reload();
+                    var message = response.message;
+
+
+                    alert('sweetMessage sent');
+
+                    if (message) {
+                        alert(message);
+
+                        alert('done');
                     } else {
-                        closeModel('aligntask-modal');
                         alert(response.message);
                     }
+
+                    // Close the modal and reload the page
+                    closeModel('aligntask-modal');
+                    window.location.reload();
                 },
                 error: function(response) {
                     console.log(response);
@@ -361,4 +368,7 @@
         document.getElementById(tagNameId).style.display = 'none';
     }
 </script>
+
+
+
 @include('customer.include.footer')

@@ -31,7 +31,8 @@ class HomeController extends Controller
         {
             $username = null;
         }
-        $userTypes = UserType::all();
+        $userTypes = UserType::all()
+        ->where('status', '=', 1);
         return view('index', compact('userTypes','username'));
     }
 }

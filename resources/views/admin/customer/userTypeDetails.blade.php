@@ -33,16 +33,16 @@ $currentNav = 'customer';
                                         Deactive
                                     @endif
                                 </td>
-                                <td>
-                                    <button class="accept-user">
+                                <td  style="width: 150px">
+                                    <button class="accept-user" style="margin-top: 10px">
                                         <a href="{{ route('admin.activeUserType', ['id' => $userType->id]) }}"
                                             style="color: white">Active</a>
                                     </button>
-                                    <button class="deny-user">
+                                    <button class="deny-user" style="margin-top: 10px">
                                         <a href="{{ route('admin.deactiveUserType', ['id' => $userType->id]) }}"
                                             style="color: white">Deactive</a>
                                     </button>
-                                    <button class="accept-user ">
+                                    <button class="edit-user " style="margin-top: 10px">
                                         <a href="{{ route('admin.editUserType', ['id' => $userType->id]) }}"
                                             style="color: white">
                                             Edit

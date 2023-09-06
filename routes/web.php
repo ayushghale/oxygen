@@ -57,6 +57,8 @@ Route::prefix('user')->middleware('userAuth')->group(function () {
     Route::get('/purchaseHistory', [UserController::class, 'purchaseHistory'])->name('user.purchaseHistory');
     // user review
     Route::get('/review', [UserController::class, 'review'])->name('user.review');
+    // user review purchase data
+    Route::get('/orderDetails', [UserController::class, 'orderDetail'])->name('user.orderDetails');
     // user review post
     Route::post('/addReview', [UserController::class, 'reviewData'])->name('user.reviewData');
     // user ledger
@@ -69,6 +71,11 @@ Route::prefix('user')->middleware('userAuth')->group(function () {
     Route::get('/userDetails', [UserController::class, 'userDetail'])->name('user.userDetail');
     // remove all from cart'
     Route::get('/removeAllFromCart', [UserController::class, 'removeAllFromCart'])->name('user.removeAllFromCart');
+
+    // payment success
+    Route::get('/paymentSuccess', [UserController::class, 'paymentSucesPage'])->name('user.paymentSuccess');
+    // payment failed
+    Route::get('/paymentFailed', [UserController::class, 'paymentFailPage'])->name('user.paymentFailed');
 });
 
 

@@ -169,12 +169,11 @@ $currentNav = 'orderList';
 
                         // alert(response.message);
                     } else {
-                        alert(response.message);
+                        console.log(response.message);
                     }
                 },
                 error: function(response) {
                     console.log(response);
-                    alert('Something went wrong');
                 }
             });
         });
@@ -230,16 +229,16 @@ $currentNav = 'orderList';
                 data: formData,
                 success: function(response) {
                     if (response.success) {
-                        alert(response.message);
+                        console.log(response.message);
                         closeModel('aligntask-modal');
                         window.location.reload();
                     } else {
-                        alert(response.message);
+                        console.log(response.message);
                     }
                 },
                 error: function(response) {
                     console.log(response);
-                    alert('Something went wrong');
+                    console.log('Something went wrong');
                 }
             });
         });

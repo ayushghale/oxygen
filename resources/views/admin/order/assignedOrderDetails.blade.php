@@ -195,14 +195,12 @@ $currentNav = 'orderList';
                             tbody.append(row);
                         });
 
-                        // alert(response.message);
                     } else {
-                        alert(response.message);
+                        console.log(response);
                     }
                 },
                 error: function(response) {
-                    console.log(response);
-                    alert('Something went wrong');
+                    console.log('Something went wrong');
                 }
             });
 
@@ -237,14 +235,12 @@ $currentNav = 'orderList';
                             tbody.append(row);
                         });
 
-                        // alert(response.message);
                     } else {
-                        alert(response.message);
+                        console.log(response.message);
                     }
                 },
                 error: function(response) {
-                    console.log(response);
-                    alert('Something went wrong');
+                    console.log('Something went wrong');
                 }
             });
 

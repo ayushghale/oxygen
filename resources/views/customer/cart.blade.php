@@ -288,11 +288,15 @@
                 success: function(data) {
                     console.log(data);
                     if (data.status == 200) {
-                        session()->flash('success', 'Your order has been placed successfully');
+                        console.log(data.message);
                     } else {
-                        session()->flash('success', 'Your order has been placed successfully');
+                        console.log(data.message);
                     }
-                    window.location.reload();
+                    window.location.href = "{{ route('user.paymentSuccess') }}";
+                },error: function(response) {
+                    console.log(response);
+                    alert('Something went wrong');
+                    window.location.href = "{{ route('user.paymentFailed') }}";
                 }
             });
         }

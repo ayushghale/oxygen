@@ -111,7 +111,7 @@ class UserController extends Controller
             ->where('id', $id)
             ->first();
 
-        return view('customer.profile', compact('user'));
+        return view('customer.UpdateProfile', compact('user'));
     }
 
     /**
@@ -471,11 +471,13 @@ class UserController extends Controller
             $purchaseDetails = $purchaseDetails->get();
 
 
-            return view('customer.purchase', compact('purchaseDetails'));
+            return view('customer.orderHistory', compact('purchaseDetails'));
         } catch (\Exception $e) {
             return redirect()->back()->withErrors([$e->getMessage()]);
         }
     }
+
+
 
     /**
      * Display user review.
@@ -497,6 +499,49 @@ class UserController extends Controller
             ->get();
         // dd($reviewedDatas);
         return view('customer.reviews', compact('reviewedDatas'));
+    }
+
+    /** 
+     * Display user purchase data with tcode and servoce id
+     */
+    public function orderDetail(Request $request)
+    {
+        // dd($request->all());
+        $t_code = $request->t_code;
+        $service_id = $request->service_id;
+        $orderDetails = DB::table('orders')
+            ->join('payments', 'orders.t_code', '=', 'payments.t_code')
+            ->join('users', 'payments.user_id', '=', 'users.id')
+            ->join('services', 'orders.service_id', '=', 'services.id')
+            ->join('user_types', 'users.user_type_id', '=', 'user_types.id')
+            ->select(
+                'orders.id as order_id',
+                'users.id as user_id',
+                'users.name as user_name',
+                'users.email as user_email',
+                'users.contact_number as user_phone',
+                'users.address as user_address',
+                'payments.payment_type',
+                'payments.t_code as t_code',
+                'payments.total_amount as payment_amount',
+                'payments.payment_status as payment_status',
+                'orders.status as order_status',
+                DB::raw('DATE(payments.created_at) as order_date'),
+                'orders.order_quantity',
+                'orders.order_amount',
+                'services.id as service_id',
+                'services.service_name',
+                'services.service_price',
+                'user_types.user_type_name'
+            )
+            ->where('payments.t_code', '=', $t_code)
+            ->where('services.id', '=', $service_id)
+            ->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Order Details',
+            'data' => $orderDetails,
+        ]);
     }
 
     /**
@@ -522,8 +567,10 @@ class UserController extends Controller
             $data = DB::table('reviews')
                 ->where('user_id', $id)
                 ->where('service_id', $serviceId)
+                ->where('t_code', $t_code)
                 ->first();
             if ($data) {
+                dd('already reviewed');
                 return redirect()->back()->with('error', 'You have already reviewed this service.');
             }
 
@@ -541,7 +588,18 @@ class UserController extends Controller
                 'message' => 'Review posted successfully.',
             ]);
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return redirect()->back()->with('error', 'Failed to post review.');
         }
+    }
+
+    function paymentSucesPage()
+    {
+        return view('customer.paymentSucesspage');
+    }
+
+    function paymentFailPage()
+    {
+        return view('customer.paymentFailpage');
     }
 }

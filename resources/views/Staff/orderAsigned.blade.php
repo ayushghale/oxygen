@@ -98,8 +98,11 @@
                     </div>
                 </form>
                 <div class="date">
-                    <button class="search"><a href="{{ route('staff.orderAsigned') }}"><i
-                                class="fa-solid fa-broom"></i></a></button>
+                    <button class="search" >
+                        <a href="{{ route('staff.orderAsigned') }}">
+                            <i class="fa-solid fa-broom" style="color: white"></i>
+                        </a>
+                    </button>
                 </div>
             </div>
             <div class="overflow-tables" style="width: 100%!important; overflow-x:auto!important;">
@@ -187,9 +190,12 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('staff.orderDone', ['tCode' => $assignedOrderDetail['t_code'], 'id' => $assignedOrderDetail['id']]) }}"
-                                        class="edit">Mark as Done</a>
+                                        class="edit"><button class="accept-user">Done</button>
+                                    </a>
+
                                     <a href="{{ route('staff.orderCancel', ['id' => $assignedOrderDetail['id']]) }}"
-                                        class="edit"><button class="delete">Cancel</button></a>
+                                        class="edit"><button class="delete-user"
+                                            style="margin-top: 10px">Cancel</button></a>
 
                                     {{-- <a href="{{ route('staff.orderDone', ['id' => $assignedOrderDetail['id']]) }}"
                                         class="edit">Mark as Done</a> --}}
