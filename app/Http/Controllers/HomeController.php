@@ -33,6 +33,6 @@ class HomeController extends Controller
         }
         $userTypes = UserType::all()
         ->where('status', '=', 1);
-        return view('index', compact('userTypes','username'));
+        return view('frontend.index', compact('userTypes','username'));
     }
 }

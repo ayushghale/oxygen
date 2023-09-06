@@ -46,7 +46,7 @@ Route::prefix('user')->middleware('userAuth')->group(function () {
     // cart
     Route::get('/cart', [UserController::class, 'cart'])->name('user.cart');
     // add to cart
-    Route::post('/addToCart', [UserController::class, 'addToCart'])->name('user.addToCart'); 
+    Route::post('/addToCart', [UserController::class, 'addToCart'])->name('user.addToCart');
     // remove from cart
     Route::get('/removeFromCart/{basket_id}', [UserController::class, 'removeFromCart'])->name('removeFromCart');
     // checkout
@@ -82,9 +82,9 @@ Route::prefix('user')->middleware('userAuth')->group(function () {
 // user 
 Route::prefix('user')->group(function () {
     // user register
-    Route::post('/register', [UserAuthController::class, 'registerUser']);
+    Route::post('/register', [UserAuthController::class, 'registerUser'])->name('registerUser');
     // user login
-    Route::post('/login', [UserAuthController::class, 'loginUser']);
+    Route::post('/login', [UserAuthController::class, 'loginUser'])->name('loginUser');
 
     Route::get('/changepassword', [UserAuthController::class, 'changepassword'])->name('user.changepassword');
     // user forget password
@@ -92,11 +92,19 @@ Route::prefix('user')->group(function () {
     // user forget password post
     Route::post('/forgetPassword', [UserAuthController::class, 'forgetPasswordData'])->name('user.forgetPasswordData');
 
-    // user otp page
-    Route::get('/otp', [UserAuthController::class, 'otpPage'])->name('user.otpPage');
+    Route::middleware('forgotPassword')->group(function () {
+        // user otp page
+        Route::get('/otp', [UserAuthController::class, 'otpPage'])->name('user.otpPage');
 
-    // user reset password post
-    Route::post('/otp/{token}', [UserAuthController::class, 'resetPasswordOtpData'])->name('user.resetPasswordOtpData');
+        // user reset password post
+        Route::post('/otp', [UserAuthController::class, 'resetPasswordOtpData'])->name('user.resetPasswordOtpData');
+
+        // // user reset password
+        Route::get('/resetPassword', [UserAuthController::class, 'resetPassword'])->name('user.resetPassword');
+
+        // user reset password post
+        Route::post('/resetPassword', [UserAuthController::class, 'resetPasswordData'])->name('user.resetPasswordData');
+    });
 });
 
 
@@ -143,7 +151,6 @@ Route::prefix('staff')->middleware('staffAuth')->group(function () {
     // staff order done
     // Route::get('/orderDone/{id}/', [StaffController::class, 'orderDone'])->name('staff.orderDone');
     Route::get('/orderDone/{tCode}/{id}', [StaffController::class, 'orderDone'])->name('staff.orderDone');
-
 });
 
 
@@ -160,7 +167,6 @@ Route::prefix('admin')->group(function () {
     // register post
     Route::post('/register', [AdminAuthController::class, 'adminRegister'])->name('admin.registeData');
 });
-
 
 
 
@@ -241,7 +247,7 @@ Route::prefix('admin')->middleware('adminAuth')->group(function () {
 
     // order status cancel
     Route::get('/cancelOrder', [AdminController::class, 'cancelOrder'])->name('admin.asignedOrderCancel');
-    
+
 
     // =====================================================================================================================
     // staff 

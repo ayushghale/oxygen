@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\EmailVerification;
 use App\Models\User;
+use App\Models\UserType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -12,10 +14,14 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use PharIo\Manifest\Email;
 use Stringable;
 
 class UserAuthController extends Controller
 {
+    /**
+     *  user login page
+     */
     public function generateUniqueID()
     {
         $today = date('YmdHi');
@@ -31,6 +37,35 @@ class UserAuthController extends Controller
         return $sid;
     }
 
+    /**
+     *  user type
+     */
+    public function userType()
+    {
+        $userTypes = UserType::all()
+            ->where('status', '=', 1);
+
+        return $userTypes;
+    }
+
+    /**
+     *  otp code generate
+     */
+    public function otpCodeGenerate(){
+        $otpCode = rand(1000, 9999);
+        $exist = EmailVerification::where('token', $otpCode)->first();
+
+        if($otpCode){
+            $this->otpCodeGenerate();
+        }else{
+            return $otpCode;
+        }
+
+    }
+
+    /**
+     *  register user
+     */
     public function registerUser(Request $request)
     {
         try {
@@ -81,6 +116,9 @@ class UserAuthController extends Controller
         }
     }
 
+    /**
+     *  login user
+     */
     public function loginUser(Request $request)
     {
         $validate = Validator::make($request->all(), [
@@ -140,6 +178,9 @@ class UserAuthController extends Controller
         }
     }
 
+    /**
+     *  logout user
+     */
     public function logout()
     {
         if (Session::has('userLogedIn')) {
@@ -148,64 +189,152 @@ class UserAuthController extends Controller
         }
     }
 
+    // ==========================================================================================================================
+    // forget password
+
+    /**
+     *  forget password page
+     */
     public function forgetPassword()
     {
-        return view('customer.auth.forgetpassword');
+        $userTypes = $this->userType();
+        return view('frontend.auth.forgetpassword', compact('userTypes'));
     }
+
+    /**
+     *  change password page
+     */
     public function changepassword()
     {
-        return view('customer.auth.changepassword');
+        $userTypes = $this->userType();
+        return view('frontend.auth.changepassword', compact('userTypes'));
     }
 
+    /**
+     *  forget password data
+     */
     public function forgetPasswordData(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-        ]);
-        
-        $email = strtolower($request->input('email'));
-        $user = User::where('email', $email)->first();
+        try {
+            $request->validate([
+                'email' => 'required|email | exists:users,email',
+            ]);
 
-        if (!$user) {
-            return redirect()->back()->with('message', 'This email is not registered yet!');
+
+            $email = strtolower($request->input('email'));
+            $user = User::where('email', $email)->first();
+
+
+            $request->session()->put('ForgetUserEmail', $email);
+            $request->session()->save();
+
+            $otpCode = $this->otpCodeGenerate();
+
+            $tcode = $this->generateUniqueID();
+
+            $userEmail= EmailVerification::where('email', $email)->first();
+
+            if(!$userEmail){
+                $forgetPassword = new EmailVerification();
+                $forgetPassword->email = $email;
+                $forgetPassword->token = $otpCode;
+                $forgetPassword->save();
+            }else{
+                $userEmail->token = $otpCode;
+                $userEmail->save();
+            }
+
+            session()->put('ForgetUserEmail', $email);
+            session()->save();
+            $data = [
+                'otpCode' => $otpCode,
+                'email' => $email,
+            ];
+
+            Mail::send('email.forgetPassword', $data, function ($message) use ($data) {
+                $message->to($data['email']);
+                $message->from(env('MAIL_USERNAME'));
+                $message->subject('Password Reset Link form Oxygen ');
+            });
+
+            return redirect()->route('user.otpPage')->with('message', 'Please check your email for password reset instructions.');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
-
-        $request->session()->put('sessionUserEmail', $user->email);
-        $request->session()->save();
-
-        $data = [
-            'url' => route('user.changepassword'),
-            'email' => $email,
-        ];
-
-        Mail::send('email.forgetPassword', $data, function ($message) use ($data) {
-            $message->to($data['email']);
-            $message->from(env('MAIL_USERNAME'));
-            $message->subject('Password Reset Link form Oxygen ');
-        });
-
-        return redirect('/')->with('message', 'Please check your email for password reset instructions.');
     }
-   
 
-    public function otpPage($token)
+    /**
+     *  otp page 
+     */
+    public function otpPage()
     {
-        return view('customer.auth.otpCode', ['token' => $token]);
-    } 
+        $userTypes = $this->userType();
+        return view('frontend.auth.otp', compact('userTypes'));
+    }
 
-    public function resetPasswordOtpData(Request $request,$token)
+    /**
+     *  otp data data
+     */
+    public function resetPasswordOtpData(Request $request)
     {
+        // dd($request->all());
         $request->validate([
-            'otp' => 'required',
+            'first' => 'required',
+            'second' => 'required',
+            'third' => 'required',
+            'fourth' => 'required',
         ]);
 
-        $code= $request->otp;
+        $code = $request->first . $request->second . $request->third . $request->fourth;
 
-        $token = DB::table('password_reset_tokens')->where('token', '=', $code)->first();
-        dd($token);
-        if (!$token) {
+        
+
+        $email = session()->get('ForgetUserEmail');
+
+        $user = EmailVerification::where('email', $email)->first();
+        
+        if ($user->token != $code) {
+            dd('invalid');
             return redirect()->back()->with('error', 'Invalid token');
         }
-        return view('customer.auth.resetpasswordotp', ['token' => $token]);
+
+        $user->delete();
+
+        return redirect()->route('user.resetPassword')->with('message', 'Please enter your new password');
+    }
+
+    /**
+     *  reset password page
+     */
+    public function resetPassword ()
+    {
+        $userTypes = $this->userType();
+        return view('frontend.auth.changePassword', compact('userTypes'));
+    }
+
+    /**
+     *  reset password data
+     */
+    public function resetPasswordData(Request $request)
+    {
+        try{
+        $request->validate([
+            'password' => 'required | same:conform_password',
+            'conform_password' => 'required | same:password',
+        ]);
+
+        $email = session()->get('ForgetUserEmail');
+
+        $user = User::where('email', $email)->first();
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        session()->forget('ForgetUserEmail');
+
+        return redirect()->to('/')->with('message', 'Password changed successfully');
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', 'Password not changed');
+        }
     }
 }

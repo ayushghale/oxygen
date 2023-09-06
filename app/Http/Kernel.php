@@ -59,6 +59,8 @@ class Kernel extends HttpKernel
         'staffAuth' => \App\Http\Middleware\StaffAuth::class,
         // user middleware
         'userAuth' => \App\Http\Middleware\UserAuth::class,
+        // forgot password middleware
+        'forgotPassword' => \App\Http\Middleware\ForgotPassword::class,
 
         
         'auth' => \App\Http\Middleware\Authenticate::class,
