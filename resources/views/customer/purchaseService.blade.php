@@ -41,7 +41,11 @@
                             <td>{{ $i }}</td>
                             <td><img src="{{ asset($service->service_image) }}" style="width: 150px" alt=""></td>
                             <td>{{ $service->service_name }}</td>
-                            <td><input type="number" class="quantity-input" placeholder="Quantity" min="1"></td>
+                            <td>
+                                <input type="number" class="quantity-input" placeholder="Quantity" min="1">
+                                <p id="inValidQuantity" class="error"></p>
+                            </td>
+
                             <td class="service-price">{{ $service->service_price }}</td>
                             <td class="total-price">Rs. 0</td>
                             <td>
@@ -94,8 +98,12 @@
 
 
             if (quantity <= 0 || isNaN(quantity)) {
-                alert('Please enter a valid quantity');
+                document.getElementById("inValidQuantity").innerText = "Quantity must be greater than 0";
+                document.getElementById("inValidQuantity").style.display = "block";
                 return; // Exit the function
+            }
+            else{
+                document.getElementById("inValidQuantity").style.display = "none";
             }
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -124,7 +132,7 @@
                 },
                 error: function(response) {
                     console.log(response);
-                    alert('Something went wrong');
+                    console.log('Something went wrong');
                 }
             });
         });

@@ -4,6 +4,43 @@ $currentNav = 'staff';
 ?>
 
 @include('admin.include.header')
+
+<!--Modal Align Tasks-->
+<div id="aligntask-modal" class="aligntask-modal">
+    <div class="aligntask-modal-content" style="width: 500px">
+        <span class="aligntask-close" onclick="closeModel('aligntask-modal');">&times;</span>
+        <input type="hidden" id="staffId" value="">
+        <div
+            style="
+            display: flex;
+            justify-content: center;
+            align-items: center;  
+            border-radius: 200px; 
+            height: 200px; width: 
+            200px; background: #e7fee7;  
+            color:rgb(255, 0, 0); 
+            margin:50px auto;
+             ">
+            <i class="ri-close-line cross" style="font-size: 150px;"></i>
+        </div>
+        <div style="text-align: center">
+            <h2 >Are you Sure ?</h2>
+            <p>You are not able to recover this data</p>
+        </div>
+        <div style="display: flex; justify-content: space-around; padding-top:20px ">
+            <button  class="accept-user" style="margin-top: 10px; width:150px"
+            onclick="closeModel('aligntask-modal')">
+                Cancell
+            </button>
+            <button onclick="deleteService()" class="delete-user" style="margin-top: 10px; width:150px">
+                Delete
+            </button>
+        </div>
+
+
+    </div>
+</div>
+<!--Modal Align Tasks-->
 <div class="admin-container">
     @include('admin.include.sidebar')
 
@@ -52,10 +89,10 @@ $currentNav = 'staff';
                                         Edit
                                     </a>
                                 </button>
-                                <button class="delete-user">
-                                    <a href="{{ route('admin.deleteStaff', ['id' => $staffDetail->id]) }}"
-                                        style="color: white">Delete</a>
-                                </button>
+                                <button class="delete-user" 
+                                        onclick="shoModel('aligntask-modal', '{{ $staffDetail->id }}')">
+                                        Delete
+                                    </button>
                             </td>
                             
                         @endforeach
@@ -66,4 +103,21 @@ $currentNav = 'staff';
         </div>
     </section>
 </div>
+<script>
+    function shoModel(tagNameId, staffId) {
+        console.log(staffId);
+        document.getElementById("staffId").value = staffId;
+        document.getElementById(tagNameId).style.display = 'block';
+    }
+
+    function closeModel(tagNameId) {
+        document.getElementById(tagNameId).style.display = 'none';
+    }
+
+    function deleteService() {
+        var staffId = document.getElementById("staffId").value;
+        console.log(staffId);
+        window.location.href = "/admin/deleteService/" + staffId;
+    }
+</script>
 @include('admin.include.footer')

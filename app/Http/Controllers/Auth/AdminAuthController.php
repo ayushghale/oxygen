@@ -55,7 +55,7 @@ class AdminAuthController extends Controller
     /**
      * admin register credentials
      */
-    public function adminRegister(Request $request)
+    public function adminRegister(Request $request) 
     {
         // dd($request->all());
         $request->validate([

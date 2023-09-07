@@ -247,9 +247,7 @@ $currentNav = 'orderList';
         });
     });
 </script>
-
-
-
+{{-- model pup up --}}
 <script>
     function shoModel(tagNameId, tCode) {
         console.log(tCode);

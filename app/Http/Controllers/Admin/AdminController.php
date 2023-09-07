@@ -324,6 +324,7 @@ class AdminController extends Controller
             'description' => 'required ',
             'image' => 'required | mimes:jpg,png,jpeg | max:5048',
         ]);
+        
         try {
             $profilePicture = $request->file('image');
 
@@ -522,7 +523,7 @@ class AdminController extends Controller
             'success' => true,
             'message' => 'Order Details',
             'data' => $orderDetails,
-        ]);
+        ]); 
     }
 
     /**

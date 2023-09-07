@@ -237,7 +237,7 @@
                 service_id: orderServiceId,
             };
 
-            alert('Order T Code: ' + orderTCode + ' Service ID: ' + orderServiceId);
+            console.log('Order T Code: ' + orderTCode + ' Service ID: ' + orderServiceId);
 
             $.ajaxSetup({
                 headers: {
@@ -273,12 +273,12 @@
 
                         // alert(response.message);
                     } else {
-                        alert(response.message);
+                        console.log(response.message);
                     }
                 },
                 error: function(response) {
                     console.log(response);
-                    alert('Something went wrong');
+                    console.log('Something went wrong');
                 }
             });
 
@@ -332,14 +332,14 @@
                     var message = response.message;
 
 
-                    alert('sweetMessage sent');
+                    console.log('sweetMessage sent');
 
                     if (message) {
-                        alert(message);
+                        console.log(message);
 
-                        alert('done');
+                        console.log('done');
                     } else {
-                        alert(response.message);
+                        console.log(response.message);
                     }
 
                     // Close the modal and reload the page
@@ -348,11 +348,11 @@
                 },
                 error: function(response) {
                     console.log(response);
-                    alert('Something went wrong');
+                    console.log('Something went wrong');
                 }
             });
         } else {
-            alert('Please select a rating and provide a review.');
+            console.log('Please select a rating and provide a review.');
         }
     });
 </script>

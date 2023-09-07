@@ -24,11 +24,23 @@
         </div>
 
         <div class="table-profile">
-            <div class="date">
-                <input type="date">
-                <p>To</p>
-                <input type="date">
-                <button class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div style="display: flex">
+                <form action="{{ route('user.orderToRecive') }}" method="GET">
+                    @csrf
+                    <div class="date">
+                        <input type="date" name="startDate">
+                        <p>To</p>
+                        <input type="date" name="endDate">
+                        <button class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
+                <div class="date">
+                    <button class="search" >
+                        <a href="{{ route('staff.orderAsigned') }}">
+                            <i class="fa-solid fa-broom" style="color: white"></i>
+                        </a>
+                    </button>
+                </div>
             </div>
             <table id="tables">
                 <tr>

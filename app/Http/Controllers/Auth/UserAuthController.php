@@ -51,16 +51,16 @@ class UserAuthController extends Controller
     /**
      *  otp code generate
      */
-    public function otpCodeGenerate(){
+    public function otpCodeGenerate()
+    {
         $otpCode = rand(1000, 9999);
         $exist = EmailVerification::where('token', $otpCode)->first();
 
-        if($otpCode){
+        if ($otpCode) {
             $this->otpCodeGenerate();
-        }else{
+        } else {
             return $otpCode;
         }
-
     }
 
     /**
@@ -71,12 +71,12 @@ class UserAuthController extends Controller
         try {
             $validate = Validator::make($request->all(), [
                 'name' => 'required',
-                'contact_number' => 'required | min:10 | max:10 | unique:users',
+                'contact_number' => 'required | min:10 | unique:users',
                 'email' => 'required | email | unique:users',
-                'password' => 'required',
+                'password' => 'required | same:conform_password',
                 'conform_password' => 'required | same:password',
                 'address' => 'required',
-                'user_type_id' => 'required',
+                'user_type_id' => 'required | exists:user_types,id',
             ]);
             if ($validate->fails()) {
                 // Return JSON response with errors and HTTP status code 422 (Unprocessable Entity)
@@ -90,7 +90,6 @@ class UserAuthController extends Controller
             $user_email = $request->email;
             $user_contact_number = $request->contact_number;
             $user_password = $request->password;
-            $user_c_password = $request->conform_password;
 
 
             $user = new User();
@@ -101,6 +100,10 @@ class UserAuthController extends Controller
             $user->contact_number = $user_contact_number;
             $user->password = Hash::make($user_password);
             $user->save();
+
+            $user = User::where('email', '=', $user_email)->first();
+            $request->session()->put('userLogedIn', $user->id);
+            
 
             return response()->json([
                 'success' => true,
@@ -122,7 +125,7 @@ class UserAuthController extends Controller
     public function loginUser(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'email' => 'required|email | exists:users',
             'password' => 'required',
         ]);
         if ($validate->fails()) {
@@ -132,42 +135,33 @@ class UserAuthController extends Controller
                 'errors' => $validate->errors(),
             ], 422);
         }
+        $user = User::where('email', '=', $request->email)->first();
         try {
-            $user = User::where('email', '=', $request->email)->first();
-            if ($user) {
-                // dd($user);
-                if ($user->status == 0) {
-                    // dd('inactive');
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'User Account is not active',
-                        'errors' => 'User Account is not active',
-                    ], 403);
-                }
-                if (Hash::check($request->password, $user->password)) {
-                    $request->session()->put('userLogedIn', $user->id);
-                    // return redirect()->to('dashboard');
-                    return response()->json([
-                        'success' => true,
-                        'message' => 'User dashboard loged in',
-                        'session' => session()->get('userLogedIn')
-                    ]);
-                } else {
-                    // return redirect()->back()->with('fail','Incorrect Password');
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Please enter correct password',
-                        'errors' => 'Incorrect Password',
-
-                    ], 401);
-                }
-            } else {
-                // return redirect()->back()->with('fail','No Account Found for this Email');
+            // dd($user);
+            if ($user->status == 0) {
+                // dd('inactive');
                 return response()->json([
                     'success' => false,
-                    'message' => 'Account not found for this Email',
-                    'errors' => 'Email not found',
-                ], 404);
+                    'message' => 'User Account is not active',
+                    'errors' => 'User Account is not active',
+                ], 403);
+            }
+            if (Hash::check($request->password, $user->password)) {
+                $request->session()->put('userLogedIn', $user->id);
+                // return redirect()->to('dashboard');
+                return response()->json([
+                    'success' => true,
+                    'message' => 'User dashboard loged in',
+                    'session' => session()->get('userLogedIn')
+                ]);
+            } else {
+                // return redirect()->back()->with('fail','Incorrect Password');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Please enter correct password',
+                    'errors' => 'Incorrect Password',
+
+                ], 401);
             }
         } catch (\Exception $e) {
             return response()->json([
@@ -215,37 +209,38 @@ class UserAuthController extends Controller
      */
     public function forgetPasswordData(Request $request)
     {
+        // dd($request->all());
+        $request->validate([
+            'email' => 'required|email ',
+        ]);
         try {
-            $request->validate([
-                'email' => 'required|email | exists:users,email',
-            ]);
-
 
             $email = strtolower($request->input('email'));
+
+            // dd($email);
             $user = User::where('email', $email)->first();
 
+            // dd($user);
+            if (!$user) {
+                return redirect()->back()->with('error', 'Email not found');
+            }
 
             $request->session()->put('ForgetUserEmail', $email);
-            $request->session()->save();
 
-            $otpCode = $this->otpCodeGenerate();
+            $otpCode  = rand(1000, 9999);
 
-            $tcode = $this->generateUniqueID();
 
-            $userEmail= EmailVerification::where('email', $email)->first();
+            $userEmail = EmailVerification::where('email', $email)->first();
 
-            if(!$userEmail){
+            if (!$userEmail) {
                 $forgetPassword = new EmailVerification();
                 $forgetPassword->email = $email;
                 $forgetPassword->token = $otpCode;
                 $forgetPassword->save();
-            }else{
+            } else {
                 $userEmail->token = $otpCode;
                 $userEmail->save();
             }
-
-            session()->put('ForgetUserEmail', $email);
-            session()->save();
             $data = [
                 'otpCode' => $otpCode,
                 'email' => $email,
@@ -259,7 +254,7 @@ class UserAuthController extends Controller
 
             return redirect()->route('user.otpPage')->with('message', 'Please check your email for password reset instructions.');
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            return redirect()->back()->with('error', 'Email not found');
         }
     }
 
@@ -287,12 +282,12 @@ class UserAuthController extends Controller
 
         $code = $request->first . $request->second . $request->third . $request->fourth;
 
-        
+
 
         $email = session()->get('ForgetUserEmail');
 
         $user = EmailVerification::where('email', $email)->first();
-        
+
         if ($user->token != $code) {
             dd('invalid');
             return redirect()->back()->with('error', 'Invalid token');
@@ -306,7 +301,7 @@ class UserAuthController extends Controller
     /**
      *  reset password page
      */
-    public function resetPassword ()
+    public function resetPassword()
     {
         $userTypes = $this->userType();
         return view('frontend.auth.changePassword', compact('userTypes'));
@@ -317,23 +312,23 @@ class UserAuthController extends Controller
      */
     public function resetPasswordData(Request $request)
     {
-        try{
-        $request->validate([
-            'password' => 'required | same:conform_password',
-            'conform_password' => 'required | same:password',
-        ]);
+        try {
+            $request->validate([
+                'password' => 'required | same:conform_password',
+                'conform_password' => 'required | same:password',
+            ]);
 
-        $email = session()->get('ForgetUserEmail');
+            $email = session()->get('ForgetUserEmail');
 
-        $user = User::where('email', $email)->first();
+            $user = User::where('email', $email)->first();
 
-        $user->password = Hash::make($request->password);
-        $user->save();
+            $user->password = Hash::make($request->password);
+            $user->save();
 
-        session()->forget('ForgetUserEmail');
+            session()->forget('ForgetUserEmail');
 
-        return redirect()->to('/')->with('message', 'Password changed successfully');
-        }catch(\Exception $e){
+            return redirect()->to('/')->with('message', 'Password changed successfully');
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Password not changed');
         }
     }

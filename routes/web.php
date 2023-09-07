@@ -76,6 +76,9 @@ Route::prefix('user')->middleware('userAuth')->group(function () {
     Route::get('/paymentSuccess', [UserController::class, 'paymentSucesPage'])->name('user.paymentSuccess');
     // payment failed
     Route::get('/paymentFailed', [UserController::class, 'paymentFailPage'])->name('user.paymentFailed');
+
+
+    // 
 });
 
 

@@ -14,9 +14,9 @@ class HomeController extends Controller
     {
         // dd('Hello World');
         $id = session()->get('userLogedIn');
-
         if ($id) {
             $user = User::find($id);
+            
             $userstatus = DB::table('users')
                 ->where('id', $id)
                 ->value('status');
@@ -27,6 +27,8 @@ class HomeController extends Controller
             $username= DB::table('users')
                 ->where('id', $id)
                 ->value('name');
+
+            return redirect()->route('user.dashboard');
         }else
         {
             $username = null;

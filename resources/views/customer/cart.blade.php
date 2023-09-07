@@ -41,7 +41,8 @@
                         alt=""></label>
             </div>
             <div class="buton-sub-pay">
-                <button class="online-pay-btn pay-with-cash" id="payNow"><span id="paymentAmount">10</span></button>
+                <button class="online-pay-btn pay-with-cash" id="payNow">Pay : <span
+                        id="paymentAmount">10</span></button>
             </div>
         </div>
     </div>
@@ -56,63 +57,98 @@
 </div>
 <!---Path-->
 
-<!---User Container-->
+
 <div class="container profile-inline">
     {{-- sidebar --}}
     @include('customer.include.sidebar')
     {{-- sidebar end --}}
 
-    <div class="container ">
-        <h2>Cart <i class="fa-solid fa-cart-shopping"></i></h2>
-        <div class="cart-containers">
-            <table id="tables">
-                <tr>
-                    <th>S.N</th>
-                    <th>Product Information</th>
-                    <th>Quantity</th>
-                    <th>Amount Per Rate</th>
-                    <th>Total Amount</th>
-                    <th>Remove This</th>
-                </tr>
-                @foreach ($cartDatas as $cartData)
-                    <tr class="cart-item">
-                        <td>{{ $loop->iteration }}</td>
-                        <td>
-                            <div class="infromation-inline">
-                                <img src="{{ asset('oxygen/resources/images/ser-image.png') }}" alt="">
-                                <p>{{ $cartData->service_name }}</p>
-                            </div>
-                        </td>
-                        <!-- Move the input inside the <td> tag -->
-                        <td>{{ $cartData->quantity }}</td>
-                        <input type="hidden" class="quantity-input" value="{{ $cartData->quantity }}" min="1">
-                        <td>Rs {{ $cartData->service_price }}</td>
-                        <td class="total-amount">Rs. {{ $cartData->totalAmount }}</td>
-                        {{-- remove single basket --}}
-                        <td>
-                            <a href="{{ url('user/removeFromCart/' . $cartData->basket_id) }}">
-                                <button class="remove">Remove <i class="fa-solid fa-xmark"></i></button>
-                            </a>
-                        </td>
-                        <!-- Move the input inside the <td> tag -->
-                        <input type="hidden" class="serviceId" value="{{ $cartData->service_id }}">
-                        <input type="hidden" class="basket_id remove_id " value="{{ $cartData->basket_id }}">
+
+    {{-- user credincals form --}}
+    @if (count($cartDatas) > 0)
+        <div class="container ">
+            <h2>Cart <i class="fa-solid fa-cart-shopping"></i></h2>
+            <div class="cart-containers">
+                <table id="tables">
+                    <tr>
+                        <th>S.N</th>
+                        <th>Product Information</th>
+                        <th>Quantity</th>
+                        <th>Amount Per Rate</th>
+                        <th>Total Amount</th>
+                        <th>Remove This</th>
                     </tr>
-                @endforeach
-                <input type="hidden" id="user_id" value="{{ $id }}">
-                <tr>
-                    <td colspan="5" class="all-amount"><b>Total Amount :</b>Rs. <span id="totalAmount">10</span></td>
-                    <td><a href="{{ route('user.removeAllFromCart') }}"><button class="remove remove-all">Remove All <i class="fa-solid fa-xmark"></i></button></a></td>
-                </tr>
-            </table>
-            <div class="pay-button1">
-                <button id="paymentModalBtn">Pay Now</button>
+                    @foreach ($cartDatas as $cartData)
+                        <tr class="cart-item">
+                            <td>{{ $loop->iteration }}</td>
+                            <td>
+                                <div class="infromation-inline">
+                                    <img src="{{ asset('oxygen/resources/images/ser-image.png') }}" alt="">
+                                    <p>{{ $cartData->service_name }}</p>
+                                </div>
+                            </td>
+                            <!-- Move the input inside the <td> tag -->
+                            <td>{{ $cartData->quantity }}</td>
+                            <input type="hidden" class="quantity-input" value="{{ $cartData->quantity }}"
+                                min="1">
+                            <td>Rs {{ $cartData->service_price }}</td>
+                            <td class="total-amount">Rs. {{ $cartData->totalAmount }}</td>
+                            {{-- remove single basket --}}
+                            <td>
+                                <a href="{{ url('user/removeFromCart/' . $cartData->basket_id) }}">
+                                    <button class="remove">Remove <i class="fa-solid fa-xmark"></i></button>
+                                </a>
+                            </td>
+                            <!-- Move the input inside the <td> tag -->
+                            <input type="hidden" class="serviceId" value="{{ $cartData->service_id }}">
+                            <input type="hidden" class="basket_id remove_id " value="{{ $cartData->basket_id }}">
+                        </tr>
+                    @endforeach
+                    <input type="hidden" id="user_id" value="{{ $id }}">
+                    <tr>
+                        <td colspan="5" class="all-amount"><b>Total Amount :</b>Rs. <span id="totalAmount">10</span>
+                        </td>
+                        <td><a href="{{ route('user.removeAllFromCart') }}"><button class="remove remove-all">Remove
+                                    All <i class="fa-solid fa-xmark"></i></button></a></td>
+                    </tr>
+                </table>
+                <div class="pay-button1">
+                    <button id="paymentModalBtn">Pay Now</button>
+                </div>
             </div>
         </div>
-    </div>
+    @else
+        <div class="profile-containers" style="border: none">
+            <div class="payment-unsucessfull">
+                <div class="card">
+                    <div
+                        style="
+                        border-radius: 200px;
+                        height: 200px;
+                        width: 200px;
+                        background: #f8faf5;
+                        margin: 0 auto;
+                    ">
+                        <i class="ri-close-line cross"></i>
+                    </div>
+                    <h2 class="unsuccess">Cart is Empty</h2>
+                    <p>
+                        Please Add Service<br />
+                    </p>
+                    <a href="{{ route('user.purchaseService') }}"><button style="background-color: rgb(218, 10, 34)">
+                            Add service 
+                        </button></a>
+                </div>
+            </div>
+
+        </div>
+    @endif
+    {{-- form end --}}
+
 </div>
 
 {{-- js to remove all basket data --}}
+
 {{-- <script>
     $(document).ready(function() {
         const basketIds = [];
@@ -293,7 +329,8 @@
                         console.log(data.message);
                     }
                     window.location.href = "{{ route('user.paymentSuccess') }}";
-                },error: function(response) {
+                },
+                error: function(response) {
                     console.log(response);
                     alert('Something went wrong');
                     window.location.href = "{{ route('user.paymentFailed') }}";

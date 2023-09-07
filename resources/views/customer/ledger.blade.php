@@ -21,38 +21,23 @@
             <h2>Ledger</h2>
         </div>
         <div class="profile-information">
-            <div class="profile-container">
-                <div class="profile-label">
-                    <label for="">Your Purchase Product:</label>
-                </div>
-                <input type="text" placeholder="Purchase Product">
-            </div>
-            <div class="profile-container">
-                <div class="profile-label">
-                    <label for="">Purchase Date:</label>
-                </div>
+            <div style="display: flex">
+                <form action="{{ route('staff.orderAsigned') }}" method="GET">
+                    @csrf
+                    <div class="date">
+                        <input type="date" name="startDate">
+                        <p>To</p>
+                        <input type="date" name="endDate">
+                        <button class="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </form>
                 <div class="date">
-                    <input type="date">
-                    <p style="padding-top: 15px;">To</p>
-                    <input type="date">
+                    <button class="search" >
+                        <a href="{{ route('staff.orderAsigned') }}">
+                            <i class="fa-solid fa-broom" style="color: white"></i>
+                        </a>
+                    </button>
                 </div>
-            </div>
-
-            <!-- <div class="profile-container">
-                <div class="profile-label">
-                    <label for="">Show :</label>
-                </div>
-                <select class="show-record">
-                    <option value="0">Show Records Of :</option>
-                    <option value="1">10 Records</option>
-                    <option value="2">20 Records</option>
-                    <option value="3">40 Records</option>
-                    <option value="4">All Records</option>
-                </select>
-            </div> -->
-
-            <div class="button-update">
-                <button class="profile-button">Search</button>
             </div>
 
             <div class="records-table-show" style="width: 100%;">

@@ -65,7 +65,6 @@ $currentNav = 'service';
                             </div>
                             <!-- <input type="text"  placeholder="Register Service As"> -->
                             <select name="user_type_id">
-                                <option value="0">Register As:</option>
                                 @if (@$serviceDetail)
                                     @foreach ($userTypes as $userType)
                                         @if ($userType->id == $serviceDetail->user_type_id)
@@ -80,6 +79,11 @@ $currentNav = 'service';
                                         <option value="{{ $userType->id }}">{{ $userType->user_type_name }}</option>
                                     @endforeach
                                 @endif
+                                @error('user_type_id')
+                                    <div class="error" role="alert">
+                                        <span class="text-danger">{{ $message }}</span>
+                                    </div>
+                                @enderror
                             </select>
                         </div>
                         <div class="add-input-container">
@@ -88,34 +92,58 @@ $currentNav = 'service';
                             </div>
                             <input type="text" placeholder="Enter Service Name" name="name"
                                 value="@if (@$serviceDetail) {{ $serviceDetail->service_name }} @endif">
+                            @error('name')
+                                <div class="error" role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
                         <div class="add-input-container">
                             <div class="profile-label">
                                 <label for="">Price:</label>
                             </div>
-                            <input type="text" placeholder="Enter Price" name="price"
+                            <input type="text" placeholder="Enter Price" name="price" id="price"
                                 value="@if (@$serviceDetail) {{ $serviceDetail->service_price }} @endif">
+                            @error('price')
+                                <div class="error" role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
                         <div class="add-input-container">
                             <div class="profile-label">
                                 <label for="">Change Profile Picture:</label>
                             </div>
                             <input type="file" style="border: none; width: auto;" name="image">
+                            @error('image')
+                                <div class="error" role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
                         @if (@$serviceDetail)
                             <div class="add-input-container">
                                 <div class="profile-label">
                                     <label for="">Current Image:</label>
                                 </div>
-                                <img src="{{ asset($serviceDetail->service_image) }}" style="width: 200px" alt="">
+                                <img src="{{ asset($serviceDetail->service_image) }}" style="width: 200px"
+                                    alt="">
                             </div>
                         @endif
                         <div class="product-desc">
                             <div class="profile-label">
                                 <label for="">Product Description:</label>
                             </div>
-                            <textarea placeholder="Describe The Product" 
-                            name="description">@if (@$serviceDetail){{ $serviceDetail->service_description }}@endif</textarea>
+                            <textarea placeholder="Describe The Product" name="description">
+@if (@$serviceDetail)
+{{ $serviceDetail->service_description }}
+@endif
+</textarea>
+                            @error('description')
+                                <div class="error" role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <button class="add-items">
@@ -127,4 +155,17 @@ $currentNav = 'service';
         </div>
     </section>
 </div>
+
+<script>
+    var priceInput = document.getElementById('price');
+
+    priceInput.addEventListener('input', function() {
+        var inputValue = this.value;
+
+        var numericValue = inputValue.replace(/[^0-9]/g, '');
+
+        this.value = numericValue;
+    });
+</script>
+
 @include('admin.include.footer')

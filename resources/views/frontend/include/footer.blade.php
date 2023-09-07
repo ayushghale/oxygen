@@ -64,7 +64,7 @@ function registerUser() {
         var user_type_id = document.getElementById("user_type_id").value;
 
         if (user_type_id == 0) {
-            alert('select user type');
+            console.log('select user type');
             document.getElementById("userType").innerText = "The user type field is required.";
             document.getElementById("userType").style.display = "block";
             return false;
@@ -207,7 +207,7 @@ function loginUser() {
         });
         // Send the data using AJAX
         $.ajax({
-            url: "user/login", // Replace this with the URL of your server endpoint
+            url: "{{ route('loginUser') }}", // Replace this with the URL of your server endpoint
             type: "POST", // Use "POST" if you want to send data to the server
             data: formData,
             success: function(response) {
@@ -226,7 +226,6 @@ function loginUser() {
 
                     // Email error
                     if (errors.email) {
-                        alert(errors.email[0]);
                         document.getElementById("loginEmail").innerText = errors.email[0];
                         document.getElementById("loginEmail").style.display = "block";
                     } else {
@@ -236,7 +235,6 @@ function loginUser() {
 
                     // Password error
                     if (errors.password) {
-                        alert(errors.password[0]);
                         document.getElementById("loginPassword").innerText = errors.password[0];
                         document.getElementById("loginPassword").style.display = "block";
                     } else {
@@ -244,13 +242,18 @@ function loginUser() {
                         document.getElementById("loginPassword").style.display = "none";
                     }
                 }
+                else{
+                    document.getElementById("loginEmail").innerText = "";
+                    document.getElementById("loginEmail").style.display = "none";
+                    document.getElementById("loginPassword").innerText = "";
+                    document.getElementById("loginPassword").style.display = "none";
+                }
                 // Display error message for an invalid email
                 if (xhr.status === 404) {
                     var responseJSON = JSON.parse(xhr.responseText);
                     var message = responseJSON.message;
                     var errors = responseJSON.errors;
 
-                    alert(message);
 
                     // Check if the error is related to the email field
                     if (errors === 'Email not found') {
@@ -272,7 +275,7 @@ function loginUser() {
                     var responseJSON = JSON.parse(xhr.responseText);
                     var message = responseJSON.message;
                     var errors = responseJSON.errors;
-                    alert(message);
+                    console.log(message);
                     // Check if the error is related to the password field
                     if (errors) {
 
@@ -290,7 +293,7 @@ function loginUser() {
                     var responseJSON = JSON.parse(xhr.responseText);
                     var message = responseJSON.message;
                     var errors = responseJSON.errors;
-                    alert(message);
+                    console.log(message);
                     // Check if the error is related to the password field
                     if (errors) {
 

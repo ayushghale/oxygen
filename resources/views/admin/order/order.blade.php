@@ -207,7 +207,7 @@ $currentNav = 'orderList';
             });
 
             if (staffDataArray.length === 0) {
-                alert('Please select at least one staff member');
+                console.log('Please select at least one staff member');
                 return;
             }
 

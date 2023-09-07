@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -217,7 +218,7 @@ class UserController extends Controller
         // return redirect()->back()->with('error', 'Invalid Mobile Number.');
         $request->validate([
             'current_Password' => 'required',
-            'new_password' => 'required ',
+            'new_password' => 'required  | same:conform_password',
             'conform_password' => 'required | same:new_password',
         ]);
 
@@ -245,8 +246,10 @@ class UserController extends Controller
             }
 
             $user = User::find($id);
-            $user->password = $newPassword;
+            $user->password = Hash::make($newPassword);
             $user->save();
+            
+            Session::pull('userLogedIn');
 
             return redirect()->back()->with('success', 'Credentials Updated');
         } catch (\Exception $e) {

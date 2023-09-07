@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="{{ asset('oxygen/resources/css/dashboard.css')}}" />
   <link rel="stylesheet" href="{{ asset('oxygen/resources/css/sewwetMesssage.css') }}">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+  <link
+            href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css"
+            rel="stylesheet"
+        />
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Font Awesome Cdn Link -->

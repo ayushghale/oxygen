@@ -35,14 +35,6 @@
                 class="{{ $currentPage === 'updateProfile' ? 'active-a' : '' }}">
                 <li class="{{ $currentPage === 'updateProfile' ? 'active-nav' : '' }}">Update Password</li>
             </a>
-            {{-- purchase service --}}
-            {{-- <a href="{{ route('staff.review') }}" class="{{ $currentPage === 'review' ? 'active-a' : '' }}">
-                <li class="{{ $currentPage === 'review' ? 'active-nav' : '' }}">Reviews</li>
-            </a> --}}
-            {{-- cart --}}
-            <a href="{{ route('staff.ledger') }}" class="{{ $currentPage === 'ledger' ? 'active-a' : '' }}">
-                <li class="{{ $currentPage === 'ledger' ? 'active-nav' : '' }}">ledger</li>
-            </a>
             {{-- order asigned --}}
             <a href="{{ route('staff.orderAsigned') }}"
                 class="{{ $currentPage === 'orderAsigned' ? 'active-a' : '' }}">

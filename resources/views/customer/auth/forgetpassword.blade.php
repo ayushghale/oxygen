@@ -336,7 +336,7 @@ if ($id) {
             var user_type_id = document.getElementById("user_type_id").value;
 
             if (user_type_id == 0) {
-                alert('select user type');
+                console.log('select user type');
                 document.getElementById("userType").innerText = "The user type field is required.";
                 document.getElementById("userType").style.display = "block";
                 return false;
@@ -498,7 +498,7 @@ if ($id) {
 
                         // Email error
                         if (errors.email) {
-                            alert(errors.email[0]);
+                            console.log(errors.email[0]);
                             document.getElementById("loginEmail").innerText = errors.email[0];
                             document.getElementById("loginEmail").style.display = "block";
                         } else {
@@ -508,7 +508,7 @@ if ($id) {
 
                         // Password error
                         if (errors.password) {
-                            alert(errors.password[0]);
+                            console.log(errors.password[0]);
                             document.getElementById("loginPassword").innerText = errors.password[0];
                             document.getElementById("loginPassword").style.display = "block";
                         } else {
@@ -522,7 +522,7 @@ if ($id) {
                         var message = responseJSON.message;
                         var errors = responseJSON.errors;
 
-                        alert(message);
+                        console.log(message);
 
                         // Check if the error is related to the email field
                         if (errors === 'Email not found') {
@@ -544,7 +544,7 @@ if ($id) {
                         var responseJSON = JSON.parse(xhr.responseText);
                         var message = responseJSON.message;
                         var errors = responseJSON.errors;
-                        alert(message);
+                        console.log(message);
                         // Check if the error is related to the password field
                         if (errors) {
 
@@ -562,7 +562,7 @@ if ($id) {
                         var responseJSON = JSON.parse(xhr.responseText);
                         var message = responseJSON.message;
                         var errors = responseJSON.errors;
-                        alert(message);
+                        console.log(message);
                         // Check if the error is related to the password field
                         if (errors) {
 
