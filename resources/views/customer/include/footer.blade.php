@@ -42,7 +42,7 @@
                 <img src="{{ asset('oxygen/resources/images/apple-store.png') }}" alt="">
             </div>
             <div class="design-develop-by">
-                <p>© 2023 Oxygen. All rights reserved | Designed & Developed by <a href="">Tuki Soft</a></p>
+                <p>© 2023 Oxygen. All rights reserved | Designed & Developed by <a href="https://tukisoft.com.np/">Tuki Soft</a></p>
             </div>
         </div>
     </div>

@@ -230,7 +230,7 @@
 
             // extract data of order details
             $.ajax({
-                url: "{{ route('admin.orderDetails') }}",
+                url: "{{ route('staff.orderDetails') }}",
                 type: "GET",
                 data: formData,
                 success: function(response) {
@@ -268,12 +268,11 @@
 
             // extract data of asigned staff details
             $.ajax({
-                url: "{{ route('admin.assignedOrderStaffDetails') }}",
+                url: "{{ route('staff.assignedOrderStaffDetails') }}",
                 type: "GET",
                 data: formData,
                 success: function(response) {
-                    // console.log(response); // Check the response data in the console
-
+                    console.log(response); // Check the response data in the console
                     if (response.success) {
                         var tbody = $('#asignedStaffData');
                         tbody.empty(); // Clear existing content

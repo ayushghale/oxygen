@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('staff_id');
             $table->string('t_code');
             $table->string('remark')->nullable();
-            $table->integer('status')->default(2); // 0: cancel , 1: done, 2: in process
+            $table->integer('status')->default(2); // 0: cancel , 1: done, 2: in process 3:reAssign task
             $table->timestamps();
         });
     }

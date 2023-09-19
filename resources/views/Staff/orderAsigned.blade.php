@@ -249,7 +249,6 @@
                 data: formData,
                 success: function(response) {
                     // console.log(response); // Check the response data in the console
-
                     if (response.success) {
                         var tbody = $('#orderDetailsTableBody');
                         tbody.empty(); // Clear existing content

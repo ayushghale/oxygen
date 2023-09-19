@@ -324,7 +324,7 @@ class AdminController extends Controller
             'description' => 'required ',
             'image' => 'required | mimes:jpg,png,jpeg | max:5048',
         ]);
-        
+
         try {
             $profilePicture = $request->file('image');
 
@@ -523,7 +523,7 @@ class AdminController extends Controller
             'success' => true,
             'message' => 'Order Details',
             'data' => $orderDetails,
-        ]); 
+        ]);
     }
 
     /**
@@ -547,10 +547,10 @@ class AdminController extends Controller
                 // Create and save a new AssignOrder instance
                 $assignedTask = new AssignOrder();
                 $assignedTask->t_code = $t_code;
-                $assignedTask->staff_id = $staff_id;
-                
-                $assignedTask->remark = $remark; // Save the remark
 
+                $assignedTask->staff_id = $staff_id;
+
+                $assignedTask->remark = $remark; // Save the remark
                 $assignedTask->save();
             }
 
@@ -668,7 +668,7 @@ class AdminController extends Controller
                 ->select('assign_orders.*', 'assign_orders.status as assignOrdersStatus', 'admins.*')
                 ->where('assign_orders.t_code', '=', $item->t_code)
                 ->get();
-                
+
             // complete order where status = 1
             $completeOrder = DB::table('orders')
                 ->join('services', 'orders.service_id', '=', 'services.id')
@@ -732,72 +732,146 @@ class AdminController extends Controller
      */
     public function cancelOrder()
     {
-        $orderQuery = DB::table('payments')
-            ->join('users', 'payments.user_id', '=', 'users.id')
-            ->join('user_types', 'users.user_type_id', '=', 'user_types.id')
-            ->select(
-                'users.id as user_id',
-                'users.name as user_name',
-                'users.email as user_email',
-                'users.contact_number as user_phone',
-                'users.address as user_address',
-                'payments.payment_type',
-                'payments.total_amount as payment_amount',
-                'payments.payment_status as payment_status',
-                DB::raw('DATE(payments.created_at) as payment_date'),
-                'user_types.user_type_name',
-                'payments.t_code',
-            )->get();
+        $assignedTcode = DB::table('assign_orders')->get();
 
+        // Initialize an empty array to store the grouped data
+        $data = [];
 
-        $assignedOrderDetails = [];
+        foreach ($assignedTcode as $row) {
+            $tCode = $row->t_code;
 
-        foreach ($orderQuery as $item) {
-            $assignData = DB::table('assign_orders')
-                ->join('admins', 'assign_orders.staff_id', '=', 'admins.id')
-                ->select('assign_orders.*', 'admins.*')
-                ->where('assign_orders.t_code', '=', $item->t_code)
-                ->where('assign_orders.status', '=', 0)
-                ->get();
+            // Convert the object to an array
+            $rowArray = (array)$row;
 
-            $serviceData = DB::table('orders')
-                ->join('services', 'orders.service_id', '=', 'services.id')
-                ->select('orders.*', 'services.*')
-                ->where('orders.t_code', '=', $item->t_code)
-                ->get();
-
-            $a = [];
-            $c = [];
-            foreach ($assignData as $aItem) {
-                $a[] = $aItem;
-            }
-            foreach ($serviceData as $sItem) {
-                $c[] = $sItem;
-            }
-            if (!empty($a)) {
-                $assignedOrderDetails[] = [
-                    'user_id' => $item->user_id,
-                    'user_name' => $item->user_name,
-                    'user_email' => $item->user_email,
-                    'user_phone' => $item->user_phone,
-                    'user_address' => $item->user_address,
-                    'payment_type' => $item->payment_type,
-                    'payment_amount' => $item->payment_amount,
-                    'payment_status' => $item->payment_status,
-                    'payment_date' => $item->payment_date,
-                    'user_type_name' => $item->user_type_name,
-                    't_code' => $item->t_code,
-                    'assignData' => $a,
-                    'serviceData' => $c,
-                ];
+            // Check if the t_code is already a key in the data array
+            if (array_key_exists($tCode, $data)) {
+                // If it exists, push the current row into the existing array
+                $data[$tCode][] = $rowArray;
+            } else {
+                // If it doesn't exist, create a new array with the current row as the first element
+                $data[$tCode] = [$rowArray];
             }
         }
 
-        // $assignedOrderDetails = array_values($assignedOrderDetails);
-        // dd($assignedOrderDetails);
+        foreach ($data as $key => $innerArray) {
+            // Initialize a flag to check if the conditions are met
+            $shouldDelete = false;
+
+            foreach ($innerArray as $item) {
+                // Check if status isn't 0 or if it's 1 or 2
+                if ($item['status'] != 0 || $item['status'] == 1 || $item['status'] == 2) {
+                    $shouldDelete = true;
+                    break; // No need to continue checking if one condition is met
+                }
+            }
+
+            // If the flag is true, delete the entire inner array
+            if ($shouldDelete) {
+                unset($data[$key]);
+            }
+        }
+        $mainArrayNames = array_keys($data);
+
+        // dd($mainArrayNames);
+        // ==========================================
+        $assignedOrderDetails = [];
+
+        foreach ($mainArrayNames as $mainArrayName) {
+
+            $orderQuery = DB::table('payments')
+                ->join('users', 'payments.user_id', '=', 'users.id')
+                ->join('user_types', 'users.user_type_id', '=', 'user_types.id')
+                ->where('payments.t_code', '=', $mainArrayName)
+                ->select(
+                    'users.id as user_id',
+                    'users.name as user_name',
+                    'users.email as user_email',
+                    'users.contact_number as user_phone',
+                    'users.address as user_address',
+                    'payments.payment_type',
+                    'payments.total_amount as payment_amount',
+                    'payments.payment_status as payment_status',
+                    DB::raw('DATE(payments.created_at) as payment_date'),
+                    'user_types.user_type_name',
+                    'payments.t_code',
+
+                )->get();
+
+
+            $staffData = [];
+
+            foreach ($orderQuery as $item) {
+                $assignData = DB::table('assign_orders')
+                    ->join('admins', 'assign_orders.staff_id', '=', 'admins.id')
+                    ->select('assign_orders.*', 'assign_orders.status as assignassignStatus', 'admins.*')
+                    ->where('assign_orders.t_code', '=', $item->t_code)
+                    ->whereIn('assign_orders.status', [0, 2]) // Filter by status values 0 and 2
+                    ->get();
+                $serviceData = DB::table('orders')
+                    ->join('services', 'orders.service_id', '=', 'services.id')
+                    ->select('orders.*', 'services.*')
+                    ->where('orders.t_code', '=', $item->t_code)
+                    ->get();
+
+
+                $a = [];
+                $c = [];
+                foreach ($assignData as $aItem) {
+                    $a[] = $aItem;
+                }
+                foreach ($serviceData as $sItem) {
+                    $c[] = $sItem;
+                }
+                if (!empty($a)) {
+                    $assignedOrderDetails[] = [
+                        'user_id' => $item->user_id,
+                        'user_name' => $item->user_name,
+                        'user_email' => $item->user_email,
+                        'user_phone' => $item->user_phone,
+                        'user_address' => $item->user_address,
+                        'payment_type' => $item->payment_type,
+                        'payment_amount' => $item->payment_amount,
+                        'payment_status' => $item->payment_status,
+                        'payment_date' => $item->payment_date,
+                        'user_type_name' => $item->user_type_name,
+                        't_code' => $item->t_code,
+                        'assignData' => $a,
+                        'serviceData' => $c,
+                    ];
+                }
+            }
+        }
+        // dd($assignedOrderDetails);   
         return view('admin.order.cancellAsignedOrder', compact('assignedOrderDetails'));
     }
 
+    function unassignedStaffList()
+    {
+        $tcode = request()->t_code; // Get the tcode from the request
+
+        try {
+            $adminsWithStatusZero = DB::table('assign_orders')
+                ->join('admins', 'assign_orders.staff_id', '=', 'admins.id')
+                ->where('assign_orders.t_code', '=', $tcode) // Add this line to filter by tcode
+                ->pluck('admins.id'); // Retrieve the admin IDs with status 0 for the specified tcode
+
+            $admins = DB::table('admins')
+                ->whereNotIn('id', $adminsWithStatusZero) // Exclude admins with status 0 for the specified tcode
+                ->where('admin_type', '=', 0)
+                ->get();
+            return response() // Return the admins
+                ->json([
+                    'success' => true,
+                    'message' => 'Admins',
+                    'data' => $admins,
+                ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
 
     // staff
     // ===========================================================================================
@@ -836,7 +910,7 @@ class AdminController extends Controller
             'password' => 'required | same:conform_password',
             'conform_password' => 'required | same:password',
         ]);
-        
+
         try {
             $staff = new Admin();
             $staff->name = ucfirst($request->name);
@@ -961,7 +1035,6 @@ class AdminController extends Controller
             )
             ->where('assign_orders.t_code', '=', $request->t_code)
             ->get();
-        // dd($staffDetails);
 
         return response()->json([
             'success' => true,
@@ -976,7 +1049,8 @@ class AdminController extends Controller
     /**
      * Display report
      */
-    public function purchaseReport(){
+    public function purchaseReport()
+    {
         $orderQuery = DB::table('payments')
             ->join('users', 'payments.user_id', '=', 'users.id')
             ->join('user_types', 'users.user_type_id', '=', 'user_types.id')
@@ -991,8 +1065,9 @@ class AdminController extends Controller
                 'payments.payment_status as payment_status',
                 DB::raw('DATE(payments.created_at) as payment_date'),
                 'user_types.user_type_name',
-                'payments.t_code')
-                ->where('payments.payment_status', '=', 2)
+                'payments.t_code'
+            )
+            ->where('payments.payment_status', '=', 2)
             ->get();
 
 
@@ -1038,8 +1113,8 @@ class AdminController extends Controller
             }
         }
         // dd($assignedOrderDetails);
-        
-        return view('admin.report.purchaseReport',compact('assignedOrderDetails'));
+
+        return view('admin.report.purchaseReport', compact('assignedOrderDetails'));
     }
 
 
@@ -1087,16 +1162,16 @@ class AdminController extends Controller
             Session::pull('adminLogedIn');
 
             return redirect()->to('/');
-            return response()->json([
-                'success' => true,
-                'message' => 'admin log out sucessfully',
-            ]);
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'admin log out sucessfully',
+            // ]);
         } else {
             return redirect()->to('/');
-            return response()->json([
-                'success' => false,
-                'message' => 'User Login page',
-            ]);
+            // return response()->json([
+            //     'success' => false,
+            //     'message' => 'User Login page',
+            // ]);
         }
     }
 }

@@ -37,11 +37,12 @@ $currentNav = 'orderList';
                     <thead>
                         <tr class="table-heading-dashboard ">
                             <th>S no.</th>
-                            <th>Align To</th>
+                            <th>Name</th>
                             <th>Contact number</th>
-                            <th>Address</th>
-
+                            <th>Email</th>
+                            <th>Remark</th>
                             <th>Assign Task</th>
+                            
                         </tr>
                     </thead>
                     <tbody id="asignedStaffData">
@@ -222,6 +223,7 @@ $currentNav = 'orderList';
                             row.append('<td>' + order.name + '</td>');
                             row.append('<td>' + order.contact_number + '</td>');
                             row.append('<td>' + order.email + '</td>');
+                            row.append('<td>' + order.remark + '</td>');
 
                             if (order.status == '0') {
                                 row.append('<td>' + 'cancelled ' + '</td>');

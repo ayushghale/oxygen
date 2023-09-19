@@ -154,6 +154,14 @@ Route::prefix('staff')->middleware('staffAuth')->group(function () {
     // staff order done
     // Route::get('/orderDone/{id}/', [StaffController::class, 'orderDone'])->name('staff.orderDone');
     Route::get('/orderDone/{tCode}/{id}', [StaffController::class, 'orderDone'])->name('staff.orderDone');
+
+
+    // staff order details
+    Route::get('/assignedOrderStaffDetails', [AdminController::class, 'assignedOrderStaffDetailsByTcode'])->name('staff.assignedOrderStaffDetails');
+
+    // staff order details
+    Route::get('/orderDetails', [AdminController::class, 'orderDetailsByTcode'])->name('staff.orderDetails');
+
 });
 
 
@@ -249,7 +257,10 @@ Route::prefix('admin')->middleware('adminAuth')->group(function () {
     Route::get('/completedOrders', [AdminController::class, 'completedOrderDetails'])->name('admin.completedOrders');
 
     // order status cancel
-    Route::get('/cancelOrder', [AdminController::class, 'cancelOrder'])->name('admin.asignedOrderCancel');
+    Route::get('/cancelOrder', [AdminController::class, 'cancelOrder'])->name('admin.asignedOrderCancel'); 
+
+    // unassigned staff list with t code
+    Route::get('/unassignedStaffList', [AdminController::class, 'unassignedStaffList'])->name('admin.unassignedStaffList');
 
 
     // =====================================================================================================================

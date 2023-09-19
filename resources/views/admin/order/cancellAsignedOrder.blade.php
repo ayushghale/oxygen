@@ -22,7 +22,7 @@ $currentNav = 'orderList';
                             <th>Service Name</th>
                             <th>Address</th>
                             <th>Quantity</th>
-                            <th>Rate</th> 
+                            <th>Rate</th>
                             <th>Total</th>
                         </tr>
                     </thead>
@@ -40,7 +40,7 @@ $currentNav = 'orderList';
                             <th>Align To</th>
                             <th>Contact number</th>
                             <th>Address</th>
-
+                            <th>Remark</th>
                             <th>Assign Task</th>
                         </tr>
                     </thead>
@@ -48,6 +48,26 @@ $currentNav = 'orderList';
 
                     </tbody>
                 </table>
+            </div>
+            <h2 style="padding-top: 35px">Reassign Staffs</h2>
+            <div class="table-profile" style="padding: 0px; margin-top: 10px;">
+                <table id="tables">
+                    <thead>
+                        <tr class="table-heading-dashboard ">
+                            <th>S no.</th>
+                            <th>Align To</th>
+                            <th>Contact number</th>
+                            <th>Address</th>
+                            <th>Remark</th>
+                            <th>Assign Task</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="orderUnasigneStaff">
+                        {{-- orderUnasigne staff data --}}
+                    </tbody>
+                </table>
+                <button class="assign-task" id="assignTaskBtn" style="width: 100%;">Assigned Task</button>
             </div>
         </div>
     </div>
@@ -135,8 +155,8 @@ $currentNav = 'orderList';
                                 {{-- payment status --}}
                                 <td>
                                     <button class="edit-user" id="aligntaskModalBtn"
-                                        onclick="shoModel('aligntask-modal','{{ $assignedOrderDetail['t_code'] }}')"
-                                        style="width: 100%;">Assigned    Details</button>
+                                        onclick="shoModel('aligntask-modal', '{{ $assignedOrderDetail['t_code'] }}')"
+                                        style="width: 100%;">Assigned Details</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -222,6 +242,7 @@ $currentNav = 'orderList';
                             row.append('<td>' + order.name + '</td>');
                             row.append('<td>' + order.contact_number + '</td>');
                             row.append('<td>' + order.email + '</td>');
+                            row.append('<td>' + order.remark + '</td>');
 
                             if (order.status == '0') {
                                 row.append('<td>' + 'cancelled ' + '</td>');
@@ -235,7 +256,7 @@ $currentNav = 'orderList';
                             tbody.append(row);
                         });
 
-                        
+
                     } else {
                         console.log(response.message);
                     }
@@ -245,8 +266,142 @@ $currentNav = 'orderList';
                 }
             });
 
+            // extract data of unasigned staff details
+            $.ajax({
+                url: "{{ route('admin.unassignedStaffList') }}",
+                type: "GET",
+                data: formData,
+                success: function(response) {
+                    // console.log(response); // Check the response data in the console
+
+                    if (response.success) {
+                        var tbody = $('#orderUnasigneStaff');
+                        tbody.empty(); // Clear existing content
+
+                        $.each(response.data, function(index, order) {
+                            var row = $('<tr>');
+                            row.append('<td>' + order.id + '</td>');
+                            row.append('<td>' + order.name + '</td>');
+                            row.append('<td>' + order.contact_number + '</td>');
+                            row.append('<td>' + order.email + '</td>');
+                            row.append('<td>' + '<input type="text" id="remark' +
+                                order.id +
+                                '" name="remark" placeholder="Remark" >' +
+                                '</td>');
+                            row.append(
+                                '<td><input type="checkbox" name="checkboxGroup" class="checkbox" onclick=putDataIntoArray("'+order.id+'","haha")> Asign</td>');
+                            tbody.append(row);
+                        });
+
+
+                    } else {
+                        console.log(response.message);
+                    }
+                },
+                error: function(response) {
+                    console.log('Something went wrong');
+                }
+            });
+
+
+
         });
     });
+</script>
+
+<script>
+    var staffDataArray = [];
+    // asign task to staff
+    $(document).ready(function() {
+        var selectedStaffData = {}; // Object to store selected staff data
+
+        // Event listener for checkbox change
+
+
+
+
+        // alert(selectedStaffData);
+        // Event listener for Assign Task button
+        $('#assignTaskBtn').click(function() {
+            // Convert the selected staff data object into an array of objects
+
+            var t_code = $("#tCode").val();
+
+            $.each(selectedStaffData, function(staffId, remark) {
+                staffDataArray.push({
+                    staff_id: staffId,
+                    remark: remark
+                });
+            });
+
+            if (staffDataArray.length === 0) {
+                console.log('Please select at least one staff member');
+                return;
+            }
+            
+            var formData = {
+                t_code: t_code,
+                staff_data: staffDataArray,
+            };
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            $.ajax({
+                url: "{{ route('admin.assignTask') }}",
+                type: "POST",
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        console.log(response.message);
+                        closeModel('aligntask-modal');
+                        window.location.reload();
+                    } else {
+                        console.log(response.message);
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                    console.log('Something went wrong');
+                }
+            });
+        });
+    });
+
+
+
+    function putDataIntoArray(staffId) {
+    var remark = document.getElementById('remark' + staffId).value;
+
+    if (remark === '') {
+        alert('Please enter a remark');
+        remark = "This task is reasigned"
+    }else{
+        remark = remark + " This task is reasigned";
+    }
+
+    // Check if an object with the same staff_id already exists in the array
+    var existingStaffIndex = staffDataArray.findIndex(function (element) {
+        return element.staff_id === staffId;
+    });
+
+    if (existingStaffIndex !== -1) {
+        // Update the existing object with the new remark
+        staffDataArray[existingStaffIndex].remark = remark;
+    } else {
+        // Add a new object to the array
+        staffDataArray.push({
+            staff_id: staffId,
+            remark: remark
+        });
+    }
+
+    console.log(staffDataArray);
+    }
 </script>
 
 
